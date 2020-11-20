@@ -1,12 +1,13 @@
-const DAO = require('../DAO/DAO.js')
+const DAO = require('../DAO/DAO.js');
 var GestorMiembro = require('./GestorMiembro');
 const GestorEstructura = require('./GestorEstructura');
+
 
 module.exports = class Control{
     dao = new DAO();
     gestorMiembro = new GestorMiembro();
     gestorEstructura = new GestorEstructura();
-    
+
 
     //Función que devuelve todos los asesores autorizados para acceder a la aplicación
     async allAsesores(req,res){
