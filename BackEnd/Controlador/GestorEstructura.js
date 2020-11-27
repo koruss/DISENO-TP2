@@ -1,6 +1,3 @@
-var Direccion = require('../Modelo/Direccion');
-var LeafPersona = require('../Modelo/LeafPersona');
-var CompositePersona = require('../Modelo/CompositePersona');
 var ZonaDAO = require('../DAO/ZonaDAO');
 var RamaDAO = require('../DAO/RamaDAO');
 var GrupoDAO = require('../DAO/GrupoDAO')
