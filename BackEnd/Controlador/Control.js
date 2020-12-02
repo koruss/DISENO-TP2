@@ -1,7 +1,7 @@
 const DAO = require('../DAO/DAO.js')
 var GestorMiembro = require('./GestorMiembro');
 const GestorEstructura = require('./GestorEstructura');
-///<reference path='../Modelo/main.ts'/>
+const {Car} = require('../Modelo/Car.js');
 
 module.exports = class Control{
     dao = new DAO();
@@ -16,7 +16,7 @@ module.exports = class Control{
 
     //Función responsable de dar acceso a los asesores a la aplicación
     async logIn(req,res){
-        main_module.prueba();
+        var car = new Car("Rojo");
         var pName = req.body.pName;
         var pPassword = req.body.pPassword;
         req.session.loggedIn = true;

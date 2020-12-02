@@ -1,8 +1,6 @@
-///<reference path="./AbstractPersona.ts"/>
-
 import AbstractPersona from "./AbstractPersona";
 
-class LeafPersona extends AbstractPersona {
+export class LeafPersona extends AbstractPersona {
     
     public constructor(id, nombre, estado, telefono, correo, direccion, tipo){
         super(id, nombre, estado, telefono, correo, direccion, tipo);
@@ -13,4 +11,3 @@ class LeafPersona extends AbstractPersona {
         return 'Leaf';
     }
 }
-export = LeafPersona;

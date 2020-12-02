@@ -1,5 +1,4 @@
 
-
 abstract class AbstractPersona {
     private id: number;
     protected parent: AbstractPersona;

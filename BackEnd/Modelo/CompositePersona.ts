@@ -1,8 +1,7 @@
-///<reference path="./AbstractPersona.ts"/>
 
 import AbstractPersona from "./AbstractPersona";
 
-class CompositePersona extends AbstractPersona{
+export class CompositePersona extends AbstractPersona{
     protected hijos: AbstractPersona[] = [];
     
     constructor(id, nombre, estado, telefono, correo, direccion, tipo) {
@@ -38,4 +37,3 @@ class CompositePersona extends AbstractPersona{
     }
 
   }
-  export = CompositePersona;

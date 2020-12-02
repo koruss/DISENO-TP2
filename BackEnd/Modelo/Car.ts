@@ -1,8 +1,7 @@
-class Car{
-    public Color;
+export class Car{
+    public Color: string;
 
     constructor(aColor:string){
         this.Color = aColor;
     }
 }
-export = Car;

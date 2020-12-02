@@ -1,19 +1,21 @@
 
-import CompositePersona from "./CompositePersona";
-import LeafPersona from "./LeafPersona";
+import {CompositePersona} from "./CompositePersona";
+import {LeafPersona} from "./LeafPersona";
 
-export module main_module{
+export class main_module{
     
-        export function clientCode(component): void {
-            // ...
-        
+        public constructor(){
+
+        }
+
+        public clientCode(component): void{
+
             console.log(`RESULT: ${component.operation()}`);
-        
-            // ...
+            
         }
         //------------- TODO
         //TODO: CAMBIAR EL TIPO A UN ENUM POR EJEMPLO "JEFE", "ZONA" ETC ETC
-        export function prueba(): void{
+        public prueba(): void{
             var persona1 = new LeafPersona(33,"Juan","activo",50095967,"josue2@gmail.com",'direccion_persona',"Jefe");
             var persona2 = new LeafPersona(34,"Anner","activo",777777,"anner@gmail.com",'direccion_persona',"Jefe");
         
