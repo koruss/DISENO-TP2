@@ -1,5 +1,5 @@
 
-import AbstractPersona from "./AbstractPersona";
+import {AbstractPersona} from "./AbstractPersona";
 
 export class CompositePersona extends AbstractPersona{
     protected hijos: AbstractPersona[] = [];

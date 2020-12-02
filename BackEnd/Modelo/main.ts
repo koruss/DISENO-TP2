@@ -2,7 +2,7 @@
 import {CompositePersona} from "./CompositePersona";
 import {LeafPersona} from "./LeafPersona";
 
-export class main_module{
+export class Main{
     
         public constructor(){
 

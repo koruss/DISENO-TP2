@@ -1,5 +1,5 @@
 
-abstract class AbstractPersona {
+export abstract class AbstractPersona {
     private id: number;
     protected parent: AbstractPersona;
     private nombre: string;
@@ -42,6 +42,13 @@ abstract class AbstractPersona {
         return false;
     }
 
+    public getNombre(): string {
+      return this.nombre;
+    }
+
+    public setNombre(nombre: string) {
+        this.nombre = nombre;
+    }
 
     //Funcion que hace un recorrido por todo el composite
     public abstract operation(): string;
@@ -51,8 +58,8 @@ abstract class AbstractPersona {
 
     getEstado() { }
 
-  }
+    
 
-export = AbstractPersona;
+  }
 
   

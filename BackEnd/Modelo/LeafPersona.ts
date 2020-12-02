@@ -1,4 +1,4 @@
-import AbstractPersona from "./AbstractPersona";
+import {AbstractPersona} from "./AbstractPersona";
 
 export class LeafPersona extends AbstractPersona {
     
@@ -8,6 +8,6 @@ export class LeafPersona extends AbstractPersona {
 
     public operation(): string {
         //return this.getNombre();
-        return 'Leaf';
+        return this.getNombre();
     }
 }

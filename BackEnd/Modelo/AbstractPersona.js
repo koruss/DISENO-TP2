@@ -1,4 +1,6 @@
 "use strict";
+exports.__esModule = true;
+exports.AbstractPersona = void 0;
 var AbstractPersona = /** @class */ (function () {
     function AbstractPersona(id, nombre, estado, telefono, correo, direccion, tipo) {
         this.id = id;
@@ -25,8 +27,14 @@ var AbstractPersona = /** @class */ (function () {
     AbstractPersona.prototype.isComposite = function () {
         return false;
     };
+    AbstractPersona.prototype.getNombre = function () {
+        return this.nombre;
+    };
+    AbstractPersona.prototype.setNombre = function (nombre) {
+        this.nombre = nombre;
+    };
     AbstractPersona.prototype.setEstado = function () { };
     AbstractPersona.prototype.getEstado = function () { };
     return AbstractPersona;
 }());
-module.exports = AbstractPersona;
+exports.AbstractPersona = AbstractPersona;

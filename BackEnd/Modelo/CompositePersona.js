@@ -47,5 +47,5 @@ var CompositePersona = /** @class */ (function (_super) {
         return "Branch(" + results.join('+') + ")";
     };
     return CompositePersona;
-}(AbstractPersona_1["default"]));
+}(AbstractPersona_1.AbstractPersona));
 exports.CompositePersona = CompositePersona;
