@@ -25,6 +25,7 @@ module.exports = class PersonDao {
         this.personaSchema.apellido1=data.apellido1;
         this.personaSchema.apellido2=data.apellido2;
         this.personaSchema.estado=false;
+        this.personaSchema.posibleMonitor=false;
         this.personaSchema.telefono=data.celular;
         this.personaSchema.correo=data.correo;
         this.personaSchema.direccion=direccion;

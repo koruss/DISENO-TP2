@@ -11,6 +11,7 @@ const PersonSchema= new Schema(
       estado: Boolean,
       telefono: String,
       correo: String,
+      posibleMonitor: Boolean,
       direccion: {
           pais: String,
           provincia: String,

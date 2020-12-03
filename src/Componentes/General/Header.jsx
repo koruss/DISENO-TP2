@@ -84,6 +84,8 @@ class Header extends Component {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/cambiarNombreGrupo">Cambiar nombre de grupo</NavDropdown.Item>
                                             <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/PosiblesMiembros">Establecer posibles mentores de grupo</NavDropdown.Item>
+                                            <NavDropdown.Divider />
                                         </NavDropdown>  
                                         <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>

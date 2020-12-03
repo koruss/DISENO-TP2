@@ -21,6 +21,7 @@ import ConsultarGrupoResult from './Componentes/ConsultarComposicionGrupo/Consul
 import VentanaAsesor from './Componentes/VentanaAsesor/VentanaAsesor';
 import arbolEstructural from './Componentes/Tree/TreeContainer';
 import contacto from './Componentes/Contacto/Contacto';
+import PosiblesMiembros from './Componentes/PosiblesMiembros/PosiblesMiembros';
 
 //Funcion para establecer las rutas de la aplicacion con su respectivo componente
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/cambiarNombreGrupo" component={CambiarNombreGrupo}/> 
           <Route path="/arbolEstructural" component={TreeContainer}/> 
           <Route path="/contacto" component={contacto}/> 
+          <Route path="/PosiblesMiembros" component={PosiblesMiembros}/> 
                     
           
           <Route path="/afiliacionMiembros" component={AfiliacionMiembros}/>
