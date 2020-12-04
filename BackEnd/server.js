@@ -69,7 +69,11 @@ app.post("/allZonas",(req,res)=>{
 app.post('/cambiarMiembroGrup', (req, res) => {
   control.cambiarMiembroGrupo(req, res);
   })
-  
+
+app.post('/cambiarPosibleMonitor', (req, res) => {
+  control.cambiarPosibleMonitor(req, res);
+  })
+
 app.post("/allRama",(req, res)=>{
   control.allRama(req,res);
 })

@@ -32,5 +32,10 @@ module.exports = class GestorMiembro{
         await this.personaDAO.getAsesores(req,res);
     }
 
+    //Funcion para cambiar si es un posible monitor a verdadero
+    async posibleMonitor(req,res){
+        await this.personaDAO.updatePosibleMonitor(req,res);
+    }
+
 
 }

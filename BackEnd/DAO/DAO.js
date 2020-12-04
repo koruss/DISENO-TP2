@@ -172,4 +172,24 @@ module.exports= class DAO {
         });
     }
 
+    async updatePosibleMonitor(req,res,schema){
+        console.log(req.body);
+        this.openConnection();
+        schema.updateOne({_id:req.body.persona.datosPersona[0]._id}, {$set:{ posibleMonitor: true}},
+            function(error, info) {
+                if (error) {
+                    res.json({
+                        success: false,
+                        error: 'No se pudo modificar el cliente',
+                        error
+                    });
+                } else {
+                    res.json({
+                        success: true,
+                        info: info
+                    })
+                }
+        })
+    }
+
 }

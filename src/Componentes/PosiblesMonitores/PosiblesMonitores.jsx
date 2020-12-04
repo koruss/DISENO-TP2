@@ -3,13 +3,13 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import './PosiblesMiembros.css'
+import './PosiblesMonitores.css'
 import '../../Componentes/General/Utils.css'
 import Header from '../General/Header';
 
 // Clase encargada de la transferencia de un miembro 
 // de un grupo a otro
-class PosiblesMiembros extends Component {
+class PosiblesMonitores extends Component {
     
     state = {
         selectedPersona:[],
@@ -22,11 +22,17 @@ class PosiblesMiembros extends Component {
 // Esta funcion se ejecuta automaticamente si la ventana se llama
 //obtiene las zonas 
     componentWillMount() {
+        this.obtenerPersonas();
+
+    }
+
+
+    obtenerPersonas(){
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(nombre=>{
-                if(nombre.estado==true){
+                if(nombre.estado==false && nombre.posibleMonitor!=true){
                     arrPers.push({
                         value:nombre.nombre,
                         label:nombre.nombre,
@@ -46,35 +52,27 @@ class PosiblesMiembros extends Component {
                 personas:arrPers
             })
         })
-
     }
-
-
 
  /*esta funcion se ejecuta al ser precionado el botón
 se encagada de recuperar los datos de los componentes 
 y enviarlos a la API*/
     onClick = (e) => {
         if(this.state.selectedPersona.length != 0 ){
-        //     axios.post("/cambiarMiembroGrup",{
-        //         nombre:this.state.selectedNombre,
-        //         zona:this.state.selectedZona,
-        //         rama:this.state.selectedRama,
-        //         grupos:this.state.selectedGrupo
-        //     }).then(res =>{
-        //         if(!res.data.success1 && !res.data.success2){
-        //             alert(res.data.error1, res.data.error2);
-        //         }
-        //         else{
-        //             alert("Miembro trasladado correctamente")
-        //             this.setState({
-        //                 selectedNombre:[],
-        //                 selectedZona:[],
-        //                 selectedRama:[],
-        //                 selectedGrupo:[]
-        //             })
-        //         }
-        //     })
+            axios.post("/cambiarPosibleMonitor",{
+                persona:this.state.selectedPersona
+            }).then(res =>{
+                if(!res.data.success){
+                    alert(res.data.error);
+                }
+                else{
+                    alert("Miembro establecido como posible monitor correctamente")
+                    this.setState({
+                        selectedPersona:[]
+                    })
+                    this.obtenerPersonas() //hacer que el component will mount llame esta funcion que va a tener lo otro adentro
+                }
+            })
         }
          else{
              alert("Ingrese todos los datos")
@@ -113,4 +111,4 @@ y enviarlos a la API*/
 
 }
 
-export default PosiblesMiembros;
+export default PosiblesMonitores;

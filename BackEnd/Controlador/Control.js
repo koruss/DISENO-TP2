@@ -112,6 +112,10 @@ module.exports = class Control{
         this.gestorEstructura.trasladarMiembro(data, res);
     }
 
+    //Funcion que establece si una persona puede ser un posible monitor en un futuro
+    async cambiarPosibleMonitor(data, res){
+        this.gestorMiembro.posibleMonitor(data, res);
+    }
 }
 
 

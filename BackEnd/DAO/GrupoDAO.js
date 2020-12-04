@@ -16,6 +16,7 @@ module.exports = class GrupoDAO {
         this.grupoSchema = new GrupoSchema();
         this.grupoSchema.nombreRama= req.body.selectedRama.value;
         this.grupoSchema.nombreGrupo= req.body.nombreGrupo;
+        this.grupoSchema.monitores.push(req.body.selectedMonitor.datosPersona[0])
         await this.dao.crearGrupo(this.grupoSchema, RamaSchema, req, res);
     }
 

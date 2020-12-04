@@ -1,6 +1,7 @@
 var DAO = require('./DAO');
 var PersonaSchema = require("../Schemas/PersonSchema.js");
 var AsesorSchema = require("../Schemas/AsesorSchema.js");
+const PersonSchema = require('../Schemas/PersonSchema.js');
 
 module.exports = class PersonDao {
     List = [];
@@ -52,6 +53,11 @@ module.exports = class PersonDao {
     async getAsesores(req, res){
         this.dao.getOneData(AsesorSchema, "usuario",req,res);
         const respuesta = res.data;
+    }
+
+    //Funcion para cambiar la bandera de posible monitor
+    async updatePosibleMonitor(req, res){
+        await this.dao.updatePosibleMonitor(req, res, PersonSchema);
     }
 
  }
