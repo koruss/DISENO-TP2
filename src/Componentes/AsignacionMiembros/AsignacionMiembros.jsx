@@ -57,7 +57,7 @@ class AsignacionMiembros extends Component{
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(nombre=>{
-                if(nombre.estado==false){
+                //if(nombre.estado==false){
                     arrPers.push({
                         value:nombre.nombre,
                         label:nombre.nombre,
@@ -71,7 +71,7 @@ class AsignacionMiembros extends Component{
                             telefono:nombre.telefono,
                             estado:nombre.estado }]
                     })
-                }
+                //}
             })   
             this.setState({
                 nombres:arrPers
@@ -90,7 +90,8 @@ class AsignacionMiembros extends Component{
                 if(rama.zona == zonaNombre){
                     arreglo.push({
                         value:rama.nombreRama,
-                        label:rama.nombreRama
+                        label:rama.nombreRama,
+                        identificacion:rama._id
                     })
                 }
             })   
@@ -113,7 +114,8 @@ class AsignacionMiembros extends Component{
                         label:grupo.nombreGrupo,
                         identificacion:grupo._id,
                         monitores:grupo.monitores,
-                        jefesGrupo:grupo.jefesGrupo
+                        jefesGrupo:grupo.jefesGrupo,
+                        miembros:grupo.miembros
                     })
                 }
             })   

@@ -8,7 +8,6 @@ const PersonSchema= new Schema(
       nombre: String,
       apellido1: String,
       apellido2: String,
-      estado: Boolean,
       telefono: String,
       correo: String,
       posibleMonitor: Boolean,

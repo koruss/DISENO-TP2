@@ -13,6 +13,8 @@ module.exports = class ZonaDAO {
     async postZona(req, res){
         this.zonaSchema = new ZonaSchema();
         this.zonaSchema.nombreZona= req.body.nombreZona;
+        this.zonaSchema.jefesZona = [];
+        this.zonaSchema.ramas = [];
         await this.dao.postData(this.zonaSchema, res);
     }
 

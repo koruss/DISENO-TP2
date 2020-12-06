@@ -50,26 +50,43 @@ module.exports= class DAO {
         })
     }
 
-
-    //Funcion que inserta un miembro en un grupo y le establece un tipo
-    async updateMiembroEnGrupo(data, schema, personSchema, res){
+    //Funcion que inserta un monitor en un grupo y le establece un tipo
+    async updateMonitorGrupo(data, schema, res){
         this.openConnection();
-        console.log(data.body.nombre.datosPersona[0]._id)
-        personSchema.updateOne({_id:data.body.nombre.datosPersona[0]._id}, {$set:{ estado: true}}, 
-            function(error, info) { } )
-        if (data.body.monitor.value=="Monitor"){
-            schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ monitores: data.body.nombre.datosPersona}}, 
-                function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
-                } else {res.json({success: true, info: info })}})
-        }else if (data.body.monitor.value=="Miembro"){
-            schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ miembros: data.body.nombre.datosPersona}}, 
-                function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
-                } else {res.json({success: true, info: info })}})
-        }else{
-            schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}}, 
-                function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
-                } else {res.json({success: true, info: info })}})
-        }
+        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ monitores: data.body.nombre.datosPersona}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
+        } else {res.json({success: true, info: info })}})
+    }
+    
+    //Funcion que inserta un miembro en un grupo y le establece un tipo
+    async updateMiembroGrupo(data, schema, res){
+        this.openConnection();
+        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ miembros: data.body.nombre.datosPersona}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
+        } else {res.json({success: true, info: info })}})
+    }
+
+    //Funcion que inserta un jefe en un grupo y le establece un tipo
+    async updateJefeGrupo(data, schema, ramaSchema, res){
+        this.openConnection();
+        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}}, 
+            function(error, info) {
+                if (error) {
+                    res.json({success: false, error: 'No se pudo modificar el cliente',error});
+                } 
+                else {
+                    console.log(data.body.rama.identificacion)
+                    ramaSchema.updateOne({_id:data.body.rama.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}},
+                        function(error, info) {
+                            if(error) {
+                                res.json({success: false, error: 'No se pudo modificar el cliente',error});
+                            }
+                            else {
+                                res.json({success: true, info: info });
+                            }
+                    })
+                }
+        })
     }
 
 

@@ -32,7 +32,7 @@ class PosiblesMonitores extends Component {
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(nombre=>{
-                if(nombre.estado==false && nombre.posibleMonitor!=true){
+                if(nombre.posibleMonitor!=true){
                     arrPers.push({
                         value:nombre.nombre,
                         label:nombre.nombre,
