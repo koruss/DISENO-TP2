@@ -1,5 +1,6 @@
 var DAO = require('./DAO');
 const CompositeSchema = require('../Schemas/CompositeSchema.js');
+const PersonaSchema = require("../Schemas/PersonSchema.js");
 const mongoose = require('mongoose');
 
 
@@ -14,21 +15,60 @@ state.on('error', console.error.bind(console, '------->>> Fallo en la conexión 
 
 let schema = new CompositeSchema();
 
-//  schema.nombre = "San Jose";
-//  schema.save();
+//   schema.nombre = "Anner";
+//   schema.save();
 
 
-// CompositeSchema.find({"nombre":"Cruz Roja"},function(err,data){
+// CompositeSchema.findOne({nombre:"Cruz Roja"},function(err,data){
 //     if(err){
 //         console.log(err)
 //     }
 //     else{
-//         console.log(data)
-//         CompositeSchema.update({_id:data._id},{$addToSet:{children:"San Jose"}} )
+//         console.log(data._id)
+//         CompositeSchema.update({_id:data._id},{$addToSet:{children:schema._id}}, function(err,success){
+//             if(err){
+//                 console.log(err)
+//             }
+//             else{
+//                 console.log(success)
+//             }
+//         })
 //     }
 // })
 
 
-CompositeSchema.update({"nombre":"Cruz Roja"},{ $addToSet:{children:"San Jose"}} )
+// CompositeSchema.update({"nombre":"San Jose"},{ $addToSet:{children:"Miercoles"}}, function(err, success){
+//     if(err){
+//         console.log(err)
+//     }
+//     else{
+//         console.log(success)
+//     }
+// })
 
 
+// PersonaSchema.findOne({nombre:"11"}, (err,data)=>{
+//     if(err){
+//         console.log(err);
+//     }
+//     else{
+//         CompositeSchema.update({"nombre":"Cruz Roja"},{ $addToSet:{jefes:data._id}}, (err,success)=>{
+//             if(err){
+//                  console.log(err)
+//             }
+//             else{
+//                 console.log(success)
+//             }
+//         })
+//     }
+
+// })
+
+CompositeSchema.findOne({nombre:"Cruz Roja"}).populate("jefes").exec(function(err,data){
+    if(err){
+        console.log(err)
+    }
+    else{
+        console.log(data.jefes[0].nombre)
+    }
+})
