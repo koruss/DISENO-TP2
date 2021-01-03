@@ -1,14 +1,14 @@
 import React,{ Component } from 'react'
-import './Login.css'
+import './SignUp.css'
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 //import {Redirect} from 'react-router-dom';
 import Header from '../General/Header';
-import { Link } from 'react-router-dom';
+
 
 // Clase encargada para el acceso 
 // en la aplicación
-class Login extends Component{
+class SignUp extends Component{
 
     // Metodo constructor de la clase que recibe los props para 
     // la creación de grupos dentro de la aplicación
@@ -53,7 +53,8 @@ class Login extends Component{
 
     onChange = (e) => this.setState({[e.target.name]:
         e.target.value}); 
- 
+
+    
 
     // En esta parte se hace el diseño de la ventana de login
     // y se llama a las funciones anteriores.
@@ -70,7 +71,7 @@ class Login extends Component{
                                 <div class="box-container">
                                     <h1>Log In</h1>
                                     <div class="spacig-base">
-                                        <label for="email">Username or Email</label>
+                                        <label for="email">Username or Email JIJIJIJI</label>
                                         <input ref={this.userNameRef} type="text" name="userName" autoComplete="on" onChange={this.onChange} tabIndex="1"></input>
                                     </div>    
                                     <div class="spacig-base">
@@ -89,7 +90,7 @@ class Login extends Component{
                             <h5>You don't have an account?</h5>
                         </div>
                         <span id="registrationLink" class="button" >
-                            <Link to="/SignUp" className="btn btn-primary">Registro</Link>          
+                            <button type="button" class="btn btn-dark" onClick={this.onClick}  disabled="true">Registrar Asesor </button>             
                         </span>
                     </div>
                 </form>
@@ -103,4 +104,4 @@ class Login extends Component{
     };
 }
 
-export default Login;
+export default SignUp;

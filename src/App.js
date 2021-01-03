@@ -22,6 +22,7 @@ import VentanaAsesor from './Componentes/VentanaAsesor/VentanaAsesor';
 import arbolEstructural from './Componentes/Tree/TreeContainer';
 import contacto from './Componentes/Contacto/Contacto';
 import PosiblesMonitores from './Componentes/PosiblesMonitores/PosiblesMonitores';
+import SignUp from './Componentes/SignUp/SignUp';
 
 //Funcion para establecer las rutas de la aplicacion con su respectivo componente
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/" component={Login}/>;
           <Route path="/ventanaAsesor" component={VentanaAsesor}/> 
           <Route path="/login" component={Login}/> 
+          <Route path="/SignUp" component={SignUp}/> 
           <Route path="/registroMiembro" component={RegistroMiembro}/> 
           <Route path="/trasladoMiembro" component={TrasladarMiembro}/> 
           <Route path="/creacionZona" component={CrearZona}/> 
