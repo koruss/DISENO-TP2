@@ -2,6 +2,7 @@ const DAO = require('../DAO/DAO.js')
 var GestorMiembro = require('./GestorMiembro');
 const GestorEstructura = require('./GestorEstructura');
 const {Main} = require('../Modelo/Main.js');
+//
 
 module.exports = class Control{
     dao = new DAO();
