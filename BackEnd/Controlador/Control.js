@@ -117,6 +117,11 @@ module.exports = class Control{
     async cambiarPosibleMonitor(data, res){
         this.gestorMiembro.posibleMonitor(data, res);
     }
+
+    //Funcion que establece si una persona puede ser un posible monitor en un futuro
+    async iniciarSesion(req, res){
+        await this.gestorMiembro.iniciarSesion(req, res);
+    }
 }
 
 

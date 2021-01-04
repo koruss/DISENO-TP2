@@ -13,7 +13,7 @@ export class VerificadorReal implements Verificador  {
         this.type = type;
     }
 
-    public iniciarSecion(id:string, password:string): void {
+    public iniciarSesion(): void {
         console.log("Aqui llamar al facade correspondiente");
     }
 

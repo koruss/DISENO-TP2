@@ -1,4 +1,5 @@
 var PersonaDAO = require('../DAO/PersonaDAO');
+const {VerificadorProxy} = require('../Modelo/Proxy/VerificadorProxy.js');
 
 module.exports = class GestorMiembro{
     miembros=[];
@@ -37,5 +38,10 @@ module.exports = class GestorMiembro{
         await this.personaDAO.updatePosibleMonitor(req,res);
     }
 
+    async iniciarSesion(req, res){
+        var verificadorProxy = new VerificadorProxy(req.body.usuario, req.body.password, req.body.personas);
+        verificadorProxy.iniciarSesion();
+        //console.log(req.body);
+    }
 
 }

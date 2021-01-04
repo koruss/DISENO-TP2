@@ -119,6 +119,10 @@ app.post('/guardarGrupo', function (req,res) {
   control.guardarGrupo(req,res);
 })
 
+app.post('/iniciarSesion', (req,res) => {
+  control.iniciarSesion(req,res);
+})
+
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 
 

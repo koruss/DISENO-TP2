@@ -7,7 +7,7 @@ var VerificadorReal = /** @class */ (function () {
         this.password = password;
         this.type = type;
     }
-    VerificadorReal.prototype.iniciarSecion = function (id, password) {
+    VerificadorReal.prototype.iniciarSesion = function () {
         console.log("Aqui llamar al facade correspondiente");
     };
     return VerificadorReal;
