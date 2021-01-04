@@ -2,8 +2,9 @@ import React,{ Component } from 'react'
 import './SignUp.css'
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-//import {Redirect} from 'react-router-dom';
 import Header from '../General/Header';
+import makeAnimated from 'react-select/animated';
+import Select from 'react-select';
 
 
 // Clase encargada para el acceso 
@@ -11,97 +12,212 @@ import Header from '../General/Header';
 class SignUp extends Component{
 
     // Metodo constructor de la clase que recibe los props para 
-    // la creación de grupos dentro de la aplicación
+    // la creación de una personas dentro de la aplicación
     constructor(props){
         super(props);
-        this.userNameRef=React.createRef();
-        this.passwordRef=React.createRef();
+        this.identificacionRef=React.createRef();
+        this.correoRef=React.createRef();
+        this.contrasenaRef=React.createRef();
+        this.nombreRef=React.createRef();
+        this.celularRef=React.createRef();
+        this.apellido1Ref=React.createRef();
+        this.apellido2Ref=React.createRef();
     }
+
 
     // El state guarda los datos brindados por el usuario
     // para ser utilizados cuando se cree en la aplicación
     state = {
-        isAuth: false
-    };
-      
-    //Clase que se encarga de la validación y acceso de las personas
-    logIn = (e) => {
-        e.preventDefault();
-        var self = this;
-        if(this.state.userName != null && this.state.password!=null){
-        axios.post('/allAsesores',{usuario:this.state.userName,password:this.state.password}).then(res=>{
-            const respuesta=res.data;
-            if(1 == 1){//if(respuesta.contrasena == this.state.password){
-                    axios.post('/logIn',{pName:this.state.userName,pPassword:this.state.password}).then(res=>{});
-                    self.setState(
-                        {
-                            isAuth: true
-                        }
-                    )
-                }  else {
-                    alert("Nombre de usuario o contraseña incorrecto!!");
-                    this.userNameRef.current.value="";
-                    this.passwordRef.current.value="";
+        paisOpc:[
+            { value: "Costa Rica", label: "Costa Rica" }
+        ],
+        provinciaOpc:[
+            { value: "Cartago", label: "Cartago" },
+            { value: "San Jose", label: "San Jose" },
+            { value: "Heredia", label: "Heredia" }
+        ],
+        cantonOpc:[
+            { value: "Turrialba", label: "Turrialba" },
+            { value: "Juan Vinas", label: "Juan Vinas" }
+        ],
+        distritoOpc:[
+            { value: "Tayutic", label: "Tayutic" },
+            { value: "La Suiza", label: "La Suiza" }
+        ],
+        identificacion: "",
+        correo: "",
+        contrasena: "",
+        nombre: "",
+        celular: "",
+        apellido1: "",
+        apellido2: "",
+        pais: [],
+        provincia: [],
+        canton: [],
+        distrito: []
+    }
+    
+
+    onChange = (e) => this.setState({[e.target.name]:e.target.value});
+
+
+    //Funcion para manejar los eventos de un boton
+    onClick = (e) => {
+        if(this.state.identificacion != "" && this.state.correo != "" &&
+            this.state.nombre != "" && this.state.celular != "" &&
+            this.state.apellido1 != "" && this.state.apellido2 != "" &&
+            this.state.pais.length != 0 && this.state.provincia.length != 0 &&
+            this.state.canton.length != 0 && this.state.distrito.length != 0 &&
+            this.state.contrasena != ""){
+            axios.post("/guardarMiembro",{
+                pais:this.state.pais,
+                provincia:this.state.provincia,
+                canton:this.state.canton,
+                distrito:this.state.distrito,
+                identificacion:this.state.identificacion,
+                correo:this.state.correo,
+                nombre:this.state.nombre,
+                celular:this.state.celular,
+                apellido1:this.state.apellido1,
+                apellido2:this.state.apellido2,
+                contrasena:this.state.contrasena
+            }).then(res =>{
+                if(!res.data.success){
+                    alert(res.data.err);
                 }
-        }) 
-        }else {
-            alert("Nombre de usuario o contraseña incorrecto!!");
-            this.userNameRef.current.value="";
-            this.passwordRef.current.value="";
+                else{
+                    alert("Miembro Guardado correctamente")
+                    this.identificacionRef.current.value="";
+                    this.correoRef.current.value="";
+                    this.nombreRef.current.value="";
+                    this.celularRef.current.value="";
+                    this.apellido1Ref.current.value="";
+                    this.apellido2Ref.current.value="";
+                    this.contrasenaRef.current.value="";
+                    this.setState({
+                        pais:[]
+                    })
+                    this.setState({
+                        canton:[]
+                    })
+                    this.setState({
+                        provincia:[]
+                    })
+                    this.setState({
+                        distrito:[]
+                    })
+                }
+            })
+        }
+        else{
+            alert("Ingrese todos los datos")
         }
     }
 
-    onChange = (e) => this.setState({[e.target.name]:
-        e.target.value}); 
 
-    
+    // Setean los datos seleccionados en los comboBox
+    // y pasan la información a la ejecución del boton
+    handleChangePais = pais => {
+        this.setState(
+            { pais },     
+        );
+    };
 
-    // En esta parte se hace el diseño de la ventana de login
+    handleChangeProvincia = provincia => {
+        this.setState(
+            { provincia },     
+        );
+    };
+
+    handleChangeCanton = canton => {
+        this.setState(
+            { canton },     
+        );
+    };
+
+    handleChangeDistrito = distrito => {
+        this.setState(
+            { distrito },     
+        );
+    };
+
+
+
+    // En esta parte se hace el diseño de la ventana de Registro de miembros
     // y se llama a las funciones anteriores.
-    render(){    
-        if(!this.state.isAuth) {
-        return(  
+    render() {
+        return (
             <div>
-                <Header></Header>
-                {/*<h1>{auth.getAuth()?"hola":"no sirve"}</h1>*/}
-                <form onSubmit={this.logIn}> 
-                    <div id="center-section">
-                        <div id="main-section">
-                            <div class="border">
-                                <div class="box-container">
-                                    <h1>Log In</h1>
-                                    <div class="spacig-base">
-                                        <label for="email">Username or Email JIJIJIJI</label>
-                                        <input ref={this.userNameRef} type="text" name="userName" autoComplete="on" onChange={this.onChange} tabIndex="1"></input>
-                                    </div>    
-                                    <div class="spacig-base">
-                                        <label for="password">Password</label>
-                                        <input ref={this.passwordRef} type="password" name="password" onChange={this.onChange} tabIndex="2"/>       
-                                    </div>  
-                                    <div class="spacing-base">
-                                        <span class="button buttonInside">
-                                            <button type="submit" class="button-text" tabIndex="3">Log in</button>
-                                        </span>
-                                    </div> 
-                                </div>
+            <Header></Header>
+                <div class="box-container-yellow">
+                    <h1>Afiliar nuevo miembro a la organizacion</h1>
+                        <div class="label-container">
+                            <div className="label-wrapper">
+                                <label for="identificacion">Identificacion : </label>
+                                <input ref={this.identificacionRef} type="text" name="identificacion" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="correo">Correo Electronico: </label>
+                                <input ref={this.correoRef}  type="text" name="correo" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="correo">Contraseña: </label>
+                                <input ref={this.contrasenaRef}  input type="text" name="contrasena" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="nombre">Nombre: </label>
+                                <input ref={this.nombreRef} type="text" name="nombre" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="celular">Celular Personal: </label>
+                                <input ref={this.celularRef} type="text" name="celular" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="apellido1">Apellido1: </label>
+                                <input ref={this.apellido1Ref} type="text" name="apellido1" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="apellido2">Apellido2: </label>
+                                <input ref={this.apellido2Ref} type="text" name="apellido2" onChange={this.onChange} className="input-standar"/>
                             </div>
                         </div>
-                        <div class="divider">
-                            <h5>You don't have an account?</h5>
+                        
+                        <div class="label-container">
+                            <div className="label-wrapper">
+                            <label for="pais">Pais: </label>
+                                <div className="label-select" >
+                                    <Select components={makeAnimated} name="pais" value={this.state.pais} className="basic-multi-select"
+                                    options={this.state.paisOpc} classNamePrefix="select" onChange={this.handleChangePais}/>   
+                                </div>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="provincia">Provincia: </label>
+                                <div className="label-select">
+                                    <Select components={makeAnimated} name="provincia" onChange={this.handleChangeProvincia}
+                                    options={this.state.provinciaOpc} classNamePrefix="select" value={this.state.provincia}/>
+                                </div>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="canton">Canton: </label>
+                                <div className="label-select">
+                                    <Select components={makeAnimated} name="canton" onChange={this.handleChangeCanton}
+                                    options={this.state.cantonOpc} classNamePrefix="select" value={this.state.canton}/>
+                                </div>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="distrito">Distrito: </label>
+                                <div className="label-select">
+                                    <Select components={makeAnimated} name="distrito"  onChange={this.handleChangeDistrito}
+                                    options={this.state.distritoOpc} classNamePrefix="select" value={this.state.distrito}/>
+                                </div>
+                            </div>
+                            <div className="label-wrapper"></div>
                         </div>
-                        <span id="registrationLink" class="button" >
-                            <button type="button" class="btn btn-dark" onClick={this.onClick}  disabled="true">Registrar Asesor </button>             
-                        </span>
-                    </div>
-                </form>
+                        <button type="button" class="btn btn-dark" onClick={this.onClick} >Registrarse</button>
+                </div> 
             </div>
         )
-        }else return (
-            <>
-            <Redirect to="/ventanaAsesor"></Redirect>
-            </>
-        )
-    };
-}
+    }
+};
 
 export default SignUp;

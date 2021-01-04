@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const PersonSchema= new Schema(
     {
       identificacion: String,
+      contrasena: String,
       nombre: String,
       apellido1: String,
       apellido2: String,
