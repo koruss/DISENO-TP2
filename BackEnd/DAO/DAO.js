@@ -171,17 +171,36 @@ module.exports = class DAO {
     // }
 
     //Funcion para crear un grupo en la base de datos
-    async crearGrupo(schema, schemaRama, req, res) {
+    // async crearGrupo(schema, schemaRama, req, res) {
+    //     this.openConnection();
+    //     schema.save(function (error, info) {
+    //         if (error) { res.json({ success: false, error: "Se ha producido un error guardando", error }) }
+    //         else {
+    //             schemaRama.updateOne({ _id: req.body.selectedRama.identificacion }, { $push: { grupos: { nombre: req.body.nombreGrupo } } },
+    //                 function (error, info) { })
+    //             res.json({ success: true, info: info });
+    //         }
+    //     });
+    // }
+
+    async crearGrupo(req, res) {
+        console.log(req.body)
         this.openConnection();
-        schema.save(function (error, info) {
-            if (error) { res.json({ success: false, error: "Se ha producido un error guardando", error }) }
-            else {
-                schemaRama.updateOne({ _id: req.body.selectedRama.identificacion }, { $push: { grupos: { nombre: req.body.nombreGrupo } } },
-                    function (error, info) { })
-                res.json({ success: true, info: info });
+        const schema = new CompositeSchema();
+        schema.nombre = req.body.nombreGrupo;
+        schema.tipo=3;
+        schema.save();
+        CompositeSchema.update({ _id: req.body.selectedRama.identificacion }, { $addToSet: { children: schema._id } }, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.json({ success: false, error: "Se ha producido un error guardando", error })
             }
-        });
+            else {
+                res.json({ success: true })
+            }
+        })
     }
+
     async crearRama(req, res) {
         console.log(req.body)
         this.openConnection();
@@ -227,7 +246,7 @@ module.exports = class DAO {
 
     async allZonas(req,res){
         CompositeSchema.find({tipo:1}, function(err,data){
-            console.log(data);
+            // console.log(data);
             if(err){
                 console.log(err)
                 res.json({success:false, error:" Algo salio del orto"})
@@ -237,8 +256,36 @@ module.exports = class DAO {
                 res.end();
             }
         })
-
-
     }
+
+    async allRamas(req,res){
+        CompositeSchema.find({tipo:2}, function(err,data){
+            // console.log(data);
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async allGrupos(req,res){
+        CompositeSchema.find({tipo:3}, function(err,data){
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                console.log(data)
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+
 
 }

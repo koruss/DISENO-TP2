@@ -19,22 +19,22 @@ let schema = new CompositeSchema();
 //   schema.save();
 
 
-// CompositeSchema.findOne({nombre:"Cruz Roja"},function(err,data){
-//     if(err){
-//         console.log(err)
-//     }
-//     else{
-//         console.log(data._id)
-//         CompositeSchema.update({_id:data._id},{$addToSet:{children:schema._id}}, function(err,success){
-//             if(err){
-//                 console.log(err)
-//             }
-//             else{
-//                 console.log(success)
-//             }
-//         })
-//     }
-// })
+CompositeSchema.findOne({nombre:"Cruz Roja"},function(err,data){
+    if(err){
+        console.log(err)
+    }
+    else{
+        console.log(data._id)
+        CompositeSchema.update({_id:data._id},{$addToSet:{children:schema._id}}, function(err,success){
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log(success)
+            }
+        })
+    }
+})
 
 
 // CompositeSchema.update({"nombre":"San Jose"},{ $addToSet:{children:"Miercoles"}}, function(err, success){

@@ -16,10 +16,6 @@ module.exports = class GestorEstructura{
 
     }
 
-    crearZona(){
-
-    }
-
     //Funcion para crear una rama, llama una funcion de ramaDAO
     async crearRama(req, res){
         await this.DAO.crearRama(req,res);
@@ -27,11 +23,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para crear un grupo, llama una funcion de grupoDAO
     async crearGrupo(req,res){
-        await this.grupoDAO.postGrupo(req,res);
-    }
-    
-    async cargarComposite(){
-
+        await this.DAO.crearGrupo(req,res);
     }
 
     //Funcion para obtener todas las zonas registradas en la base de datos
@@ -41,12 +33,12 @@ module.exports = class GestorEstructura{
 
     //Funcion para obtener todas las ramas de todas las zonas
     async obtenerRamas(req,res){
-        await this.ramaDAO.getRamas(req,res);
+        await this.DAO.allRamas(req,res);
     }
 
     //Funcion para obtener todos los grupos de la base de datos
     async obtenerGrupos(req,res){
-        await this.grupoDAO.getGrupos(req,res);
+        await this.DAO.allGrupos(req,res);
     }
 
     //Funcion para asignar un miembro en un grupo

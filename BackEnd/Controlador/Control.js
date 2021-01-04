@@ -91,6 +91,7 @@ module.exports = class Control{
     // Función que devuelve todas los grupos obtenidas
     // desde la base de datos al FrontEnd para poder mostrarlas al usuario
     async allGrupos(req,res){
+        console.log("aqui")
         await this.gestorEstructura.obtenerGrupos(req, res)
     }
 
