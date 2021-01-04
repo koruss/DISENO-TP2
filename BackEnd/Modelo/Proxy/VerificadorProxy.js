@@ -2,7 +2,6 @@
 exports.__esModule = true;
 exports.VerificadorProxy = void 0;
 var VerificadorReal_1 = require("./VerificadorReal");
-var PersonaDAO = require('../../DAO/PersonaDAO');
 var VerificadorProxy = /** @class */ (function () {
     function VerificadorProxy(id, password, personas) {
         this.id = id;

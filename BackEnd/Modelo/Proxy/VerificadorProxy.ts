@@ -1,6 +1,5 @@
 import {Verificador} from "./Verificador";
 import {VerificadorReal} from "./VerificadorReal";
-var PersonaDAO = require('../../DAO/PersonaDAO');
 
 export class VerificadorProxy implements Verificador  {
 
