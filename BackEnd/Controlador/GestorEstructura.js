@@ -1,6 +1,7 @@
 var ZonaDAO = require('../DAO/ZonaDAO');
 var RamaDAO = require('../DAO/RamaDAO');
-var GrupoDAO = require('../DAO/GrupoDAO')
+var GrupoDAO = require('../DAO/GrupoDAO');
+var DAO = require("../DAO/DAO")
 
 
 
@@ -8,6 +9,7 @@ module.exports = class GestorEstructura{
     zonaDAO = new ZonaDAO();
     ramaDAO = new RamaDAO();
     grupoDAO = new GrupoDAO();
+    DAO= new DAO();
     zonas = [];
 
     constructor(){
@@ -20,7 +22,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para crear una rama, llama una funcion de ramaDAO
     async crearRama(req, res){
-        await this.ramaDAO.postRama(req,res);
+        await this.DAO.crearRama(req,res);
     }
 
     //Funcion para crear un grupo, llama una funcion de grupoDAO
@@ -34,7 +36,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para obtener todas las zonas registradas en la base de datos
     async obtenerZonas(req,res){
-        await this.zonaDAO.getZonas(req,res);
+        await this.DAO.allZonas(req,res);
     }
 
     //Funcion para obtener todas las ramas de todas las zonas
@@ -74,7 +76,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para guardar una zona
     async guardarZona(req, res){
-        await this.zonaDAO.postZona(req,res);
+        await this.DAO.crearZona(req,res);
     }
 
     clientCode(component) {
