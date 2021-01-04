@@ -8,8 +8,6 @@ var VerificadorProxy = /** @class */ (function () {
         this.id = id;
         this.password = password;
         this.personas = personas;
-        this.VerfReal = null;
-        console.log("Proxy iniciado");
     }
     VerificadorProxy.prototype.iniciarSesion = function () {
         if (this.credencialesValidas(this.id, this.password)) {
@@ -17,18 +15,18 @@ var VerificadorProxy = /** @class */ (function () {
                 this.VerfReal = new VerificadorReal_1.VerificadorReal(this.id, this.password, this.type);
             }
             this.VerfReal.iniciarSesion();
+            return this.VerfReal.getTipo();
         }
         else {
-            console.log("No tiene acceso");
+            return null;
         }
     };
     VerificadorProxy.prototype.credencialesValidas = function (id, password) {
         var auth = false;
         this.personas.forEach(function (persona) {
-            console.log(persona.datosPersona[0].identificacion);
-            console.log(id);
-            if (id == persona.datosPersona[0].identificacion) {
-                console.log("alo");
+            var id_persona = persona.datosPersona[0].identificacion;
+            var contra_persona = persona.datosPersona[0].contrasena;
+            if (id == id_persona && password == contra_persona) {
                 auth = true;
             }
         });

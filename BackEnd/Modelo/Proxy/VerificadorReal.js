@@ -8,7 +8,11 @@ var VerificadorReal = /** @class */ (function () {
         this.type = type;
     }
     VerificadorReal.prototype.iniciarSesion = function () {
-        console.log("Aqui llamar al facade correspondiente");
+        //Hacer un if con el tipo o algo
+        this.type = "MIEMBRO";
+    };
+    VerificadorReal.prototype.getTipo = function () {
+        return this.type;
     };
     return VerificadorReal;
 }());

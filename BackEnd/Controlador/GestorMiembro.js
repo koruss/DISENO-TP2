@@ -40,8 +40,8 @@ module.exports = class GestorMiembro{
 
     async iniciarSesion(req, res){
         var verificadorProxy = new VerificadorProxy(req.body.usuario, req.body.password, req.body.personas);
-        verificadorProxy.iniciarSesion();
-        //console.log(req.body);
+        var tipo = verificadorProxy.iniciarSesion();
+        res.json({tipo: tipo});
     }
 
 }

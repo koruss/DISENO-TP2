@@ -31,9 +31,9 @@ class Login extends Component{
     onClick = (e) => {
         var self = this;
         if(this.state.userName != null && this.state.password!=null){
-            console.log("hola",this.state.personas);
+            //console.log("hola",this.state.personas);
             axios.post('/iniciarSesion',{usuario:this.state.userName,password:this.state.password,personas:this.state.personas}).then(res=>{
-                console.log("res",res);
+                console.log("res",res.data);
             })
         }
         else {
@@ -76,6 +76,7 @@ class Login extends Component{
                         direccion: nombre.direccion,
                         nombre:nombre.nombre,
                         identificacion:nombre.identificacion,
+                        contrasena:nombre.contrasena,
                         apellido1:nombre.apellido1,
                         apellido2:nombre.apellido2,
                         correo:nombre.correo,

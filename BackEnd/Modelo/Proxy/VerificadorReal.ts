@@ -14,8 +14,12 @@ export class VerificadorReal implements Verificador  {
     }
 
     public iniciarSesion(): void {
-        console.log("Aqui llamar al facade correspondiente");
+        //Hacer un if con el tipo o algo
+        this.type = "MIEMBRO";
     }
 
+    public getTipo(): string{
+        return this.type;
+    }
 
 }
