@@ -237,8 +237,39 @@ module.exports = class DAO {
                 res.end();
             }
         })
+    }
 
+    async cambiarNombreGrupo(req,res){
+        CompositeSchema.updateOne({_id:req.body.idZona},{nombre:req.body.nuevoNombre},(err,res)=>{
+            if(err){
+                console.log(err)
+                res.json({success:false,error:" Algo salio del orto"})
+            }
+            else{
+                res.json({success:true})
+            }
+        })
 
     }
 
+    async cambiarMiembroGrupo(req,res){// hay que ver como 
+        CompositeSchema.update({_id:req.body.selectedGrupoFrom},{$pull:{miembros:req.body._id}},function(err,success){
+            if(err){
+                console.log(err);
+            }
+            else{
+                CompositeSchema.update({_id:req.body.selectedGrupoTo},{$addToSet:{miembros:req.body._id}},(err,success2)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        res.json({success:true})
+                    }
+                })
+            }
+
+        })
+        
+
+    }
 }
