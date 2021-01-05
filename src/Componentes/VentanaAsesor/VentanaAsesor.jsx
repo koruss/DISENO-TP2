@@ -11,6 +11,7 @@ import imagenAsignacion from './asignacion.png';
 import imagenDefinicion from './definicion.png';
 import imagenMapa from './mapa.png';
 import imagenJefes from './jefes.png';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 // import Card from './CardGrupoResult'

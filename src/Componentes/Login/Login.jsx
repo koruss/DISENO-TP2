@@ -34,6 +34,14 @@ class Login extends Component{
             //console.log("hola",this.state.personas);
             axios.post('/iniciarSesion',{usuario:this.state.userName,password:this.state.password,personas:this.state.personas}).then(res=>{
                 console.log("res",res.data);
+                if(res.data.tipo != null){  //cambiar esta condicional mas adelante
+                    self.setState({ isAuth: true })
+                }
+                else {
+                    alert("Nombre de usuario o contraseña incorrecto!!");
+                    this.idRef.current.value="";
+                    this.contrasenaRef.current.value="";
+                }
             })
         }
         else {
@@ -114,11 +122,11 @@ class Login extends Component{
                                     <h1>Log In</h1>
                                     <div class="spacig-base">
                                         <label for="email">Username or Email</label>
-                                        <input ref={this.userNameRef} type="text" name="userName" autoComplete="on" onChange={this.onChange} tabIndex="1"></input>
+                                        <input ref={this.idRef} type="text" name="userName" autoComplete="on" onChange={this.onChange} tabIndex="1"></input>
                                     </div>    
                                     <div class="spacig-base">
                                         <label for="password">Password</label>
-                                        <input ref={this.passwordRef} type="password" name="password" onChange={this.onChange} tabIndex="2"/>       
+                                        <input ref={this.contrasenaRef} type="password" name="password" onChange={this.onChange} tabIndex="2"/>       
                                     </div>  
                                     <div class="spacing-base">
                                         <button type="button" class="btn btn-dark" onClick={this.onClick} >Log in </button>
@@ -134,8 +142,12 @@ class Login extends Component{
                         </span>
                     </div>
             </div>
+        )}
+        else return(
+            <>
+            <Redirect to="/ventanaAsesor"></Redirect>
+            </>
         )
-        }
     };
 }
 
