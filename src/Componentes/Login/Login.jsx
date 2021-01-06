@@ -22,7 +22,7 @@ class Login extends Component{
     // para ser utilizados cuando se cree en la aplicación
     state = {
         personas: [],
-        isAuth: false,
+        isAuth: null,
         id: "",
         contrasena: ""
     };
@@ -35,7 +35,7 @@ class Login extends Component{
             axios.post('/iniciarSesion',{usuario:this.state.userName,password:this.state.password,personas:this.state.personas}).then(res=>{
                 console.log("res",res.data);
                 if(res.data.tipo != null){  //cambiar esta condicional mas adelante
-                    self.setState({ isAuth: true })
+                    self.setState({ isAuth: res.data.tipo })
                 }
                 else {
                     alert("Nombre de usuario o contraseña incorrecto!!");
@@ -111,7 +111,7 @@ class Login extends Component{
     // En esta parte se hace el diseño de la ventana de login
     // y se llama a las funciones anteriores.
     render(){    
-        if(!this.state.isAuth) {
+        if(this.state.isAuth == null) {
         return(  
             <div>
                 <Header></Header>
@@ -143,6 +143,13 @@ class Login extends Component{
                     </div>
             </div>
         )}
+        else if(this.state.isAuth == "MIEMBRO"){
+            return(
+                <>
+                <Redirect to="/ventanaMiembro"></Redirect>
+                </>
+            )
+        }
         else return(
             <>
             <Redirect to="/ventanaAsesor"></Redirect>

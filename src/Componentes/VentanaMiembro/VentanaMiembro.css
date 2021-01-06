@@ -1,0 +1,100 @@
+#center-section{
+    margin:auto;
+    width:350px;
+}
+
+#main-section{
+    margin-top: 10px;
+}
+
+.spacing-base{
+    margin-bottom: 14px;
+}
+
+.box .box-container{
+    border-radius: 4px;
+    position: relative;
+    padding: 14px 18px;
+}
+
+
+.label-full-left{
+    display: block;
+}
+
+.label-text-left {
+    float: left;
+    clear: left;
+    width: 100%;
+    margin: 0 0 1.5em 0;
+    padding: 0;
+}
+
+.label-full-left{
+    width: 100%;
+    float: left;
+    height: 85px;
+}
+
+.button-especial{
+    position: relative;
+}
+
+.border{
+    display:block;
+    border-radius: 4px;
+    border: 2.5px grey solid;
+    background-color: white;
+}
+
+.label-wrapper {
+    size: 50;
+    width: 50%;
+    float: left;
+    height: 85px;
+}
+
+.label-wrapper-right {
+    size: 150;
+    width: 100%;
+    float: right;
+    height: 185px;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.2;
+    padding:20px;
+    margin: 0;
+}
+
+input {
+    transition: all 100ms linear;
+    line-height: 19px;
+    color: black;
+    vertical-align: middle;
+}
+
+label {
+    display: block;
+    padding-left: 2px;
+    padding-bottom: 2px;
+    font-weight: 700;
+}
+
+body {
+    background-color: #c9cc72;
+}
+
+.spacing-base{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.spacing-base-hard{
+    margin-top: 150px;
+    margin-bottom: 50px;
+    width: 100%;
+}

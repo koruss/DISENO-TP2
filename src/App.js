@@ -19,6 +19,7 @@ import ConsultaGruposRolesXMiembro from './Componentes/GrupoRolesXMiembro/GrupoR
 import ConsultaCompGrupo from './Componentes/ConsultarComposicionGrupo/ConsultarCompGrupo';
 import ConsultarGrupoResult from './Componentes/ConsultarComposicionGrupo/ConsultarGrupoResult';
 import VentanaAsesor from './Componentes/VentanaAsesor/VentanaAsesor';
+import VentanaMiembro from './Componentes/VentanaMiembro/VentanaMiembro';
 import arbolEstructural from './Componentes/Tree/TreeContainer';
 import contacto from './Componentes/Contacto/Contacto';
 import PosiblesMonitores from './Componentes/PosiblesMonitores/PosiblesMonitores';
@@ -33,6 +34,7 @@ function App() {
           {/*                     Funcionalidades                  */} 
           <Route exact path="/" component={Login}/>;
           <Route path="/ventanaAsesor" component={VentanaAsesor}/> 
+          <Route path="/ventanaMiembro" component={VentanaMiembro}/> 
           <Route path="/login" component={Login}/> 
           <Route path="/SignUp" component={SignUp}/> 
           <Route path="/registroMiembro" component={RegistroMiembro}/> 

@@ -17,7 +17,7 @@ import './Header.css'
 // en la aplicación
 class Header extends Component {
     state = {
-        isAuth: false,
+        isAuth: null,
         reloadMainPage:false,
     }
 
@@ -26,8 +26,8 @@ class Header extends Component {
     componentWillMount(){
         var self=this;
         axios.post('/getSesion',{}).then(function(res){
-            if(res.data.loggedIn == true) self.setState({isAuth:true})
-            else self.setState({isAuth:false});
+            if(res.data.loggedIn == true) self.setState({isAuth:res.data.tipo})
+            else self.setState({isAuth:null});
         })
     }
 
@@ -40,7 +40,7 @@ class Header extends Component {
           .catch(function (err) {
           });        
         this.setState({
-            isAuth:false,
+            isAuth:null,
             reloadMainPage:true,
         })
     }
@@ -49,6 +49,7 @@ class Header extends Component {
     // y se llama a las funciones anteriores.
     render() {
         var session = this.state.isAuth;
+        console.log("esto: ",session);
         if(!this.state.reloadMainPage) {
         return (<>
             <head>
@@ -65,14 +66,30 @@ class Header extends Component {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
                             <Route render={() => {
-                                if(!session){ 
+                                if(session == null){ 
                                     return <> 
                                         {/* <Nav.Link href="/contacto">Contáctenos</Nav.Link>
                                         <Nav.Link href="/registroMiembro">Registrarse</Nav.Link> */}
                                         <Nav.Link href="/login">Iniciar Sesión</Nav.Link>
                                     </>
                                 }
-                                else{ 
+                                else if(session == "MIEMBRO"){
+                                    return <>
+                                        <Nav.Link href="/ventanaMiembro">Inicio</Nav.Link>
+                                        <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver noticias</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver puestos</NavDropdown.Item>
+                                        </NavDropdown>   
+                                        <NavDropdown title="Aportes" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/crearZona">Crear aporte</NavDropdown.Item>
+                                        </NavDropdown>
+                                        <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
+                                    </> 
+                                }
+                                else if(session == "ASESOR"){ 
                                     return <>
                                         <Nav.Link href="/ventanaAsesor">Inicio</Nav.Link>                                 
                                         <NavDropdown title="Realizar movimientos" id="basic-nav-dropdown">

@@ -41,6 +41,8 @@ module.exports = class GestorMiembro{
     async iniciarSesion(req, res){
         var fachadaLogIn = new FachadaLogIn(req.body.usuario, req.body.password, req.body.personas);
         var tipo = fachadaLogIn.iniciarSesionFachada();
+        req.session.loggedIn = true;
+        req.session.tipo = tipo;
         res.json({tipo: tipo});
     }
 
