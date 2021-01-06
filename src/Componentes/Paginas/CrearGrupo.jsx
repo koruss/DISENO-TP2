@@ -43,7 +43,7 @@ export default class CrearGrupo extends Component {
             { selectedZona }
         );
         this.limpiarRamas();
-        this.obtenerRamas();
+        this.obtenerRamas(selectedZona);
     }
 
     handleChangeRama = selectedRama => {
@@ -60,8 +60,9 @@ export default class CrearGrupo extends Component {
             const respuesta=res.data;
             respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zona.nombreZona,
-                    label:zona.nombreZona
+                    value:zona.nombre,
+                    label:zona.nombre,
+                    _id:zona._id
                 })
             })   
             this.setState({
@@ -70,19 +71,21 @@ export default class CrearGrupo extends Component {
         })
     }
 
-    obtenerRamas(){
+    obtenerRamas(selectedZona){
         let arreglo =[];
-        axios.post("/allRama", {}).then(res => {
-            const respuesta=res.data;
-            const zonaNombre = this.state.selectedZona.value;
+        console.log(selectedZona._id)
+        axios.post("/allRamaZona", {_id:selectedZona._id}).then(res => {
+            const respuesta=res;
+            console.log(respuesta)
+            // const zonaNombre = this.state.selectedZona.value;
             respuesta.forEach(rama=>{
-                if(rama.zona == zonaNombre){
+                // if(rama.zona == zonaNombre){
                     arreglo.push({
-                        value:rama.nombreRama,
-                        label:rama.nombreRama,
+                        value:rama.nombre,
+                        label:rama.nombre,
                         identificacion:rama._id
                     })
-                }
+                // }
             })   
             this.setState({
                 ramas:arreglo

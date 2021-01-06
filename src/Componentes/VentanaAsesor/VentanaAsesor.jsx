@@ -61,12 +61,12 @@ class VentanaAsesor extends Component {
         axios.post("/allGrupos", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(grupo=>{
-                if(grupo.monitores.length != 0){
+                // if(grupo.monitores.length != 0){
                     arrGrup.push({
                         value:grupo.nombreGrupo,
                         label:grupo.nombreGrupo
                     })
-                }
+                // }
             })   
             this.setState({
                 grupos:arrGrup

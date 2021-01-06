@@ -227,13 +227,43 @@ module.exports = class DAO {
 
     async allZonas(req,res){
         CompositeSchema.find({tipo:1}, function(err,data){
-            console.log(data);
+            // console.log(data);
             if(err){
                 console.log(err)
                 res.json({success:false, error:" Algo salio del orto"})
             }
             else{
                 res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async allRamas(req,res){
+        CompositeSchema.find({tipo:2}, function(err,data){
+            // console.log(data);
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+    
+
+    async allRamasZona(req,res){
+        // console.log("aqui"+req.body._id)
+        CompositeSchema.find({_id: req.body._id}).populate("children").exec(function(err,data){
+            // console.log(data);
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data.children);
                 res.end();
             }
         })

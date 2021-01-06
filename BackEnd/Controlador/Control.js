@@ -87,6 +87,9 @@ module.exports = class Control{
     async allRama(req,res){
         await this.gestorEstructura.obtenerRamas(req, res)
     }
+    async allRamaZona(req,res){
+        await this.gestorEstructura.obtenerRamasZona(req, res)
+    }
 
     // Función que devuelve todas los grupos obtenidas
     // desde la base de datos al FrontEnd para poder mostrarlas al usuario

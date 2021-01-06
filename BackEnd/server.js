@@ -115,6 +115,11 @@ app.post('/guardarGrupo', function (req,res) {
   control.guardarGrupo(req,res);
 })
 
+app.post('/allRamaZona', function (req,res) {
+  control.allRamaZona(req,res);
+})
+
+
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 
 

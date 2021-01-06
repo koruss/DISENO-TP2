@@ -64,11 +64,16 @@ let schema = new CompositeSchema();
 
 // })
 
-CompositeSchema.findOne({nombre:"Cruz Roja"}).populate("jefes").exec(function(err,data){
+CompositeSchema.findOne({nombre:"Zona n+1"}).populate("children").exec(function(err,data){
     if(err){
         console.log(err)
     }
     else{
-        console.log(data.jefes[0].nombre)
+        // console.log(data)
+        const respuesta=data;
+        respuesta.forEach(element => {
+            console.log(element.nombre)
+            
+        });
     }
 })

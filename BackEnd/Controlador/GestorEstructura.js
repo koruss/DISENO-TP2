@@ -41,8 +41,12 @@ module.exports = class GestorEstructura{
 
     //Funcion para obtener todas las ramas de todas las zonas
     async obtenerRamas(req,res){
-        await this.ramaDAO.getRamas(req,res);
+        await this.DAO.allRamas(req,res);
     }
+    async obtenerRamasZona(req,res){
+        await this.DAO.allRamasZona(req,res);
+    }
+
 
     //Funcion para obtener todos los grupos de la base de datos
     async obtenerGrupos(req,res){
