@@ -100,7 +100,7 @@ class Header extends Component {
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver puestos</NavDropdown.Item>
                                         </NavDropdown>   
                                         <NavDropdown title="Aportes" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/crearZona">Crear aporte</NavDropdown.Item>
+                                            <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>
                                         </NavDropdown>
                                         <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
                                     </> 
@@ -161,7 +161,7 @@ class Header extends Component {
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de nodo</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown title="Aportes" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/crearZona">Crear aporte</NavDropdown.Item>
+                                            <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown title="Publicaciones" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/crearZona">Crear publicacion</NavDropdown.Item>

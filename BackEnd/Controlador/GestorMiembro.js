@@ -43,6 +43,7 @@ module.exports = class GestorMiembro{
         var tipo = fachadaLogIn.iniciarSesionFachada();
         req.session.loggedIn = true;
         req.session.tipo = tipo;
+        //guardar el id del movimiento aqui req.session.movimiento = movimiento
         res.json({tipo: tipo});
     }
 
