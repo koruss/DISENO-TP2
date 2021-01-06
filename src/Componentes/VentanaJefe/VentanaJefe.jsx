@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './VentanaMiembro.css'
+import './VentanaJefe.css'
 import '../../Componentes/General/Utils.css'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -18,7 +18,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Clase que implementa la ventana asesor, es la ventana
 // principal una vez se ingrese a la aplicación
-class VentanaMiembro extends Component {
+class VentanaAsesor extends Component {
     state = {
         zonas:[],
         ramas:[],
@@ -82,11 +82,11 @@ class VentanaMiembro extends Component {
                 <main className="container">
                     <div className="label-wrapper">
                         <div className="label-wrapper" >
-                            <label for="imagen">Imagen del miembro ideal: </label>
+                            <label for="imagen">Imagen del jefe ideal: </label>
                             <img src={imagenAsesor} alt={"imagenAsesor"} width="100" height="100"/>
                         </div>
                         <div className="label-wrapper" align="right">
-                            <h2>Ventana Miembro</h2>
+                            <h2>Ventana Jefe</h2>
                         </div>
                         <div class="form-group" class="spacing-base-hard">
                             <label for="zona">Bienvenido a la aplicacion</label>
@@ -115,7 +115,7 @@ class VentanaMiembro extends Component {
                                 <Link class="btn btn-dark" to='./asignacionMiembros'><img src={imagenAsignacion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Ver puestos asignados</Link>                                
                             </div>
                             <div class="form-group" class="spacing-base">
-                                <Link class="btn btn-dark" to='./registroMiembro'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Enviar aporte</Link>    
+                                <Link class="btn btn-dark" to='./registroMiembro'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Crear publicacion</Link>    
                             </div>
                         </div>
                         <div className="label-wrapper" >
@@ -134,4 +134,4 @@ class VentanaMiembro extends Component {
 
 }
 
-export default VentanaMiembro;
+export default VentanaAsesor;

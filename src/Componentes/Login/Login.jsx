@@ -150,11 +150,19 @@ class Login extends Component{
                 </>
             )
         }
-        else return(
+        else if(this.state.isAuth == "JEFE"){
+            return(
+                <>
+                <Redirect to="/ventanaJefe"></Redirect>
+                </>
+            )
+        }
+        else if(this.state.isAuth == "ASESOR"){
+            return(
             <>
             <Redirect to="/ventanaAsesor"></Redirect>
             </>
-        )
+        )}
     };
 }
 

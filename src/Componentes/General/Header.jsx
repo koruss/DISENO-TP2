@@ -59,7 +59,23 @@ class Header extends Component {
             <div className="topContainer" display="inline">
                     {/* Home logo */}
                     <Navbar  variant="dark"  expand="lg">
-                        <Navbar.Brand href="/VentanaAsesor"><img href="/VentanaAsesor" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                        <Route render={() => {
+                            if(session == "ASESOR"){ 
+                                return <>
+                                <Navbar.Brand href="/VentanaAsesor"><img href="/VentanaAsesor" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                                </>
+                            }
+                            else if(session == "MIEMBRO"){
+                                return <>
+                                <Navbar.Brand href="/ventanaMiembro"><img href="/ventanaMiembro" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                                </>
+                            }
+                            else if(session == "JEFE"){
+                                return <>
+                                <Navbar.Brand href="/ventanaJefe"><img href="/ventanaJefe" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                                </>
+                            }
+                        }}/>
                     </Navbar>
                     <Navbar  variant="dark"  expand="lg">
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -121,6 +137,34 @@ class Header extends Component {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/crearGrupo">Crear grupo</NavDropdown.Item>
                                             <NavDropdown.Divider />
+                                        </NavDropdown>
+                                        <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
+                                    </> 
+                                }
+                                else if(session == "JEFE"){ 
+                                    return <>
+                                        <Nav.Link href="/ventanaJefe">Inicio</Nav.Link>                                 
+                                        <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver noticias</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver puestos</NavDropdown.Item>
+                                        </NavDropdown>   
+                                        <NavDropdown alignItems="left" title="Consultas de rango" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de grupos que monitorea</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de ramas a las que pertenece</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de zonas a las que pertenece</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de nodo</NavDropdown.Item>
+                                        </NavDropdown>
+                                        <NavDropdown title="Aportes" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/crearZona">Crear aporte</NavDropdown.Item>
+                                        </NavDropdown>
+                                        <NavDropdown title="Publicaciones" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/crearZona">Crear publicacion</NavDropdown.Item>
                                         </NavDropdown>
                                         <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
                                     </> 
