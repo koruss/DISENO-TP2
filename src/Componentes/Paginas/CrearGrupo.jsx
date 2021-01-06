@@ -73,19 +73,14 @@ export default class CrearGrupo extends Component {
 
     obtenerRamas(selectedZona){
         let arreglo =[];
-        console.log(selectedZona._id)
         axios.post("/allRamaZona", {_id:selectedZona._id}).then(res => {
-            const respuesta=res;
-            console.log(respuesta)
-            // const zonaNombre = this.state.selectedZona.value;
+            const respuesta=res.data;
             respuesta.forEach(rama=>{
-                // if(rama.zona == zonaNombre){
                     arreglo.push({
                         value:rama.nombre,
                         label:rama.nombre,
                         identificacion:rama._id
                     })
-                // }
             })   
             this.setState({
                 ramas:arreglo

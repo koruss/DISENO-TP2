@@ -27,7 +27,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para crear un grupo, llama una funcion de grupoDAO
     async crearGrupo(req,res){
-        await this.grupoDAO.postGrupo(req,res);
+        await this.DAO.crearGrupo(req,res);
     }
     
     async cargarComposite(){
@@ -50,7 +50,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para obtener todos los grupos de la base de datos
     async obtenerGrupos(req,res){
-        await this.grupoDAO.getGrupos(req,res);
+        await this.DAO.allGrupos(req,res);
     }
 
     //Funcion para asignar un miembro en un grupo

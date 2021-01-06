@@ -69,11 +69,11 @@ CompositeSchema.findOne({nombre:"Zona n+1"}).populate("children").exec(function(
         console.log(err)
     }
     else{
-        // console.log(data)
-        const respuesta=data;
+        console.log(data)
+        const respuesta=data.children;
+        // respuesta.map((element,index) => {
         respuesta.forEach(element => {
-            console.log(element.nombre)
-            
+            console.log(element)
         });
     }
 })
