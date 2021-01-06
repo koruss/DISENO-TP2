@@ -18,8 +18,13 @@ import ConsultaGruposRolesXMiembro from './Componentes/GrupoRolesXMiembro/GrupoR
 import ConsultaCompGrupo from './Componentes/ConsultarComposicionGrupo/ConsultarCompGrupo';
 import ConsultarGrupoResult from './Componentes/ConsultarComposicionGrupo/ConsultarGrupoResult';
 import VentanaAsesor from './Componentes/VentanaAsesor/VentanaAsesor';
+import VentanaMiembro from './Componentes/VentanaMiembro/VentanaMiembro';
+import VentanaJefe from './Componentes/VentanaJefe/VentanaJefe';
 import arbolEstructural from './Componentes/Tree/TreeContainer';
 import contacto from './Componentes/Contacto/Contacto';
+import PosiblesMonitores from './Componentes/PosiblesMonitores/PosiblesMonitores';
+import SignUp from './Componentes/SignUp/SignUp';
+import Aportes from './Componentes/Aportes/Aportes';
 
 //Funcion para establecer las rutas de la aplicacion con su respectivo componente
 function App() {
@@ -30,7 +35,10 @@ function App() {
           {/*                     Funcionalidades                  */} 
           <Route exact path="/" component={Login}/>;
           <Route path="/ventanaAsesor" component={VentanaAsesor}/> 
+          <Route path="/ventanaMiembro" component={VentanaMiembro}/> 
+          <Route path="/ventanaJefe" component={VentanaJefe}/> 
           <Route path="/login" component={Login}/> 
+          <Route path="/SignUp" component={SignUp}/> 
           <Route path="/registroMiembro" component={RegistroMiembro}/> 
           <Route path="/trasladoMiembro" component={TrasladarMiembro}/> 
           <Route path="/creacionZona" component={CrearZona}/> 
@@ -39,10 +47,12 @@ function App() {
           <Route path="/cambiarNombreGrupo" component={CambiarNombreGrupo}/> 
           <Route path="/arbolEstructural" component={TreeContainer}/> 
           <Route path="/contacto" component={contacto}/> 
+          <Route path="/PosiblesMonitores" component={PosiblesMonitores}/> 
                     
           
           <Route path="/asignacionMiembros" component={AsignacionMiembros}/>
 
+          <Route path="/aportes" component={Aportes}/>
 
           {/*                       Consultas             */}
           <Route path="/consultarGrupoResult" component={ConsultarGrupoResult}/>

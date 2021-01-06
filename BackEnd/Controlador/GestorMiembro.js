@@ -1,5 +1,5 @@
+const {FachadaLogIn} = require('../Modelo/Fachada/FachadaLogIn.js');
 var DAO = require('../DAO/DAO');
-var PersonaDAO = require("../DAO/PersonaDAO");
 
 module.exports = class GestorMiembro{
     miembros=[];
@@ -38,5 +38,18 @@ module.exports = class GestorMiembro{
         await this.personaDAO.getAsesores(req,res);
     }
 
+    //Funcion para cambiar si es un posible monitor a verdadero
+    async posibleMonitor(req,res){
+        await this.personaDAO.updatePosibleMonitor(req,res);
+    }
+
+    async iniciarSesion(req, res){
+        var fachadaLogIn = new FachadaLogIn(req.body.usuario, req.body.password, req.body.personas);
+        var tipo = fachadaLogIn.iniciarSesionFachada();
+        req.session.loggedIn = true;
+        req.session.tipo = tipo;
+        //guardar el id del movimiento aqui req.session.movimiento = movimiento
+        res.json({tipo: tipo});
+    }
 
 }

@@ -25,10 +25,12 @@ export default class CrearGrupo extends Component {
         ramasCompletas: [],
         selectedZona: [],
         selectedRama:[],
+        selectedMonitor:[],
         zonas: [],
         ramas: [],
         nombreGrupo: "",
-        nombreRama: ""
+        nombreRama: "",
+        monitores: []
     }
 
     onChange = (e) => this.setState({
@@ -52,6 +54,12 @@ export default class CrearGrupo extends Component {
         );
     }
 
+    handleChangeMonitor= selectedMonitor => {
+        this.setState(
+            {selectedMonitor}
+        );
+    }
+
     // Llena los arreglos con la información requerida para presentar
     // cuando se accede a la ventana
     componentWillMount() {
@@ -67,6 +75,34 @@ export default class CrearGrupo extends Component {
             })   
             this.setState({
                 zonas:arreglo
+            })
+        })
+        this.obtenerPersonas();
+    }
+
+    obtenerPersonas(){
+        let arrPers = [];
+        axios.post("/allPersona", {}).then(res => {
+            const respuesta = res.data;
+            respuesta.forEach(nombre=>{
+                if(nombre.posibleMonitor!=false){
+                    arrPers.push({
+                        value:nombre.nombre,
+                        label:nombre.nombre,
+                        datosPersona:[{ _id:nombre._id,
+                            direccion: nombre.direccion,
+                            nombre:nombre.nombre,
+                            identificacion:nombre.identificacion,
+                            apellido1:nombre.apellido1,
+                            apellido2:nombre.apellido2,
+                            correo:nombre.correo,
+                            telefono:nombre.telefono,
+                            estado:nombre.estado }]
+                    })
+                }
+            })   
+            this.setState({
+                monitores:arrPers
             })
         })
     }
@@ -101,7 +137,8 @@ export default class CrearGrupo extends Component {
             axios.post("/guardarGrupo",{
                 nombreGrupo:this.state.nombreGrupo,
                 selectedZona:this.state.selectedZona,
-                selectedRama:this.state.selectedRama
+                selectedRama:this.state.selectedRama,
+                selectedMonitor:this.state.selectedMonitor
             }).then (res =>{
                 if(!res.data.success){
                     alert(res.data.error);
@@ -112,6 +149,7 @@ export default class CrearGrupo extends Component {
                     this.setState({
                         selectedRama:[],
                         selectedZona:[],
+                        selectedMonitor:[],
                         ramas:[]
                     })
                 }
@@ -146,6 +184,11 @@ export default class CrearGrupo extends Component {
                                     <label>Rama a la que pertenece</label>
                                     <Select components={makeAnimated} name="ramas" value={this.state.selectedRama} onChange={this.handleChangeRama} 
                                     options={this.state.ramas} className="basic-multi-select" classNamePrefix="select" />
+                                </div>
+                                <div className="spacing-base">
+                                    <label>Monitor del grupo</label>
+                                    <Select components={makeAnimated} name="ramas" value={this.state.selectedMonitor} onChange={this.handleChangeMonitor} 
+                                    options={this.state.monitores} className="basic-multi-select" classNamePrefix="select" />
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-dark" onClick={this.onClick} >Guardar grupo </button>

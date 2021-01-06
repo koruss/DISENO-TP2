@@ -19,6 +19,8 @@ module.exports = class RamaDao {
         this.ramaSchema.zona = req.body.selectedZona.value;
         this.ramaSchema.monitores = [];
         this.ramaSchema.jefesRama = [];
+        this.ramaSchema.grupos = [];
+        this.ramaSchema.jefesGrupo = [];
         await this.dao.crearRama(this.ramaSchema,ZonaSchema, req, res);
     }
     

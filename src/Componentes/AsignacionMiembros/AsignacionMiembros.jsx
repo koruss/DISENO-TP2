@@ -55,15 +55,15 @@ class AsignacionMiembros extends Component {
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
-            respuesta.forEach(persona => {
-                if (persona.estado == false) {
+            respuesta.forEach(nombre=>{
+                //if(nombre.estado==false){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
                         _id: persona._id
                     })
-                }
-            })
+                //}
+            })   
             this.setState({
                 nombres: arrPers
             })

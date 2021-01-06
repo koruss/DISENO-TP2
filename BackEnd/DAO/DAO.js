@@ -53,7 +53,14 @@ module.exports = class DAO {
         })
     }
 
-
+    //Funcion que inserta un monitor en un grupo y le establece un tipo
+    async updateMonitorGrupo(data, schema, res){
+        this.openConnection();
+        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ monitores: data.body.nombre.datosPersona}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
+        } else {res.json({success: true, info: info })}})
+    }
+    
     //Funcion que inserta un miembro en un grupo y le establece un tipo
     async updateMiembroEnGrupo(req,res) {
         this.openConnection();
@@ -71,6 +78,28 @@ module.exports = class DAO {
         })
     }
 
+    //Funcion que inserta un jefe en un grupo y le establece un tipo
+    async updateJefeGrupo(data, schema, ramaSchema, res){
+        this.openConnection();
+        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}}, 
+            function(error, info) {
+                if (error) {
+                    res.json({success: false, error: 'No se pudo modificar el cliente',error});
+                } 
+                else {
+                    console.log(data.body.rama.identificacion)
+                    ramaSchema.updateOne({_id:data.body.rama.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}},
+                        function(error, info) {
+                            if(error) {
+                                res.json({success: false, error: 'No se pudo modificar el cliente',error});
+                            }
+                            else {
+                                res.json({success: true, info: info });
+                            }
+                    })
+                }
+        })
+    }
 
 
     //Funcion que modifica una rama para establecerle un grupo nuevo

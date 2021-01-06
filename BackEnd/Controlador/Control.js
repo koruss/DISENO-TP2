@@ -2,6 +2,7 @@ const DAO = require('../DAO/DAO.js')
 var GestorMiembro = require('./GestorMiembro');
 const GestorEstructura = require('./GestorEstructura');
 const {Main} = require('../Modelo/Main.js');
+//
 
 module.exports = class Control{
     dao = new DAO();
@@ -122,6 +123,15 @@ module.exports = class Control{
         await this.gestorEstructura.cambiarMiembroGrupo(data, res);
     }
 
+    //Funcion que establece si una persona puede ser un posible monitor en un futuro
+    async cambiarPosibleMonitor(data, res){
+        this.gestorMiembro.posibleMonitor(data, res);
+    }
+
+    //Funcion que establece si una persona puede ser un posible monitor en un futuro
+    async iniciarSesion(req, res){
+        await this.gestorMiembro.iniciarSesion(req, res);
+    }
 }
 
 

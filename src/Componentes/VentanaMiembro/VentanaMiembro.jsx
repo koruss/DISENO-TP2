@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './VentanaAsesor.css'
+import './VentanaMiembro.css'
 import '../../Componentes/General/Utils.css'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -18,7 +18,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Clase que implementa la ventana asesor, es la ventana
 // principal una vez se ingrese a la aplicación
-class VentanaAsesor extends Component {
+class VentanaMiembro extends Component {
     state = {
         zonas:[],
         ramas:[],
@@ -33,15 +33,12 @@ class VentanaAsesor extends Component {
         let arreglo =[];
         let arrRama = [];
         let arrGrup = [];
-
         axios.post("/allZonas", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zona.nombre,
-                    label:zona.nombre,
-                    _id:zona._id
-
+                    value:zona.nombreZona,
+                    label:zona.nombreZona
                 })
             })   
             this.setState({
@@ -53,8 +50,8 @@ class VentanaAsesor extends Component {
             const respuesta = res.data;
             respuesta.forEach(rama=>{
                 arrRama.push({
-                    value:rama.nombre,
-                    label:rama.nombre
+                    value:rama.nombreRama,
+                    label:rama.nombreRama
                 })
             })   
             this.setState({
@@ -65,12 +62,12 @@ class VentanaAsesor extends Component {
         axios.post("/allGrupos", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(grupo=>{
-                // if(grupo.monitores.length != 0){
+                if(grupo.monitores.length != 0){
                     arrGrup.push({
-                        value:grupo.nombre,
-                        label:grupo.nombre
+                        value:grupo.nombreGrupo,
+                        label:grupo.nombreGrupo
                     })
-                // }
+                }
             })   
             this.setState({
                 grupos:arrGrup
@@ -85,15 +82,14 @@ class VentanaAsesor extends Component {
                 <main className="container">
                     <div className="label-wrapper">
                         <div className="label-wrapper" >
-                            <label for="imagen">Imagen Asesor Ideal: </label>
+                            <label for="imagen">Imagen del miembro ideal: </label>
                             <img src={imagenAsesor} alt={"imagenAsesor"} width="100" height="100"/>
                         </div>
                         <div className="label-wrapper" align="right">
-                            <h2>Ventana Asesor</h2>
+                            <h2>Ventana Miembro</h2>
                         </div>
                         <div class="form-group" class="spacing-base-hard">
-                            <label for="zona">Hola, bienvenido al sistema, a continuación la 
-                            estructura actual de organización basada en los movimientos más recientes:</label>
+                            <label for="zona">Bienvenido a la aplicacion</label>
                         </div>
                         <div className="label-wrapper" >
                             <div class="form-group" class="spacing-base">
@@ -112,14 +108,14 @@ class VentanaAsesor extends Component {
                     </div>
                     <div className="label-wrapper">
                     <div className="label-wrapper-right" class="spacing-base-hard">
-                        <h2>Estructura del sistema</h2>
+                        <h2>Funciones del sistema</h2>
                     </div>
                     <div className="label-wrapper" >
                             <div class="form-group" class="spacing-base">
-                                <Link class="btn btn-dark" to='./asignacionMiembros'><img src={imagenAsignacion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Asignar miembros a grupos</Link>                                
+                                <Link class="btn btn-dark" to='./asignacionMiembros'><img src={imagenAsignacion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Ver puestos asignados</Link>                                
                             </div>
                             <div class="form-group" class="spacing-base">
-                                <Link class="btn btn-dark" to='./registroMiembro'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />  Registrar nuevo miembro</Link>    
+                                <Link class="btn btn-dark" to='./registroMiembro'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Enviar aporte</Link>    
                             </div>
                         </div>
                         <div className="label-wrapper" >
@@ -127,7 +123,7 @@ class VentanaAsesor extends Component {
                                 <Link class="btn btn-dark" to='./consultaComposicionGrupo'><img src={imagenDefinicion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} /> Consultar composicion de grupo</Link>    
                             </div>
                             <div class="form-group" class="spacing-base">
-                                <Link class="btn btn-dark" to='./arbolEstructural'><img src={imagenMapa} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />  Ver mapa organizacional</Link>    
+                                <Link class="btn btn-dark" to='./arbolEstructural'><img src={imagenMapa} alt={"imagenAsesor"} width="50x" height="50" style={{"float":"left"}} />Ver noticias</Link>    
                             </div>
                         </div>
                     </div>
@@ -138,4 +134,4 @@ class VentanaAsesor extends Component {
 
 }
 
-export default VentanaAsesor;
+export default VentanaMiembro;

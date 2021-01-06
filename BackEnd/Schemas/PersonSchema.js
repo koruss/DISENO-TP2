@@ -6,12 +6,13 @@ const PersonSchema= new Schema(
     {
       tipo: mongoose.Schema.Types.Number,
       identificacion: String,
+      contrasena: String,
       nombre: String,
       apellido1: String,
       apellido2: String,
-      estado: Boolean,
       telefono: String,
       correo: String,
+      posibleMonitor: Boolean,
       direccion: {
           pais: String,
           provincia: String,
