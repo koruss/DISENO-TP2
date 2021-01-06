@@ -5,6 +5,7 @@ const PersonaSchema = require("../Schemas/PersonSchema.js");
 
 
 
+
 module.exports = class DAO {
     dataSource = new DataSource();
     connection;
@@ -54,70 +55,23 @@ module.exports = class DAO {
 
 
     //Funcion que inserta un miembro en un grupo y le establece un tipo
-    async updateMiembroEnGrupo(data, schema, personSchema, res) {
+    async updateMiembroEnGrupo(req,res) {
         this.openConnection();
-        console.log(data.body.nombre.datosPersona[0]._id)
-        personSchema.updateOne({ _id: data.body.nombre.datosPersona[0]._id }, { $set: { estado: true } },
-            function (error, info) { })
-        if (data.body.monitor.value == "Monitor") {
-            schema.updateOne({ _id: data.body.grupo.identificacion }, { $push: { monitores: data.body.nombre.datosPersona } },
-                function (error, info) {
-                    if (error) {
-                        res.json({ success: false, error: 'No se pudo modificar el cliente', error });
-                    } else { res.json({ success: true, info: info }) }
-                })
-        } else if (data.body.monitor.value == "Miembro") {
-            schema.updateOne({ _id: data.body.grupo.identificacion }, { $push: { miembros: data.body.nombre.datosPersona } },
-                function (error, info) {
-                    if (error) {
-                        res.json({ success: false, error: 'No se pudo modificar el cliente', error });
-                    } else { res.json({ success: true, info: info }) }
-                })
-        } else {
-            schema.updateOne({ _id: data.body.grupo.identificacion }, { $push: { jefesGrupo: data.body.nombre.datosPersona } },
-                function (error, info) {
-                    if (error) {
-                        res.json({ success: false, error: 'No se pudo modificar el cliente', error });
-                    } else { res.json({ success: true, info: info }) }
-                })
-        }
-    }
-
-    //Funcion que traslado un miembro de un grupo
-    async trasladarMiembro(data, schema, res) {
-        const schema2 = schema;
-        this.openConnection();
-
-        schema.updateOne({ _id: data.grupoTo.identificacion }, { $push: { miembros: data.nombre.datosPersona } },
-            function (error, info) {
-                if (error) {
-                    res.json({
-                        success1: false,
-                        error1: 'No se pudo ingresar el miembro en el nuevo grupo',
-                        error
-                    });
-                } else {
-                    res.json({
-                        success1: true,
-                        info1: info
-                    })
-                }
-            })
-        schema2.update({ _id: data.grupoFrom.identificacion }, { $pull: { "miembros": { "_id": data.nombre.datosPersona._id } } }).then((info, error) => {
-            if (error) {
-                res.json({
-                    success2: false,
-                    error2: 'No se pudo borrar el miembro del grupo anterior',
-                    error
-                });
-            } else {
-                res.json({
-                    success2: true,
-                    info2: info
+        CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
+            if(err)return handleError(err);
+            else{
+                PersonaSchema.updateOne({_id:req.body._idPerson},{estado:true},function(err,success){
+                    if(err)handleError(err);
+                    else{
+                        res.json({success:true})
+                        res.end();
+                    }
                 })
             }
         })
     }
+
+
 
     //Funcion que modifica una rama para establecerle un grupo nuevo
     async modificarRama(req, schema) {
@@ -155,7 +109,6 @@ module.exports = class DAO {
     }
 
     async crearRama(req, res) {
-        console.log(req.body)
         this.openConnection();
         const schema = new CompositeSchema();
         schema.nombre = req.body.nombreRama;
@@ -271,6 +224,7 @@ module.exports = class DAO {
                 res.json({success:false, error:" Algo salio del orto"})
             }
             else{
+                console.log(data)
                 res.send(data);
                 res.end();
             }
@@ -278,13 +232,13 @@ module.exports = class DAO {
     }
 
     async allMiembrosGrupo(req,res){
-        PersonaSchema.find({_id:req.body._id}, function(err,data){
+        CompositeSchema.findOne({_id:req.body._id}).populate("miembros").exec(function(err,data){
             if(err){
                 console.log(err)
                 res.json({success:false, error:" Algo salio del orto"})
             }
             else{
-                res.send(data);
+                res.send(data.miembros);
                 res.end();
             }
         })
@@ -309,14 +263,20 @@ module.exports = class DAO {
     }
 
     async cambiarMiembroGrupo(req,res){// hay que ver como 
-        CompositeSchema.update({_id:req.body.selectedGrupoFrom},{$pull:{miembros:req.body._id}},function(err,success){
+        console.log(req.body)
+        CompositeSchema.updateOne({_id:req.body.grupoFrom},{$pull:{miembros:req.body._idPerson}},function(err,success){
             if(err){
                 console.log(err);
+                return res.json({
+                    success: false,
+                    error: err
+                })
             }
             else{
-                CompositeSchema.update({_id:req.body.selectedGrupoTo},{$addToSet:{miembros:req.body._id}},(err,success2)=>{
-                    if(err){
+                CompositeSchema.updateOne({_id:req.body.grupoTo},{$addToSet:{miembros:req.body._idPerson}},(err,success2)=>{
+                    if (err) {
                         console.log(err);
+                        res.json({ success: false, error: "Se ha producido un error guardando", error })
                     }
                     else{
                         res.json({success:true})
@@ -325,7 +285,10 @@ module.exports = class DAO {
             }
 
         })
+
         
 
     }
+
+
 }

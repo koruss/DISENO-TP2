@@ -66,7 +66,7 @@ app.post("/allZonas",(req,res)=>{
   control.allZonas(req, res);
 })
 
-app.post('/cambiarMiembroGrup', (req, res) => {
+app.post('/cambiarMiembroGrupo', (req, res) => {
   control.cambiarMiembroGrupo(req, res);
   })
   
@@ -124,7 +124,7 @@ app.post('/allGruposRama', function (req,res) {
 })
 
 app.post('/allMiembrosGrupos', function (req,res) {
-  control.allRamaZona(req,res);
+  control.allMiembrosGrupos(req,res);
 })
 
 

@@ -44,7 +44,7 @@ class TrasladarMiembro extends Component {
         );
         this.limpiarGrupos();
         this.obtenerGruposFrom(selectedRama);
-        this.obtenerGruposTo(selectedRama);
+        // this.obtenerGruposTo(selectedRama);
     }
 
 /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
@@ -164,15 +164,13 @@ y enviarlos a la API*/
         if(this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0 &&
             this.state.selectedRama.length != 0 && this.state.selectedGrupoFrom.length != 0 &&
             this.state.selectedGrupoTo.length != 0){
-            axios.post("/cambiarMiembroGrup",{
-                nombre:this.state.selectedNombre,
-                zona:this.state.selectedZona,
-                rama:this.state.selectedRama,
-                grupoFrom:this.state.selectedGrupoFrom,
-                grupoTo: this.state.selectedGrupoTo
+            axios.post("/cambiarMiembroGrupo",{
+                _idPersona: this.state.selectedNombre._id,
+                grupoFrom:this.state.selectedGrupoFrom._id,
+                grupoTo: this.state.selectedGrupoTo._id
             }).then(res =>{
-                if(!res.data.success1 && !res.data.success2){
-                    alert(res.data.error1, res.data.error2);
+                if(!res.data.success){
+                    alert(res.data.error);
                 }
                 else{
                     alert("Miembro trasladado correctamente")

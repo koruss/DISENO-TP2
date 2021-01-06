@@ -67,8 +67,8 @@ module.exports = class GestorEstructura{
     }
 
     //Funcion para trasladar un miembro de un grupo a otro
-    async trasladarMiembro(req, res){
-        await this.grupoDAO.trasladarMiembro(req, res);
+    async cambiarMiembroGrupo(req, res){
+        await this.DAO.cambiarMiembroGrupo(req, res);
     }
 
     //Funcion para modificar una zona, se le agrega una rama que haya sido creada en la zona
