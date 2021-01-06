@@ -1,8 +1,10 @@
-var PersonaDAO = require('../DAO/PersonaDAO');
+var DAO = require('../DAO/DAO');
+var PersonaDAO = require("../DAO/PersonaDAO");
 
 module.exports = class GestorMiembro{
     miembros=[];
-    personaDAO = new PersonaDAO();
+    DAO = new DAO();
+    personaDAO=new PersonaDAO();
 
     constructor(){
     }
@@ -24,7 +26,11 @@ module.exports = class GestorMiembro{
 
     //Funcion para obtener todas las personas registradas
     async obtenerPersonas(req,res){
-        await this.personaDAO.getPersonas(req,res);
+        await this.DAO.allPersonas(req,res);
+    }
+
+    async obtenerPersonasGrupo(req,res){
+        await this.DAO.allMiembrosGrupo(req,res);
     }
 
     //Funcion para obtener los asesores

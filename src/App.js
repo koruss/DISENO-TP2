@@ -13,7 +13,6 @@ import TrasladarMiembro from './Componentes/TrasladarMiembro/TrasladarMiembro';
 import TreeContainer from './Componentes/Tree/TreeContainer';
 import CambiarNombreGrupo from './Componentes/CambiarNombreGrupo/CambiarNombreGrupo';
 import ConsultaMiembroXElemento from './Componentes/Consultas/miembrosXelemento';
-import AfiliacionMiembros from './Componentes/AfiliacionMiembros/AfiliacionMiembros';
 import AsignacionMiembros from './Componentes/AsignacionMiembros/AsignacionMiembros';
 import ConsultaGruposRolesXMiembro from './Componentes/GrupoRolesXMiembro/GrupoRolesXMiembro';
 import ConsultaCompGrupo from './Componentes/ConsultarComposicionGrupo/ConsultarCompGrupo';
@@ -42,7 +41,6 @@ function App() {
           <Route path="/contacto" component={contacto}/> 
                     
           
-          <Route path="/afiliacionMiembros" component={AfiliacionMiembros}/>
           <Route path="/asignacionMiembros" component={AsignacionMiembros}/>
 
 

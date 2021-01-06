@@ -28,6 +28,30 @@ class CambiarNombreGrupo extends Component{
    
     onChange = (e) => this.setState({[e.target.name]:e.target.value});
 
+    /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
+    handleChangeZonas = selectedZona => {
+        this.setState(
+            { selectedZona }
+        );
+        this.limpiarRamas();
+        this.obtenerRamas(selectedZona);
+    }
+/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
+    handleChangeRamas = selectedRama => {
+        this.setState(
+            {selectedRama}
+        );
+        this.limpiarGrupos();
+        this.obtenerGrupos(selectedRama);
+    }
+/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
+    handleChangeGrupo = selectedGrupo => {
+        this.setState(
+            { selectedGrupo },     
+        );
+    };
+
+
 /*
 Esta funcion se ejecuta automaticamente, obtiene todas las zonas,
 */
@@ -38,8 +62,10 @@ Esta funcion se ejecuta automaticamente, obtiene todas las zonas,
             const respuesta = res.data;
             respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zona.nombreZona,
-                    label:zona.nombreZona
+                    value:zona.nombre,
+                    label:zona.nombre,
+                    _id:zona._id
+
                 })
             })   
             this.setState({
@@ -52,19 +78,17 @@ Esta funcion se ejecuta automaticamente, obtiene todas las zonas,
 /*
 obtiene todas las ramas y las guarda en la ventana
 */ 
-    obtenerRamas(){
-        var self = this;
+
+    obtenerRamas(selectedZona){
         let arreglo =[];
-        axios.post("/allRama", {}).then(res => {
+        axios.post("/allRamaZona", {_id:selectedZona._id}).then(res => {
             const respuesta=res.data;
-            const zonaNombre = this.state.selectedZona.value;
             respuesta.forEach(rama=>{
-                if(rama.zona == zonaNombre){
                     arreglo.push({
-                        value:rama.nombreRama,
-                        label:rama.nombreRama
+                        value:rama.nombre,
+                        label:rama.nombre,
+                        _id:rama._id
                     })
-                }
             })   
             this.setState({
                 ramas:arreglo
@@ -75,20 +99,17 @@ obtiene todas las ramas y las guarda en la ventana
 /*
 obtiene todos los  grupos y los guarda en la ventana
 */
-    obtenerGrupos(){
+    obtenerGrupos(selectedRama){
         var self = this;
         let arreglo =[];
-        axios.post("/allGrupos", {}).then(res => {
+        axios.post("/allGruposRama", {_id:selectedRama._id}).then(res => {
             const respuesta=res.data;
-            const ramaNombre = this.state.selectedRama.value;
             respuesta.forEach(grupo=>{
-                if(grupo.nombreRama == ramaNombre && grupo.monitores.length != 0){
                     arreglo.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo,
-                        identificacion:grupo._id
+                        value:grupo.nombre,
+                        label:grupo.nombre,
+                        _id:grupo._id
                     })
-                }
             })   
             this.setState({
                 grupos:arreglo
@@ -101,9 +122,7 @@ obtiene todos los  grupos y los guarda en la ventana
         if(this.state.nombre != "" && this.state.selectedRama.length != 0 &&
         this.state.selectedZona.length != 0 && this.state.selectedGrupo.length != 0){
             axios.post("/cambiarNombreGrupo",{
-                zona:this.state.selectedZona,
-                rama:this.state.selectedRama,
-                grupo:this.state.selectedGrupo,
+                grupo:this.state.selectedGrupo._id,
                 nombre:this.state.nombre
             }).then(res =>{
                 if(!res.data.success){
@@ -128,28 +147,7 @@ obtiene todos los  grupos y los guarda en la ventana
             alert("Ingrese todos los datos")
         }
     }
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
-    handleChangeZonas = selectedZona => {
-        this.setState(
-            { selectedZona }
-        );
-        this.limpiarRamas();
-        this.obtenerRamas();
-    }
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
-    handleChangeRamas = selectedRama => {
-        this.setState(
-            {selectedRama}
-        );
-        this.limpiarGrupos();
-        this.obtenerGrupos();
-    }
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
-    handleChangeGrupo = selectedGrupo => {
-        this.setState(
-            { selectedGrupo },     
-        );
-    };
+
 /*
 Limpia los states 
 */

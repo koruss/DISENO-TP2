@@ -79,7 +79,7 @@ export default class CrearGrupo extends Component {
                     arreglo.push({
                         value:rama.nombre,
                         label:rama.nombre,
-                        identificacion:rama._id
+                        _id:rama._id
                     })
             })   
             this.setState({

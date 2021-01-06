@@ -83,27 +83,6 @@ module.exports = class DAO {
         }
     }
 
-
-    //Funcion que le cambia el nombre a un grupo
-    async cambiarNombreGrupo(req, schema, res) {
-        this.openConnection();
-        schema.updateOne({ _id: req.body.grupo.identificacion }, { $set: { nombreGrupo: req.body.nombre } },
-            function (error, info) {
-                if (error) {
-                    res.json({
-                        success: false,
-                        error: 'No se pudo modificar el cliente',
-                        error
-                    });
-                } else {
-                    res.json({
-                        success: true,
-                        info: info
-                    })
-                }
-            })
-    }
-
     //Funcion que traslado un miembro de un grupo
     async trasladarMiembro(data, schema, res) {
         const schema2 = schema;
@@ -156,33 +135,6 @@ module.exports = class DAO {
             function (error, info) {
             })
     }
-
-    //Funcion para crear una rama en una base de datos
-    // async crearRama(schema, schemaZona, req, res){
-    //     this.openConnection();
-    //     schema.save( function(error,info) {
-    //         if(error) { res.json({success:false, error:"Se ha producido un error guardando",error}) }
-    //         else{
-    //             schemaZona.updateOne({_id:req.body.selectedZona.identificacion}, {$push:{ ramas: {nombre: req.body.nombreRama}}}, 
-    //                 function(error, info) { } )
-    //             res.json({success: true, info: info});
-    //         }
-    //     });
-    // }
-
-    //Funcion para crear un grupo en la base de datos
-    // async crearGrupo(schema, schemaRama, req, res) {
-    //     this.openConnection();
-    //     schema.save(function (error, info) {
-    //         if (error) { res.json({ success: false, error: "Se ha producido un error guardando", error }) }
-    //         else {
-    //             schemaRama.updateOne({ _id: req.body.selectedRama.identificacion }, { $push: { grupos: { nombre: req.body.nombreGrupo } } },
-    //                 function (error, info) { })
-    //             res.json({ success: true, info: info });
-    //         }
-    //     });
-    // }
-
 
     async crearGrupo(req, res) {
         console.log(req.body)
@@ -247,7 +199,6 @@ module.exports = class DAO {
 
     async allZonas(req,res){
         CompositeSchema.find({tipo:1}, function(err,data){
-            // console.log(data);
             if(err){
                 console.log(err)
                 res.json({success:false, error:" Algo salio del orto"})
@@ -261,7 +212,6 @@ module.exports = class DAO {
 
     async allRamas(req,res){
         CompositeSchema.find({tipo:2}, function(err,data){
-            // console.log(data);
             if(err){
                 console.log(err)
                 res.json({success:false, error:" Algo salio del orto"})
@@ -275,11 +225,9 @@ module.exports = class DAO {
     
 
     async allRamasZona(req,res){
-        // console.log("aqui"+req.body._id)
         CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
-            console.log(data.children);
             if(err){
-                console.log(err)
+                // console.log(err)
                 res.json({success:false, error:" Algo salio del orto"})
             }
             else{
@@ -303,14 +251,58 @@ module.exports = class DAO {
         })
     }
 
-    async cambiarNombreGrupo(req,res){
-        CompositeSchema.updateOne({_id:req.body.idZona},{nombre:req.body.nuevoNombre},(err,res)=>{
+    async allGruposRama(req,res){
+        CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
             if(err){
                 console.log(err)
-                res.json({success:false,error:" Algo salio del orto"})
+                res.json({success:false, error:" Algo salio del orto"})
             }
             else{
-                res.json({success:true})
+                res.send(data.children);
+                res.end();
+            }
+        })
+    }
+
+    async allPersonas(req,res){
+        PersonaSchema.find({}, function(err,data){
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async allMiembrosGrupo(req,res){
+        PersonaSchema.find({_id:req.body._id}, function(err,data){
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async cambiarNombreGrupo(req,res){
+        CompositeSchema.updateOne({_id:req.body.grupo},{nombre:req.body.nombre},(error,info)=>{
+            if (error) {
+                res.json({
+                    success: false,
+                    error: 'No se pudo modificar el cliente',
+                    error
+                });
+            } else {
+                res.json({
+                    success: true,
+                    info: info
+                })
             }
         })
 

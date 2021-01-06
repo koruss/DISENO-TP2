@@ -31,24 +31,20 @@ class AsignacionMiembros extends Component{
     componentWillMount() {
         var self = this;
         let arreglo = [];
-        let arrGrup = [];
         axios.post("/allZonas", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zona.nombreZona,
-                    label:zona.nombreZona
+                    value:zona.nombre,
+                    label:zona.nombre,
+                    _id:zona._id
+
                 })
             })   
             this.setState({
                 zonas:arreglo
             })
         })
-
-        this.obtenerPersonas()
-        
-
-
     }
 // esta función se encarga de obtener todos los registros de personas,
 // y los guarda en la pantalla
@@ -56,20 +52,12 @@ class AsignacionMiembros extends Component{
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
-            respuesta.forEach(nombre=>{
-                if(nombre.estado==false){
+            respuesta.forEach(persona=>{
+                if(persona.estado==false){
                     arrPers.push({
-                        value:nombre.nombre,
-                        label:nombre.nombre,
-                        datosPersona:[{ _id:nombre._id,
-                            direccion: nombre.direccion,
-                            nombre:nombre.nombre,
-                            identificacion:nombre.identificacion,
-                            apellido1:nombre.apellido1,
-                            apellido2:nombre.apellido2,
-                            correo:nombre.correo,
-                            telefono:nombre.telefono,
-                            estado:nombre.estado }]
+                        value:persona.nombre,
+                        label:persona.nombre,
+                        _id:persona.id
                     })
                 }
             })   
@@ -80,19 +68,16 @@ class AsignacionMiembros extends Component{
     }
 //esta funcion se encarga de obtener todas las ramas y guardarlas en la 
 //pagina
-    obtenerRamas(){
-        var self = this;
+    obtenerRamas(selectedZona){
         let arreglo =[];
-        axios.post("/allRama", {}).then(res => {
+        axios.post("/allRamaZona", {_id:selectedZona._id}).then(res => {
             const respuesta=res.data;
-            const zonaNombre = this.state.selectedZona.value;
             respuesta.forEach(rama=>{
-                if(rama.zona == zonaNombre){
                     arreglo.push({
-                        value:rama.nombreRama,
-                        label:rama.nombreRama
+                        value:rama.nombre,
+                        label:rama.nombre,
+                        _id:rama._id
                     })
-                }
             })   
             this.setState({
                 ramas:arreglo
@@ -100,22 +85,19 @@ class AsignacionMiembros extends Component{
         })
     }
 /*esta función se encarga de obtener todos los grupos y subirlos a la pantalla */
-    obtenerGrupos(){
+    obtenerGrupos(selectedRama){
         var self = this;
         let arreglo =[];
-        axios.post("/allGrupos", {}).then(res => {
+        axios.post("/allGruposRama", {_id:selectedRama._id}).then(res => {
             const respuesta=res.data;
             const ramaNombre = this.state.selectedRama.value;
             respuesta.forEach(grupo=>{
-                if(grupo.nombreRama == ramaNombre){
-                    arreglo.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo,
-                        identificacion:grupo._id,
-                        monitores:grupo.monitores,
-                        jefesGrupo:grupo.jefesGrupo
-                    })
-                }
+                arreglo.push({
+                        value:grupo.nombre,
+                        label:grupo.nombre,
+                        _id:grupo._id
+                })
+
             })   
             this.setState({
                 grupos:arreglo
@@ -132,11 +114,9 @@ y enviarlos a la API*/
            this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0 &&
            this.state.selectedMonitor.length != 0){
             axios.post("/asignarMiembro",{
-                nombre:this.state.selectedNombre,
-                zona:this.state.selectedZona,
-                rama:this.state.selectedRama,
-                grupo:this.state.selectedGrupo,
-                monitor:this.state.selectedMonitor
+                _idPerson:this.state.selectedNombre._id,
+                grupo:this.state.selectedGrupo._id,
+                posibleMonitor:false
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.err);
@@ -175,7 +155,7 @@ y enviarlos a la API*/
         this.state.selectedRama = []
         this.state.selectedGrupo = []
         this.limpiarRamas();
-        this.obtenerRamas();
+        this.obtenerRamas(selectedZona);
     }
 /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeRamas = selectedRama => {
@@ -184,7 +164,7 @@ y enviarlos a la API*/
         );
         this.state.selectedMonitor = []
         this.limpiarGrupos();
-        this.obtenerGrupos();
+        this.obtenerGrupos(selectedRama);
     }
 /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeGrupo = selectedGrupo => {

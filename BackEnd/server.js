@@ -119,6 +119,15 @@ app.post('/allRamaZona', function (req,res) {
   control.allRamaZona(req,res);
 })
 
+app.post('/allGruposRama', function (req,res) {
+  control.allRamaZona(req,res);
+})
+
+app.post('/allMiembrosGrupos', function (req,res) {
+  control.allRamaZona(req,res);
+})
+
+
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 

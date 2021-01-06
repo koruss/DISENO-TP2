@@ -32,12 +32,15 @@ class VentanaAsesor extends Component {
         let arreglo =[];
         let arrRama = [];
         let arrGrup = [];
+
         axios.post("/allZonas", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zona.nombreZona,
-                    label:zona.nombreZona
+                    value:zona.nombre,
+                    label:zona.nombre,
+                    _id:zona._id
+
                 })
             })   
             this.setState({
@@ -49,8 +52,8 @@ class VentanaAsesor extends Component {
             const respuesta = res.data;
             respuesta.forEach(rama=>{
                 arrRama.push({
-                    value:rama.nombreRama,
-                    label:rama.nombreRama
+                    value:rama.nombre,
+                    label:rama.nombre
                 })
             })   
             this.setState({
@@ -63,8 +66,8 @@ class VentanaAsesor extends Component {
             respuesta.forEach(grupo=>{
                 // if(grupo.monitores.length != 0){
                     arrGrup.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo
+                        value:grupo.nombre,
+                        label:grupo.nombre
                     })
                 // }
             })   

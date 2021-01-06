@@ -64,16 +64,16 @@ let schema = new CompositeSchema();
 
 // })
 
-CompositeSchema.findOne({nombre:"Zona n+1"}).populate("children").exec(function(err,data){
-    if(err){
-        console.log(err)
-    }
-    else{
-        console.log(data)
-        const respuesta=data.children;
-        // respuesta.map((element,index) => {
-        respuesta.forEach(element => {
-            console.log(element)
-        });
-    }
-})
+// CompositeSchema.findOne({nombre:"Zona n+1"}).populate("children").exec(function(err,data){
+//     if(err){
+//         console.log(err)
+//     }
+//     else{
+//         console.log(data)
+//         const respuesta=data.children;
+//         // respuesta.map((element,index) => {
+//         respuesta.forEach(element => {
+//             console.log(element)
+//         });
+//     }
+// })

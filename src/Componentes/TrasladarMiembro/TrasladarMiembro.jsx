@@ -27,6 +27,52 @@ class TrasladarMiembro extends Component {
 
     onChange = (e) => this.setState({[e.target.name]:e.target.value});
 
+
+    /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
+    handleChangeZonas = selectedZona => {
+        this.setState(
+            { selectedZona }
+        );
+        this.limpiarRamas();
+        this.obtenerRamas(selectedZona);
+    }
+
+/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
+    handleChangeRamas = selectedRama => {
+        this.setState(
+            {selectedRama}
+        );
+        this.limpiarGrupos();
+        this.obtenerGruposFrom(selectedRama);
+        this.obtenerGruposTo(selectedRama);
+    }
+
+/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
+    handleChangeGrupoFrom = selectedGrupoFrom => {
+        this.setState(
+            { selectedGrupoFrom },     
+        );
+        this.limpiarPersonas();
+        this.obtenerPersonas(selectedGrupoFrom);
+    };
+
+ /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
+    handleChangeNombre = selectedNombre => {
+        this.setState(
+            { selectedNombre },     
+        );
+    };
+
+/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
+/* esta funcion se encarga de limpiar los states de los componentes*/
+    handleChangeGrupoTo = selectedGrupoTo => {
+        this.setState(
+            { selectedGrupoTo },     
+        );
+        this.limpiarPersonas();
+    };
+
+
 // Esta funcion se ejecuta automaticamente si la ventana se llama
 //obtiene las zonas 
     componentWillMount() {
@@ -34,14 +80,16 @@ class TrasladarMiembro extends Component {
         let arreglo = [];
         axios.post("/allZonas", {}).then(res => {
             const respuesta = res.data;
-            respuesta.forEach(zonas=>{
+            respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zonas.nombreZona,
-                    label:zonas.nombreZona
+                    value:zona.nombre,
+                    label:zona.nombre,
+                    _id:zona._id
+
                 })
             })   
             this.setState({
-                zonasFrom:arreglo
+                zonas:arreglo
             })
         })
 
@@ -49,45 +97,39 @@ class TrasladarMiembro extends Component {
 
 //esta funcion se encarga de obtener todas las ramas y guardarlas en la 
 //pagina
-    obtenerRamas(){
-        var self = this;
+    obtenerRamas(selectedZona){
         let arreglo =[];
-        axios.post("/allRama", {}).then(res => {
+        axios.post("/allRamaZona", {_id:selectedZona._id}).then(res => {
             const respuesta=res.data;
-            const zonaNombre = this.state.selectedZona.value;
             respuesta.forEach(rama=>{
-                if(rama.zona == zonaNombre){
                     arreglo.push({
-                        value:rama.nombreRama,
-                        label:rama.nombreRama
+                        value:rama.nombre,
+                        label:rama.nombre,
+                        _id:rama._id
                     })
-                }
             })   
-                this.setState({
-                ramasFrom:arreglo
+            this.setState({
+                ramas:arreglo
             })
         })
     }
 
 /*esta función se encarga de obtener todos los grupos y subirlos a la pantalla */
-    obtenerGruposFrom(){
+    obtenerGruposFrom(selectedRama){
         var self = this;
         let arreglo =[];
-        axios.post("/allGrupos", {}).then(res => {
+        axios.post("/allGruposRama", {_id:selectedRama._id}).then(res => {
             const respuesta=res.data;
-            const ramaNombre = this.state.selectedRama.value;
             respuesta.forEach(grupo=>{
-                if(grupo.nombreRama == ramaNombre && grupo.monitores.length != 0){
                     arreglo.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo,
-                        identificacion:grupo._id,
-                        miembros:grupo.miembros
+                        value:grupo.nombre,
+                        label:grupo.nombre,
+                        _id:grupo._id
                     })
-                }
             })   
             this.setState({
-                grupoFrom:arreglo
+                grupoFrom:arreglo,
+                grupoTo: arreglo
             })
         })
     }
@@ -96,61 +138,24 @@ class TrasladarMiembro extends Component {
 // y los guarda en la pantalla
     obtenerPersonas(selectedGrupoFrom){
         var self = this;
-        let arreglo= [];
-        axios.post("/allPersona", {}).then(res => {
-            const respuesta=res.data; // tiene todos lo miembros
-            const miembrosGrupo = this.state.selectedGrupoFrom.miembros //Miembros del grupo
-            miembrosGrupo.forEach(miembroGrup => {
-                respuesta.forEach(persona => {
-                if(miembrosGrupo != undefined){
-                    if(persona._id == miembroGrup._id){
-                        arreglo.push({
-                            value:persona.nombre,
-                            label:persona.nombre,
-                            datosPersona:{ _id:persona._id,
-                                direccion: persona.direccion,
-                                nombre:persona.nombre,
-                                identificacion:persona.identificacion,
-                                apellido1:persona.apellido1,
-                                apellido2:persona.apellido2,
-                                correo:persona.correo,
-                                telefono:persona.telefono,
-                                estado:persona.estado}
-                        })
-                    }
-                }
-                else{
-                    alert("Este grupo no tiene miembros")
-                }
+        let arreglo =[];
+        axios.post("/allMiembrosGrupos", {_id:selectedGrupoFrom._id}).then(res => {
+            const respuesta=res.data;
+            respuesta.forEach(persona=>{
+                arreglo.push({
+                    value:persona.nombre,
+                    label:persona.nombre,
+                    _id:persona._id
+
                 })
-            })
+            })   
             this.setState({
                 nombres:arreglo
             })
+
         })
     }
 
- /*esta función se encarga de obtener todos los grupos a los que puede trasladarse un miembro  y subirlos a la pantalla */
-    obtenerGruposTo(){
-        var self = this;
-        let arreglo =[];
-        axios.post("/allGrupos", {}).then(res => {
-            const respuesta=res.data;
-            const ramaNombre = this.state.selectedRama.value;
-            respuesta.forEach(grupo=>{
-                if(grupo.nombreRama == ramaNombre && grupo.monitores.length != 0){
-                    arreglo.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo,
-                        identificacion:grupo._id
-                    })
-                }
-            })   
-            this.setState({
-                grupoTo:arreglo 
-            })
-        })
-    }
 
  /*esta funcion se ejecuta al ser precionado el botón
 se encagada de recuperar los datos de los componentes 
@@ -186,49 +191,6 @@ y enviarlos a la API*/
         }
     }
 
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
-    handleChangeZonas = selectedZona => {
-        this.setState(
-            { selectedZona }
-        );
-        this.limpiarRamas();
-        this.obtenerRamas();
-    }
-
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
-    handleChangeRamas = selectedRama => {
-        this.setState(
-            {selectedRama}
-        );
-        this.limpiarGrupos();
-        this.obtenerGruposFrom();
-        this.obtenerGruposTo();
-    }
-
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
-    handleChangeGrupoFrom = selectedGrupoFrom => {
-        this.setState(
-            { selectedGrupoFrom },     
-        );
-        this.limpiarPersonas();
-        this.obtenerPersonas(selectedGrupoFrom);
-    };
-
- /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
-    handleChangeNombre = selectedNombre => {
-        this.setState(
-            { selectedNombre },     
-        );
-    };
-
-/*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
-/* esta funcion se encarga de limpiar los states de los componentes*/
-    handleChangeGrupoTo = selectedGrupoTo => {
-        this.setState(
-            { selectedGrupoTo },     
-        );
-        this.limpiarPersonas();
-    };
 
  /* esta funcion se encarga de limpiar los states de los componentes*/
     limpiarRamas(){
@@ -258,12 +220,12 @@ y enviarlos a la API*/
                             <div class="form-group" class="spacing-base">
                                 <label for="zona">Seleccione la zona a la que pertenece la persona:</label>
                                 <Select components={makeAnimated} name="zonaFrom" value={this.state.selectedZona} className="basic-multi-select"
-                                    options={this.state.zonasFrom} classNamePrefix="select" onChange={this.handleChangeZonas} />
+                                    options={this.state.zonas} classNamePrefix="select" onChange={this.handleChangeZonas} />
                             </div>
                             <div class="form-group" class="spacing-base">
                                 <label for="rama">Seleccione la rama a la que pertenece la persona:</label>
                                 <Select components={makeAnimated} name="ramaFrom" value={this.state.selectedRama} className="basic-multi-select"
-                                    options={this.state.ramasFrom} classNamePrefix="select" onChange={this.handleChangeRamas} />
+                                    options={this.state.ramas} classNamePrefix="select" onChange={this.handleChangeRamas} />
                             </div>
                             <div class="form-group" class="spacing-base">
                                 <label for="grupo">Seleccione el grupo al que pertenece la persona:</label>

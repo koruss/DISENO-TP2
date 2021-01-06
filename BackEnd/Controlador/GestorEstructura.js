@@ -52,15 +52,18 @@ module.exports = class GestorEstructura{
     async obtenerGrupos(req,res){
         await this.DAO.allGrupos(req,res);
     }
+    async obtenerGruposRama(req,res){
+        await this.DAO.allGruposRama(req,res);
+    }
 
     //Funcion para asignar un miembro en un grupo
     async asignarMiembro(req, res){
-        await this.grupoDAO.updateMiembroEnGrupo(req, res);
+        await this.DAO.updateMiembroEnGrupo(req, res);
     }
 
     //Funcion para cambiarle el nombre a un grupo
     async cambiarNombreGrupo(req, res){
-        await this.grupoDAO.cambiarNombreGrupo(req, res);
+        await this.DAO.cambiarNombreGrupo(req, res);
     }
 
     //Funcion para trasladar un miembro de un grupo a otro

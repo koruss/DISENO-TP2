@@ -96,11 +96,18 @@ module.exports = class Control{
     async allGrupos(req,res){
         await this.gestorEstructura.obtenerGrupos(req, res)
     }
+    async allGruposRama(req,res){
+        await this.gestorEstructura.obtenerGruposRama(req, res)
+    }
 
     // Función que devuelve todas las personas obtenidas
     // desde la base de datos al FrontEnd para poder mostrarlas al usuario
     async allPersona(req,res){
         await this.gestorMiembro.obtenerPersonas(req, res)
+    }
+
+    async allMiembrosGrupos(req,res){
+        await this.gestorMiembro.obtenerPersonasGrupo(req, res)
     }
 
     // Función que conecta con el gestor de la estructura, pasandole los 
