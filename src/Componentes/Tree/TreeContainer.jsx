@@ -13,7 +13,7 @@ class TreeContainer extends React.PureComponent{
         zonas:[],
         ramas:[],
         grupos:[],
-        treeData: [
+  /*      treeData: [
             {
               name: 'Ejemplo',
 
@@ -40,8 +40,8 @@ class TreeContainer extends React.PureComponent{
                 },
               ],
             },
-          ],
-          
+          ],*/
+
         svgSquare: {
             shape: 'rect',
             shapeProps: {
@@ -89,27 +89,21 @@ class TreeContainer extends React.PureComponent{
         let ramas= this.state.ramas;
         let grupos= this.state.grupos;
         zonas.forEach(zona=>{
-            let arregloRamas=[];
-            
+            let arregloRamas=[];         
             zona.ramas.forEach(rama=>{//ingreso al arreglo de ramas que esta en el doc zona
                 let arregloGrupo=[]
                 const ramaExacta =ramas.find(ramita=>ramita.nombreRama==rama.nombre)//entro a todas las ramas y saco el que tnga match
-                
                 // ramaExacta.grupos.forEach(grupo=>{
                 //     this.state.id=(this.state.id+1)
                 //     arregloGrupo.push({name:grupo.nombre, id:this.state.id,children:[] })
 
                 // })
-    
                 ramaExacta.grupos.forEach(grupo=>{
-                    
                     const grupoOriginal=grupos.find(element =>element.nombreGrupo==grupo.nombre)
                     if(grupoOriginal.monitores.length != 0){
                         this.state.id=(this.state.id+1)
                         arregloGrupo.push({name:grupoOriginal.nombreGrupo, id:this.state.id,children:[] })
-
-                    }
-                    
+                    }                 
                 })
                 this.state.id=(this.state.id+1)
                 arregloRamas.push({name:rama.nombre, id:this.state.id,children:arregloGrupo})
@@ -125,47 +119,22 @@ class TreeContainer extends React.PureComponent{
         //     console.log(zonas[i]);
         //     this.state.arbol[0].children.push({name:zonas[i].nombreZona,id:zonas[i]._id, children:[]})
         // } 
-        
-
-
     }
 
 
 
 
     componentDidMount() {
-        console.log("1");
+        let arreglo =[];
+        var self= this;
+        axios.post("/allZonas",{}).then(res=>{
+            const respuesta = res.data;
+            respuesta.forEach(zona=>{
 
-        /*
-        Cuando se implemente los coordinadores se debe inicializar el arbol aqui
-        */ 
-
-        axios.post("/allZonas", {}).then(res => {
-            const respuesta1 = res.data;  
-            this.setState({
-                zonas:respuesta1
             })
-        })
-        axios.post("/allRama", {}).then(res => {
-            const respuesta2 = res.data;
-            this.setState({
-                ramas:respuesta2
-            })
-        })
-        axios.post("/allGrupos", {}).then(res => {
-            const respuesta3 = res.data;
-            this.setState({
-                grupos:respuesta3
-            })
-        }).then(res=>{
-            this.armarArbol();
-            
-
-        }).then(res =>{
-            this.translate();
 
         })
-        console.log("3");
+
     }
 
     render() {
@@ -178,14 +147,7 @@ class TreeContainer extends React.PureComponent{
                 </div>
                 
                 <div style ={this.state.style} ref={tc => (this.treeContainer = tc)}>
-                <Tree 
-                data={this.state.treeData}
-                 nodeSvgShape={this.state.svgSquare} 
-                 orientation={"vertical"} 
-                 collapsible={true} 
-                 translate={this.state.translate}
-                // onClick={this.onClick} 
-                />
+
             </div>
 
             </div>    
