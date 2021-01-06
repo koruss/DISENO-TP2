@@ -264,28 +264,24 @@ module.exports = class DAO {
 
     async cambiarMiembroGrupo(req,res){// hay que ver como 
         console.log(req.body)
-        CompositeSchema.updateOne({_id:req.body.grupoFrom},{$pull:{miembros:req.body._idPerson}},function(err,success){
-            if(err){
-                console.log(err);
-                return res.json({
-                    success: false,
-                    error: err
-                })
-            }
+        CompositeSchema.updateOne({_id:req.body.grupoTo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
+            if(err)return handleError(err);
             else{
-                CompositeSchema.updateOne({_id:req.body.grupoTo},{$addToSet:{miembros:req.body._idPerson}},(err,success2)=>{
-                    if (err) {
+                CompositeSchema.updateOne({_id:req.body.grupoFrom},{$pull:{miembros:req.body._idPerson}},function(err,success){
+                    if(err){
                         console.log(err);
-                        res.json({ success: false, error: "Se ha producido un error guardando", error })
+                        return res.json({
+                            success: false,
+                            error: err
+                        })
                     }
                     else{
                         res.json({success:true})
                     }
+        
                 })
             }
-
         })
-
         
 
     }

@@ -118,8 +118,8 @@ module.exports = class Control{
 
     // Función que conecta con el gestor de la estructura, pasandole los 
     // datos necesarios para trasladar a un miembro de un grupo a otro
-    cambiarMiembroGrupo(data, res){
-        this.gestorEstructura.cambiarMiembroGrupo(data, res);
+    async cambiarMiembroGrupo(data, res){
+        await this.gestorEstructura.cambiarMiembroGrupo(data, res);
     }
 
 }

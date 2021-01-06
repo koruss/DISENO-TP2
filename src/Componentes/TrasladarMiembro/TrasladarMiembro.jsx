@@ -165,7 +165,7 @@ y enviarlos a la API*/
             this.state.selectedRama.length != 0 && this.state.selectedGrupoFrom.length != 0 &&
             this.state.selectedGrupoTo.length != 0){
             axios.post("/cambiarMiembroGrupo",{
-                _idPersona: this.state.selectedNombre._id,
+                _idPerson: this.state.selectedNombre._id,
                 grupoFrom:this.state.selectedGrupoFrom._id,
                 grupoTo: this.state.selectedGrupoTo._id
             }).then(res =>{
