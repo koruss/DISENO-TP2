@@ -34,7 +34,7 @@ class Login extends Component{
             console.log("hola",this.state.personas);
             axios.post('/iniciarSesion',{usuario:this.state.userName,password:this.state.password,personas:this.state.personas}).then(res=>{
                 console.log("res",res.data);
-                if(res.data.tipo != null){  //cambiar esta condicional mas adelante
+                if(res.data.tipo != null){ 
                     self.setState({ isAuth: res.data.tipo })
                 }
                 else {
@@ -81,17 +81,10 @@ class Login extends Component{
             respuesta.forEach(nombre=>{
                 arreglo.push({
                     datosPersona:[{ _id:nombre._id,
-                        direccion: nombre.direccion,
-                        nombre:nombre.nombre,
                         identificacion:nombre.identificacion,
                         contrasena:nombre.contrasena,
-                        apellido1:nombre.apellido1,
-                        apellido2:nombre.apellido2,
-                        correo:nombre.correo,
-                        telefono:nombre.telefono,
                         tipo:nombre.tipo,
-                        idMovimiento:nombre.idMovimiento,
-                        estado:nombre.estado}]
+                        idMovimiento:nombre.idMovimiento}]
                 })
             })   
             this.setState({

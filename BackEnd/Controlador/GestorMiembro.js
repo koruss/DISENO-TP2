@@ -1,5 +1,5 @@
-const {FachadaLogIn} = require('../Modelo/Fachada/FachadaLogIn.js');
 var DAO = require('../DAO/DAO');
+var Fachada = require('../Fachada/Fachada');
 
 module.exports = class GestorMiembro{
     miembros=[];
@@ -43,12 +43,8 @@ module.exports = class GestorMiembro{
     }
 
     async iniciarSesion(req, res){
-        var fachadaLogIn = new FachadaLogIn(req.body.usuario, req.body.password, req.body.personas);
-        var tipo = fachadaLogIn.iniciarSesionFachada();
-        req.session.loggedIn = true;
-        req.session.tipo = tipo;
-        //guardar el id del movimiento aqui req.session.movimiento = movimiento
-        res.json({tipo: tipo});
+        var fachadaLogIn = new Fachada(req.body.usuario, req.body.password, req.body.personas);
+        await fachadaLogIn.iniciarSesionFachada(req,res);
     }
 
 }

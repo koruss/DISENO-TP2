@@ -14,7 +14,6 @@ export class VerificadorReal implements Verificador  {
     }
 
     public iniciarSesion(): void {
-        console.log(this.type);
         switch (this.type) {
         case '1':
             this.type = "MIEMBRO";
