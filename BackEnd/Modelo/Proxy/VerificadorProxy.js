@@ -3,10 +3,11 @@ exports.__esModule = true;
 exports.VerificadorProxy = void 0;
 var VerificadorReal_1 = require("./VerificadorReal");
 var VerificadorProxy = /** @class */ (function () {
-    function VerificadorProxy(id, password, personas) {
+    function VerificadorProxy(id, password, personas, movimientos) {
         this.id = id;
         this.password = password;
         this.personas = personas;
+        this.movimientos = movimientos;
     }
     VerificadorProxy.prototype.iniciarSesion = function () {
         if (this.credencialesValidas(this.id, this.password)) {
@@ -29,9 +30,18 @@ var VerificadorProxy = /** @class */ (function () {
             if (id == id_persona && password == contra_persona) {
                 _this.type = persona.datosPersona[0].tipo;
                 auth = true;
+                var movimiento = _this.movimientos.find(function (element) { return element._id = persona.datosPersona[0].idMovimiento; });
+                _this.id_movimiento = movimiento._id;
+                _this.nombre_movimiento = movimiento.nombre;
             }
         });
         return auth;
+    };
+    VerificadorProxy.prototype.getIdMovimiento = function () {
+        return this.id_movimiento;
+    };
+    VerificadorProxy.prototype.getNombreMovimiento = function () {
+        return this.nombre_movimiento;
     };
     return VerificadorProxy;
 }());

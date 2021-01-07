@@ -22,6 +22,7 @@ class Login extends Component{
     // para ser utilizados cuando se cree en la aplicación
     state = {
         personas: [],
+        movimientos: [],
         isAuth: null,
         id: "",
         contrasena: ""
@@ -31,8 +32,11 @@ class Login extends Component{
     onClick = (e) => {
         var self = this;
         if(this.state.userName != null && this.state.password!=null){
-            console.log("hola",this.state.personas);
-            axios.post('/iniciarSesion',{usuario:this.state.userName,password:this.state.password,personas:this.state.personas}).then(res=>{
+            axios.post('/iniciarSesion',{
+                usuario:this.state.userName,
+                password:this.state.password,
+                personas:this.state.personas,
+                movimientos:this.state.movimientos}).then(res=>{
                 console.log("res",res.data);
                 if(res.data.tipo != null){ 
                     self.setState({ isAuth: res.data.tipo })
@@ -93,10 +97,29 @@ class Login extends Component{
         })
     }
 
+    obtenerMovimientos(){
+        let arrMov = [];
+        axios.post("/allMovimientos", {}).then(res => {
+            const respuesta = res.data;
+            respuesta.forEach(movimiento=>{
+                arrMov.push({
+                    value:movimiento.nombre,
+                    label:movimiento.nombre,
+                    _id:movimiento._id,
+                    nombre:movimiento.nombre
+                })
+            })   
+            this.setState({
+                movimientos:arrMov
+            })
+        })
+    }
+
      // Llena los arreglos con la información requerida para presentar
     // cuando se accede a la ventana
     componentWillMount() {
         this.obtenerPersonas();
+        this.obtenerMovimientos();
     }
 
     onChange = (e) => this.setState({[e.target.name]:

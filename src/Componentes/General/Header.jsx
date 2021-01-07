@@ -19,6 +19,7 @@ class Header extends Component {
     state = {
         isAuth: null,
         reloadMainPage:false,
+        nombre_movimiento: null
     }
 
     // Llena los arreglos con la información requerida para presentar
@@ -26,7 +27,7 @@ class Header extends Component {
     componentWillMount(){
         var self=this;
         axios.post('/getSesion',{}).then(function(res){
-            if(res.data.loggedIn == true) self.setState({isAuth:res.data.tipo})
+            if(res.data.loggedIn == true) self.setState({isAuth:res.data.tipo, nombre_movimiento:res.data.nombre_movimiento})
             else self.setState({isAuth:null});
         })
     }
@@ -41,6 +42,7 @@ class Header extends Component {
           });        
         this.setState({
             isAuth:null,
+            nombre_movimiento:null,
             reloadMainPage:true,
         })
     }
@@ -49,7 +51,7 @@ class Header extends Component {
     // y se llama a las funciones anteriores.
     render() {
         var session = this.state.isAuth;
-        console.log("esto: ",session);
+        var nombre_movimiento = this.state.nombre_movimiento;
         if(!this.state.reloadMainPage) {
         return (<>
             <head>
@@ -62,17 +64,17 @@ class Header extends Component {
                         <Route render={() => {
                             if(session == "ASESOR"){ 
                                 return <>
-                                <Navbar.Brand href="/VentanaAsesor"><img href="/VentanaAsesor" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                                <Navbar.Brand href="/VentanaAsesor"><img href="/VentanaAsesor" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento} </Navbar.Brand>
                                 </>
                             }
                             else if(session == "MIEMBRO"){
                                 return <>
-                                <Navbar.Brand href="/ventanaMiembro"><img href="/ventanaMiembro" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                                <Navbar.Brand href="/ventanaMiembro"><img href="/ventanaMiembro" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento} </Navbar.Brand>
                                 </>
                             }
                             else if(session == "JEFE"){
                                 return <>
-                                <Navbar.Brand href="/ventanaJefe"><img href="/ventanaJefe" src={idea} alt={"logo"} width="40" height="50"/> Movilize!!</Navbar.Brand>
+                                <Navbar.Brand href="/ventanaJefe"><img href="/ventanaJefe" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento} </Navbar.Brand>
                                 </>
                             }
                         }}/>

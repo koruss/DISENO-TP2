@@ -28,7 +28,6 @@ export class VerificadorReal implements Verificador  {
             this.type = null;
             break;
         }
-        console.log(this.type);
     }
 
     public getTipo(): string{

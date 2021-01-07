@@ -43,7 +43,7 @@ module.exports = class GestorMiembro{
     }
 
     async iniciarSesion(req, res){
-        var fachadaLogIn = new Fachada(req.body.usuario, req.body.password, req.body.personas);
+        var fachadaLogIn = new Fachada(req.body.usuario, req.body.password, req.body.personas, req.body.movimientos);
         await fachadaLogIn.iniciarSesionFachada(req,res);
     }
 
