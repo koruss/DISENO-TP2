@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const PersonSchema= new Schema(
     {
       tipo: mongoose.Schema.Types.Number,
-      tipoPersona: String,
       idMovimiento:{
             type: mongoose.Schema.Types.ObjectId,
             default: null,

@@ -314,7 +314,6 @@ module.exports = class DAO {
         personaSchema.correo=req.body.correo;
         personaSchema.direccion=direccion;
         personaSchema.tipo=-1;
-        personaSchema.tipoPersona="MIEMBRO";
         personaSchema.save(function(){
             res.send({success:true})
             res.end()
@@ -331,8 +330,17 @@ module.exports = class DAO {
         })
     }
 
-    async actualizarTipoPersonaMentor(req,res){
-        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipoPersona:"MENTOR"},function(err,success){
+    async actualizarTipoPersonaMiembro(req,res){
+        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo: 1},function(err,success){
+            if(err)return handleError(err);
+            else{
+                return res.json({success:true})
+            }
+        })
+    }
+
+    async actualizarTipoPersonaMonitorJefe(req,res){
+        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo: 2},function(err,success){
             if(err)return handleError(err);
             else{
                 return res.json({success:true})
@@ -341,7 +349,7 @@ module.exports = class DAO {
     }
 
     async actualizarTipoPersonaJefe(req,res){
-        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipoPersona:"JEFE"},function(err,success){
+        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo:3},function(err,success){
             if(err)return handleError(err);
             else{
                 return res.json({success:true})
