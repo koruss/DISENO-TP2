@@ -1,7 +1,10 @@
 var DAO = require('./DAO');
 const CompositeSchema = require('../Schemas/CompositeSchema.js');
 const PersonaSchema = require("../Schemas/PersonSchema.js");
+const MovimientoSchema = require("../Schemas/MovimientoSchema.js");
 const mongoose = require('mongoose');
+
+
 
 
 
@@ -13,7 +16,20 @@ const state = mongoose.connection;
 state.once('open', () => console.log('------->>> Conexion con MongoDB exitosa <<<------'));
 state.on('error', console.error.bind(console, '------->>> Fallo en la conexión con MongoDB <<<------:'));
 
-let schema = new CompositeSchema();
+let schema = new MovimientoSchema();
+    schema.nombre="LGBTI";
+    schema.telefono="89101112";
+    schema.aportes=[];
+    schema.cedulaJuridica="123456789";
+    schema.direccionWeb="wwww.OsosLocosLombax.com";
+    schema.direccion={
+        pais:"Costa Rica",
+        provincia:"Cartago",
+        canton:"Cot",
+        distrito:"Cot"
+    };
+
+    schema.save();
 
 //   schema.nombre = "Anner";
 //   schema.save();

@@ -4,14 +4,14 @@ var DAO = require('../DAO/DAO');
 module.exports = class GestorMiembro{
     miembros=[];
     DAO = new DAO();
-    personaDAO=new PersonaDAO();
+    
 
     constructor(){
     }
 
     //Funcion que crea un objeto de tipo persona y lo envia para ser guardado
     async agregarMiembro(data, res){
-        await this.personaDAO.postPersona(data, res)
+        await this.DAO.postPersona(data, res)
     }
 
     //Funcion que crea un objeto de tipo persona y lo envia para ser guardado

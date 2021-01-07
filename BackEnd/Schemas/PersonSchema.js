@@ -5,6 +5,11 @@ const Schema = mongoose.Schema;
 const PersonSchema= new Schema(
     {
       tipo: mongoose.Schema.Types.Number,
+      idMovimiento:{
+            type: mongoose.Schema.Types.ObjectId,
+            default: null,
+            ref:"Movimiento",
+      },
       identificacion: String,
       contrasena: String,
       nombre: String,

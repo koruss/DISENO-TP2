@@ -55,7 +55,7 @@ class AsignacionMiembros extends Component {
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
-            respuesta.forEach(nombre=>{
+            respuesta.forEach(persona=>{
                 //if(nombre.estado==false){
                     arrPers.push({
                         value: persona.nombre,

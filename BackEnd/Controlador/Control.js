@@ -104,6 +104,7 @@ module.exports = class Control{
     // Función que devuelve todas las personas obtenidas
     // desde la base de datos al FrontEnd para poder mostrarlas al usuario
     async allPersona(req,res){
+        
         await this.gestorMiembro.obtenerPersonas(req, res)
     }
 
