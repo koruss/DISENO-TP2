@@ -109,8 +109,6 @@ class Header extends Component {
                                     return <>
                                         <Nav.Link href="/ventanaAsesor">Inicio</Nav.Link>                                 
                                         <NavDropdown title="Realizar movimientos" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/registroMiembro">Registrar nuevo miembro</NavDropdown.Item>
-                                            <NavDropdown.Divider />
                                             <NavDropdown.Item href="/asignacionMiembros">Asignar miembros a grupo</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/trasladoMiembro">Trasladar miembro de grupo</NavDropdown.Item>

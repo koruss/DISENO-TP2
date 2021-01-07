@@ -14,7 +14,7 @@ export class VerificadorReal implements Verificador  {
     }
 
     public iniciarSesion(): void {
-        //Hacer un if con el tipo o algo
+        // Hacer un if con el tipo o algo
         this.type = "JEFE"; //aqui cambiar la vara 
     }
 
