@@ -314,6 +314,7 @@ module.exports = class DAO {
         personaSchema.correo=req.body.correo;
         personaSchema.direccion=direccion;
         personaSchema.tipo=-1;
+        personaSchema.tipoPersona="MIEMBRO";
         personaSchema.save(function(){
             res.send({success:true})
             res.end()
@@ -323,6 +324,24 @@ module.exports = class DAO {
 
     async cambiarEstadoMonitor(req,res){
         PersonaSchema.updateOne({identificacion:req.body.identificacion},{posibleMonitor:true},function(err,success){
+            if(err)return handleError(err);
+            else{
+                return res.json({success:true})
+            }
+        })
+    }
+
+    async actualizarTipoPersonaMentor(req,res){
+        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipoPersona:"MENTOR"},function(err,success){
+            if(err)return handleError(err);
+            else{
+                return res.json({success:true})
+            }
+        })
+    }
+
+    async actualizarTipoPersonaJefe(req,res){
+        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipoPersona:"JEFE"},function(err,success){
             if(err)return handleError(err);
             else{
                 return res.json({success:true})
@@ -350,9 +369,9 @@ module.exports = class DAO {
                 })
             }
         })
-        
-
     }
+
+    
 
 
 }

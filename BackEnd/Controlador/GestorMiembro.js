@@ -40,7 +40,7 @@ module.exports = class GestorMiembro{
 
     //Funcion para cambiar si es un posible monitor a verdadero
     async posibleMonitor(req,res){
-        await this.personaDAO.updatePosibleMonitor(req,res);
+        await this.DAO.cambiarEstadoMonitor(req,res);
     }
 
     async iniciarSesion(req, res){
