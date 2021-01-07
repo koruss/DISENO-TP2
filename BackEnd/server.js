@@ -48,12 +48,12 @@ app.post('/guardarZona', (req, res) => {
 
 //Funcion para guardar un miembro en la base de datos
 app.post('/guardarMiembro', (req, res) => {
-  control.guardarMiembro(req.body,res);
+  control.guardarMiembro(req,res);
 })
 
 //Funcion para guardar un miembro en la base de datos
 app.post('/guardarAsesor', (req, res) => {
-  control.guardarAsesor(req.body,res);
+  control.guardarAsesor(req,res);
 })
 
 app.post('/asignarMiembro', (req, res) => {
@@ -79,6 +79,7 @@ app.post("/allRama",(req, res)=>{
 })
 
 app.post("/allPersona",(req, res)=>{
+  console.log("en  el server")
   control.allPersona(req,res);
 })
 

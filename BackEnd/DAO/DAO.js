@@ -238,6 +238,7 @@ module.exports = class DAO {
     }
 
     async allGruposRama(req,res){
+        this.openConnection();
         CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
             if(err){
                 console.log(err)
@@ -257,7 +258,7 @@ module.exports = class DAO {
                 res.json({success:false, error:" Algo salio del orto"})
             }
             else{
-                console.log("alooo",data)
+                //console.log(data)
                 res.send(data);
                 res.end();
             }
@@ -295,6 +296,42 @@ module.exports = class DAO {
             }
         })
 
+    }
+
+    async postPersona(req,res){
+        this.openConnection()
+        console.log(req.body)
+        const personaSchema = new PersonaSchema();
+        const direccion = {
+            pais: req.body.pais.value,
+            provincia: req.body.provincia.value,
+            canton: req.body.provincia.value,
+            distrito: req.body.distrito.value
+        }
+        personaSchema.idMovimiento= req.body.idMovimiento;
+        personaSchema.nombre=req.body.nombre;
+        personaSchema.identificacion=req.body.identificacion;
+        personaSchema.apellido1=req.body.apellido1;
+        personaSchema.apellido2=req.body.apellido2;
+        personaSchema.posibleMonitor=false;
+        personaSchema.telefono=req.body.celular;
+        personaSchema.correo=req.body.correo;
+        personaSchema.direccion=direccion;
+        personaSchema.tipo=-1;
+        personaSchema.save(function(){
+            res.send({success:true})
+            res.end()
+        });
+        
+    }
+
+    async cambiarEstadoMonitor(req,res){
+        PersonaSchema.updateOne({identificacion:req.body.identificacion},{posibleMonitor:true},function(err,success){
+            if(err)return handleError(err);
+            else{
+                return res.json({success:true})
+            }
+        })
     }
 
     async cambiarMiembroGrupo(req,res){// hay que ver como 
