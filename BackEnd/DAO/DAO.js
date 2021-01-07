@@ -1,7 +1,7 @@
 const DataSource = require('./DataSource');
 const CompositeSchema = require('../Schemas/CompositeSchema.js');
 const PersonaSchema = require("../Schemas/PersonSchema.js");
-
+const MovimientoSchema = require("../Schemas/MovimientoSchema.js");
 
 
 
@@ -300,7 +300,6 @@ module.exports = class DAO {
 
     async postPersona(req,res){
         this.openConnection()
-        console.log(req.body)
         const personaSchema = new PersonaSchema();
         const direccion = {
             pais: req.body.pais.value,
@@ -308,8 +307,9 @@ module.exports = class DAO {
             canton: req.body.provincia.value,
             distrito: req.body.distrito.value
         }
-        personaSchema.idMovimiento= req.body.idMovimiento;
+        personaSchema.idMovimiento= req.body.movimiento;
         personaSchema.nombre=req.body.nombre;
+        personaSchema.contrasena=req.body.contrasena;
         personaSchema.identificacion=req.body.identificacion;
         personaSchema.apellido1=req.body.apellido1;
         personaSchema.apellido2=req.body.apellido2;
@@ -323,6 +323,19 @@ module.exports = class DAO {
             res.end()
         });
         
+    }
+
+    async obtenerMovimientos(req,res){
+        this.openConnection()
+        MovimientoSchema.find({}, function(err,data){
+            if(err){
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
     }
 
     async cambiarEstadoMonitor(req,res){

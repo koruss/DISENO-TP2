@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 //Esquema de persona de la base de datos
 const PersonSchema= new Schema(
     {
-      tipo: mongoose.Schema.Types.Number,
+      tipo: String,
       idMovimiento:{
             type: mongoose.Schema.Types.ObjectId,
             default: null,

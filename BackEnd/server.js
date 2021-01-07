@@ -79,7 +79,6 @@ app.post("/allRama",(req, res)=>{
 })
 
 app.post("/allPersona",(req, res)=>{
-  console.log("en  el server")
   control.allPersona(req,res);
 })
 
@@ -132,7 +131,9 @@ app.post('/allMiembrosGrupos', function (req,res) {
   control.allMiembrosGrupos(req,res);
 })
 
-
+app.post('/allMovimientos', function (req,res) {
+  control.allMovimientos(req,res);
+})
 
 app.post('/iniciarSesion', (req,res) => {
   control.iniciarSesion(req,res);

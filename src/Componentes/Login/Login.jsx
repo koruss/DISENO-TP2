@@ -89,6 +89,8 @@ class Login extends Component{
                         apellido2:nombre.apellido2,
                         correo:nombre.correo,
                         telefono:nombre.telefono,
+                        tipo:nombre.tipo,
+                        idMovimiento:nombre.idMovimiento,
                         estado:nombre.estado}]
                 })
             })   
