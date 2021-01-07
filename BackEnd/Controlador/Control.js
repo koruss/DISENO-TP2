@@ -2,6 +2,7 @@ const DAO = require('../DAO/DAO.js')
 var GestorMiembro = require('./GestorMiembro');
 const GestorEstructura = require('./GestorEstructura');
 const {Main} = require('../Modelo/Main.js');
+//
 
 module.exports = class Control{
     dao = new DAO();
@@ -87,17 +88,28 @@ module.exports = class Control{
     async allRama(req,res){
         await this.gestorEstructura.obtenerRamas(req, res)
     }
+    async allRamaZona(req,res){
+        await this.gestorEstructura.obtenerRamasZona(req, res)
+    }
 
     // Función que devuelve todas los grupos obtenidas
     // desde la base de datos al FrontEnd para poder mostrarlas al usuario
     async allGrupos(req,res){
         await this.gestorEstructura.obtenerGrupos(req, res)
     }
+    async allGruposRama(req,res){
+        await this.gestorEstructura.obtenerGruposRama(req, res)
+    }
 
     // Función que devuelve todas las personas obtenidas
     // desde la base de datos al FrontEnd para poder mostrarlas al usuario
     async allPersona(req,res){
+        
         await this.gestorMiembro.obtenerPersonas(req, res)
+    }
+
+    async allMiembrosGrupos(req,res){
+        await this.gestorMiembro.obtenerPersonasGrupo(req, res)
     }
 
     // Función que conecta con el gestor de la estructura, pasandole los 
@@ -108,10 +120,19 @@ module.exports = class Control{
 
     // Función que conecta con el gestor de la estructura, pasandole los 
     // datos necesarios para trasladar a un miembro de un grupo a otro
-    cambiarMiembroGrupo(data, res){
-        this.gestorEstructura.trasladarMiembro(data, res);
+    async cambiarMiembroGrupo(data, res){
+        await this.gestorEstructura.cambiarMiembroGrupo(data, res);
     }
 
+    //Funcion que establece si una persona puede ser un posible monitor en un futuro
+    async cambiarPosibleMonitor(data, res){
+        this.gestorMiembro.posibleMonitor(data, res);
+    }
+
+    //Funcion que establece si una persona puede ser un posible monitor en un futuro
+    async iniciarSesion(req, res){
+        await this.gestorMiembro.iniciarSesion(req, res);
+    }
 }
 
 

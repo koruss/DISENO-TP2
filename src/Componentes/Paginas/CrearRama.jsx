@@ -46,8 +46,8 @@ export default class CrearRama extends Component {
             const respuesta=res.data;
             respuesta.forEach(zona=>{
                 arreglo.push({
-                    value:zona.nombreZona,
-                    label:zona.nombreZona,
+                    value:zona.nombre,
+                    label:zona.nombre,
                     identificacion:zona._id
                 })
             })

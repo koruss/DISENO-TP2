@@ -48,12 +48,12 @@ app.post('/guardarZona', (req, res) => {
 
 //Funcion para guardar un miembro en la base de datos
 app.post('/guardarMiembro', (req, res) => {
-  control.guardarMiembro(req.body,res);
+  control.guardarMiembro(req,res);
 })
 
 //Funcion para guardar un miembro en la base de datos
 app.post('/guardarAsesor', (req, res) => {
-  control.guardarAsesor(req.body,res);
+  control.guardarAsesor(req,res);
 })
 
 app.post('/asignarMiembro', (req, res) => {
@@ -66,15 +66,20 @@ app.post("/allZonas",(req,res)=>{
   control.allZonas(req, res);
 })
 
-app.post('/cambiarMiembroGrup', (req, res) => {
+app.post('/cambiarMiembroGrupo', (req, res) => {
   control.cambiarMiembroGrupo(req, res);
   })
-  
+
+app.post('/cambiarPosibleMonitor', (req, res) => {
+  control.cambiarPosibleMonitor(req, res);
+  })
+
 app.post("/allRama",(req, res)=>{
   control.allRama(req,res);
 })
 
 app.post("/allPersona",(req, res)=>{
+  console.log("en  el server")
   control.allPersona(req,res);
 })
 
@@ -113,6 +118,24 @@ app.post('/cerrarSesion', function (req, res) {
 
 app.post('/guardarGrupo', function (req,res) {
   control.guardarGrupo(req,res);
+})
+
+app.post('/allRamaZona', function (req,res) {
+  control.allRamaZona(req,res);
+})
+
+app.post('/allGruposRama', function (req,res) {
+  control.allRamaZona(req,res);
+})
+
+app.post('/allMiembrosGrupos', function (req,res) {
+  control.allMiembrosGrupos(req,res);
+})
+
+
+
+app.post('/iniciarSesion', (req,res) => {
+  control.iniciarSesion(req,res);
 })
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));

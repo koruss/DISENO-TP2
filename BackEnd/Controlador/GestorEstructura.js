@@ -1,6 +1,7 @@
 var ZonaDAO = require('../DAO/ZonaDAO');
 var RamaDAO = require('../DAO/RamaDAO');
-var GrupoDAO = require('../DAO/GrupoDAO')
+var GrupoDAO = require('../DAO/GrupoDAO');
+var DAO = require("../DAO/DAO")
 
 
 
@@ -8,6 +9,7 @@ module.exports = class GestorEstructura{
     zonaDAO = new ZonaDAO();
     ramaDAO = new RamaDAO();
     grupoDAO = new GrupoDAO();
+    DAO= new DAO();
     zonas = [];
 
     constructor(){
@@ -20,12 +22,12 @@ module.exports = class GestorEstructura{
 
     //Funcion para crear una rama, llama una funcion de ramaDAO
     async crearRama(req, res){
-        await this.ramaDAO.postRama(req,res);
+        await this.DAO.crearRama(req,res);
     }
 
     //Funcion para crear un grupo, llama una funcion de grupoDAO
     async crearGrupo(req,res){
-        await this.grupoDAO.postGrupo(req,res);
+        await this.DAO.crearGrupo(req,res);
     }
     
     async cargarComposite(){
@@ -34,32 +36,39 @@ module.exports = class GestorEstructura{
 
     //Funcion para obtener todas las zonas registradas en la base de datos
     async obtenerZonas(req,res){
-        await this.zonaDAO.getZonas(req,res);
+        await this.DAO.allZonas(req,res);
     }
 
     //Funcion para obtener todas las ramas de todas las zonas
     async obtenerRamas(req,res){
-        await this.ramaDAO.getRamas(req,res);
+        await this.DAO.allRamas(req,res);
     }
+    async obtenerRamasZona(req,res){
+        await this.DAO.allRamasZona(req,res);
+    }
+
 
     //Funcion para obtener todos los grupos de la base de datos
     async obtenerGrupos(req,res){
-        await this.grupoDAO.getGrupos(req,res);
+        await this.DAO.allGrupos(req,res);
+    }
+    async obtenerGruposRama(req,res){
+        await this.DAO.allGruposRama(req,res);
     }
 
     //Funcion para asignar un miembro en un grupo
     async asignarMiembro(req, res){
-        await this.grupoDAO.updateMiembroEnGrupo(req, res);
+        await this.DAO.updateMiembroEnGrupo(req, res);
     }
 
     //Funcion para cambiarle el nombre a un grupo
     async cambiarNombreGrupo(req, res){
-        await this.grupoDAO.cambiarNombreGrupo(req, res);
+        await this.DAO.cambiarNombreGrupo(req, res);
     }
 
     //Funcion para trasladar un miembro de un grupo a otro
-    async trasladarMiembro(req, res){
-        await this.grupoDAO.trasladarMiembro(req, res);
+    async cambiarMiembroGrupo(req, res){
+        await this.DAO.cambiarMiembroGrupo(req, res);
     }
 
     //Funcion para modificar una zona, se le agrega una rama que haya sido creada en la zona
@@ -74,7 +83,7 @@ module.exports = class GestorEstructura{
 
     //Funcion para guardar una zona
     async guardarZona(req, res){
-        await this.zonaDAO.postZona(req,res);
+        await this.DAO.crearZona(req,res);
     }
 
     clientCode(component) {
