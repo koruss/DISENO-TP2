@@ -112,6 +112,10 @@ module.exports = class Control{
         await this.gestorMiembro.obtenerPersonasGrupo(req, res)
     }
 
+    async allMovimientos(req,res){
+        await this.gestorEstructura.obtenerMovimientos(req, res)
+    }
+
     // Función que conecta con el gestor de la estructura, pasandole los 
     // datos necesarios para modificar el nombre de un grupo
     async cambiarNombreGrupo(req,res){

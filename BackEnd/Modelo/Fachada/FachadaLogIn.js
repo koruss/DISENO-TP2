@@ -7,6 +7,7 @@ var FachadaLogIn = /** @class */ (function () {
         this.VerfProxy = new VerificadorProxy_1.VerificadorProxy(id, password, personas);
     }
     FachadaLogIn.prototype.iniciarSesionFachada = function () {
+        //aqui van mas metodos mas adelante
         var tipo = this.VerfProxy.iniciarSesion();
         return tipo;
     };

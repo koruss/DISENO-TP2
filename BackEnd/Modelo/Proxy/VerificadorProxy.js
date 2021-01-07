@@ -21,11 +21,13 @@ var VerificadorProxy = /** @class */ (function () {
         }
     };
     VerificadorProxy.prototype.credencialesValidas = function (id, password) {
+        var _this = this;
         var auth = false;
         this.personas.forEach(function (persona) {
             var id_persona = persona.datosPersona[0].identificacion;
             var contra_persona = persona.datosPersona[0].contrasena;
             if (id == id_persona && password == contra_persona) {
+                _this.type = persona.datosPersona[0].tipo;
                 auth = true;
             }
         });

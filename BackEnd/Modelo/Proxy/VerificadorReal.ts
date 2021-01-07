@@ -14,9 +14,22 @@ export class VerificadorReal implements Verificador  {
     }
 
     public iniciarSesion(): void {
-        //Hacer un if con el tipo o algo
-        this.type = "ASESOR"; //aqui cambiar la vara
-
+        console.log(this.type);
+        switch (this.type) {
+        case '1':
+            this.type = "MIEMBRO";
+            break;
+        case '2':
+            this.type = "JEFE";
+            break;
+        case '3':
+            this.type = "ASESOR";
+            break;
+        default:
+            this.type = null;
+            break;
+        }
+        console.log(this.type);
     }
 
     public getTipo(): string{

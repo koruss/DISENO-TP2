@@ -34,6 +34,7 @@ export class VerificadorProxy implements Verificador  {
             var id_persona = persona.datosPersona[0].identificacion;
             var contra_persona = persona.datosPersona[0].contrasena;
             if(id == id_persona && password == contra_persona){
+                this.type = persona.datosPersona[0].tipo;
                 auth = true;
             }
         })

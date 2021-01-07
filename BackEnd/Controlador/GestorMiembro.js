@@ -4,7 +4,6 @@ var DAO = require('../DAO/DAO');
 module.exports = class GestorMiembro{
     miembros=[];
     DAO = new DAO();
-    
 
     constructor(){
     }
