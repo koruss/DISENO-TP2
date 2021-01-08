@@ -9,7 +9,7 @@ var VerificadorReal = /** @class */ (function () {
     }
     VerificadorReal.prototype.iniciarSesion = function () {
         //Hacer un if con el tipo o algo
-        this.type = "JEFE";
+        this.type = "ASESOR";
     };
     VerificadorReal.prototype.getTipo = function () {
         return this.type;

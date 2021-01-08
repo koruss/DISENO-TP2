@@ -16,10 +16,22 @@ const state = mongoose.connection;
 state.once('open', () => console.log('------->>> Conexion con MongoDB exitosa <<<------'));
 state.on('error', console.error.bind(console, '------->>> Fallo en la conexión con MongoDB <<<------:'));
 
+
+
+// CompositeSchema.find({_id:"5ff6548e9ebf9c2d88a18957",tipo:1},(err,data)=>{
+//     if(err){
+//         console.log(err);
+//     }
+//     else{
+//         console.log(data)
+//     }
+// })
+
+
+
 let schema = new MovimientoSchema();
-    schema.nombre="LGBTI";
+    schema.nombre="LGBTIQ";
     schema.telefono="89101112";
-    schema.aportes=[];
     schema.cedulaJuridica="123456789";
     schema.direccionWeb="wwww.OsosLocosLombax.com";
     schema.direccion={
