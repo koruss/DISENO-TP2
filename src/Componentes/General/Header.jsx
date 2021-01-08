@@ -64,17 +64,17 @@ class Header extends Component {
                         <Route render={() => {
                             if(session == "ASESOR"){ 
                                 return <>
-                                <Navbar.Brand href="/VentanaAsesor"><img href="/VentanaAsesor" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento} </Navbar.Brand>
+                                <Navbar.Brand href="/VentanaAsesor"><img href="/VentanaAsesor" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento}</Navbar.Brand>
                                 </>
                             }
                             else if(session == "MIEMBRO"){
                                 return <>
-                                <Navbar.Brand href="/ventanaMiembro"><img href="/ventanaMiembro" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento} </Navbar.Brand>
+                                <Navbar.Brand href="/ventanaMiembro"><img href="/ventanaMiembro" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento}</Navbar.Brand>
                                 </>
                             }
                             else if(session == "JEFE"){
                                 return <>
-                                <Navbar.Brand href="/ventanaJefe"><img href="/ventanaJefe" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento} </Navbar.Brand>
+                                <Navbar.Brand href="/ventanaJefe"><img href="/ventanaJefe" src={idea} alt={"logo"} width="40" height="50"/> Movimiento {nombre_movimiento}</Navbar.Brand>
                                 </>
                             }
                         }}/>

@@ -47,4 +47,8 @@ module.exports = class GestorMiembro{
         await fachadaLogIn.iniciarSesionFachada(req,res);
     }
 
+    async enviarAporte(req,res){
+        
+    }
+
 }

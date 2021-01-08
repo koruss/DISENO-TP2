@@ -10,7 +10,6 @@ module.exports = class GestorMiembro{
     }
 
     async iniciarSesionFachada(req,res) {
-        //aqui van mas metodos mas adelante
         var tipo = this.VerfProxy.iniciarSesion();
         req.session.loggedIn = true;
         req.session.tipo = tipo;

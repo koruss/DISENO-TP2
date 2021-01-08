@@ -137,6 +137,10 @@ module.exports = class Control{
     async iniciarSesion(req, res){
         await this.gestorMiembro.iniciarSesion(req, res);
     }
+
+    async enviarAporte(req,res){
+        await this.gestorMiembro.enviarAporte(req, res);
+    }
 }
 
 

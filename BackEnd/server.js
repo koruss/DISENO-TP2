@@ -139,6 +139,10 @@ app.post('/iniciarSesion', (req,res) => {
   control.iniciarSesion(req,res);
 })
 
+app.post('/enviarAporte', (req,res) => {
+  control.enviarAporte(req,res);
+})
+
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 
 

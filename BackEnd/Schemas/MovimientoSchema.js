@@ -8,8 +8,21 @@ const MovimientoSchema= new Schema(
         nombre:String,
         telefono:String,
         aportes:[{
-            tipo:String,
-            detalle:String
+            petitoria:[{
+                detalle:String,
+                nombre: String,
+                fecha: String
+            }],
+            agradecimiento:[{
+                detalle:String,
+                nombre: String,
+                fecha: String
+            }],
+            ofrecimiento:[{
+                detalle:String,
+                nombre: String,
+                fecha: String
+            }]
         }],
         cedulaJuridica:String,
         direccionWeb: String,

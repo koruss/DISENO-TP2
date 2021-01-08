@@ -37,7 +37,6 @@ class Login extends Component{
                 password:this.state.password,
                 personas:this.state.personas,
                 movimientos:this.state.movimientos}).then(res=>{
-                console.log("res",res.data);
                 if(res.data.tipo != null){ 
                     self.setState({ isAuth: res.data.tipo })
                 }
@@ -54,29 +53,7 @@ class Login extends Component{
             this.passwordRef.current.value="";
         }
     }
-      
-    //Clase que se encarga de la validación y acceso de las personas
-    logIn = (e) => {
-        // e.preventDefault();
-        // var self = this;
-        // if(this.state.userName != null && this.state.password!=null){
-        // axios.post('/allAsesores',{usuario:this.state.userName,password:this.state.password}).then(res=>{
-        //     const respuesta=res.data;
-        //     console.log("hola",respuesta);
-        //     if(1 == 1){//if(respuesta.contrasena == this.state.password){
-        //             axios.post('/logIn',{pName:this.state.userName,pPassword:this.state.password}).then(res=>{console.log("hola");});
-        //             self.setState(
-        //                 {
-        //                     isAuth: true
-        //                 }
-        //             )
-        //         }  else {
-        //             alert("Nombre de usuario o contraseña incorrecto!!");
-        //             this.userNameRef.current.value="";
-        //             this.passwordRef.current.value="";
-        //         }
-        // }) 
-    }
+     
 
     obtenerPersonas(){
         let arreglo = [];
