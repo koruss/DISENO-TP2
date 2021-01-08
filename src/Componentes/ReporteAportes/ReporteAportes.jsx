@@ -46,15 +46,32 @@ class ReporteAportes extends Component{
     onClick = (e) => {
         const element = document.createElement("a");
         var prueba = []
-        prueba.push(this.state.petitorias[0].detalle);
-        prueba.push(" ");
-        prueba.push(this.state.petitorias[0].nombre);
-        prueba.push("\n");
-        prueba.push(this.state.petitorias[0].detalle);
-        prueba.push(" ");
-        prueba.push(this.state.petitorias[0].nombre);
-        prueba.push("\n");
-        
+        prueba.push("Reporte de aportes \n");
+
+        prueba.push("\nPetitorias\n");
+        for(var i = 0; i<this.state.petitorias.length; i++){
+            const petitoria = this.state.petitorias[i];
+            prueba.push("Nombre: "+petitoria.nombre+
+            " Fecha: "+petitoria.fecha+" Detalle: "+
+            petitoria.detalle+"\n");
+        }
+
+        prueba.push("\nAgradecimientos\n");
+        for(var i = 0; i<this.state.agradecimientos.length; i++){
+            const agradecimiento = this.state.agradecimientos[i];
+            prueba.push("Nombre: "+agradecimiento.nombre+
+            " Fecha: "+agradecimiento.fecha+" Detalle: "+
+            agradecimiento.detalle+"\n");
+        }
+
+        prueba.push("\nOfrecimientos\n");
+        for(var i = 0; i<this.state.ofrecimientos.length; i++){
+            const ofrecimiento = this.state.ofrecimientos[i];
+            prueba.push("Nombre: "+ofrecimiento.nombre+
+            " Fecha: "+ofrecimiento.fecha+" Detalle: "+
+            ofrecimiento.detalle+"\n");
+        }
+
         const file = new Blob(prueba,    
                     {type: 'text/plain;charset=utf-8'});
         element.href = URL.createObjectURL(file);
@@ -62,6 +79,8 @@ class ReporteAportes extends Component{
         document.body.appendChild(element);
         element.click();
     }
+
+
 
 
 
