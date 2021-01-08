@@ -15,7 +15,7 @@ class ReporteAportes extends Component{
     state = {
         agradecimientos: Array,
         ofrecimientos: Array,
-        petitorias: Array
+        petitorias: Array,
     }
 
    
@@ -26,7 +26,6 @@ class ReporteAportes extends Component{
 
     componentWillMount() {
         this.obtenerAportes();
-        //this.obtenerAportes();
     }
 
     obtenerAportes(){
@@ -45,7 +44,23 @@ class ReporteAportes extends Component{
 
     //Funcion para manejar los eventos de un boton
     onClick = (e) => {
+        const element = document.createElement("a");
+        var prueba = []
+        prueba.push(this.state.petitorias[0].detalle);
+        prueba.push(" ");
+        prueba.push(this.state.petitorias[0].nombre);
+        prueba.push("\n");
+        prueba.push(this.state.petitorias[0].detalle);
+        prueba.push(" ");
+        prueba.push(this.state.petitorias[0].nombre);
+        prueba.push("\n");
         
+        const file = new Blob(prueba,    
+                    {type: 'text/plain;charset=utf-8'});
+        element.href = URL.createObjectURL(file);
+        element.download = "datos_Aportes.txt";
+        document.body.appendChild(element);
+        element.click();
     }
 
 
@@ -72,6 +87,7 @@ render() {
                 <div class="spacing-base">
                     <button type="button" class="btn btn-dark"  onClick={this.onClick}>Descargar datos</button>
                 </div>
+
         </main>
     </div>    
     )
