@@ -330,6 +330,7 @@ module.exports = class DAO {
     }
 
     async cambiarEstadoMonitor(req,res){
+        console.log(req.body.identificacion)
         PersonaSchema.updateOne({identificacion:req.body.identificacion},{posibleMonitor:true},function(err,success){
             if(err)return handleError(err);
             else{
