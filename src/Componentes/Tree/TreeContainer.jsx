@@ -4,6 +4,7 @@ import Header from '../General/Header';
 import Tree from 'react-hierarchy-tree-graph';
 import axios from 'axios';
 import '../General/Utils.css'
+
 const fs = require('fs');
 
 class TreeContainer extends React.PureComponent {
@@ -63,9 +64,9 @@ class TreeContainer extends React.PureComponent {
     }
 
     onClick = (nodeData, e) => {
-        console.log(nodeData.name);
-        console.log(e);
-        alert("Has clickeado un nodo nindo");
+        console.log(nodeData);
+        
+        alert(nodeData.name,nodeData.id);
     }
 
     btnClick = (e) => {
@@ -174,10 +175,11 @@ class TreeContainer extends React.PureComponent {
                 </div>
                 <div style={this.state.style} ref={tc => (this.treeContainer = tc)}>
                     <Tree
+                        onClick={this.onClick}
                         data={this.state.arbol2}
                         nodeSvgShape={this.state.svgSquare}
                         orientation={"vertical"}
-                        collapsible={true}
+                        collapsible={false}
                         translate={this.state.translate}
                     />
 
