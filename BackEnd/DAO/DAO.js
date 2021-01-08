@@ -126,7 +126,7 @@ module.exports = class DAO {
         schema.nombre = req.body.nombreGrupo;
         schema.tipo=3;
         schema.save();
-        CompositeSchema.update({ _id: req.body.selectedRama.identificacion }, { $addToSet: { children: schema._id } }, function (err, result) {
+        CompositeSchema.update({ _id: req.body.selectedRama._id}, { $addToSet: { children: schema._id } }, function (err, result) {
             if (err) {
                 console.log(err);
                 res.json({ success: false, error: "Se ha producido un error guardando", error })
