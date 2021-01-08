@@ -12,12 +12,15 @@ class Aportes extends Component{
         super(props);
         this.detalleRef=React.createRef();
         this.tipoRef=React.createRef();
+        this.codigo_movimientoRef=React.createRef();
     }
 
     state = {
         tipos:[{value:"Petitoria", label:"Petitoria"}, {value:"Agradecimiento", label:"Agradecimiento"}, {value:"Ofrecimiento", label:"Ofrecimiento"}],
         detalle:"",
-        selectedTipo: []
+        selectedTipo: [],
+        codigo_movimiento: "",
+        nombre_persona: ""
     }
 
    
@@ -26,20 +29,36 @@ class Aportes extends Component{
     onChange = (e) => this.setState({[e.target.name]:e.target.value});
 
 
+    componentWillMount() {
+        this.obtenerCodigoMovimiento();
+    }
+
+    obtenerCodigoMovimiento(){
+        axios.post('/getSesion',{}).then((res) =>{
+            this.setState({
+                codigo_movimiento:res.data.id_movimiento,
+                nombre_persona:res.data.nombre_persona
+            })
+        })
+    }
 
     //Funcion para manejar los eventos de un boton
     onClick = (e) => {
         if(this.state.detalle != "" && this.state.selectedTipo.length != 0){
+            let today = new Date().toLocaleDateString()
             axios.post("/enviarAporte",{
                 tipo:this.state.selectedTipo,
-                detalle:this.state.detalle
+                detalle:this.state.detalle,
+                id_movimiento:this.state.codigo_movimiento,
+                nombre_persona:this.state.nombre_persona,
+                fecha:today
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.err);
                 }
                 else{
                     alert("Peticion enviada correctamente");
-                    this.detalle.current.value="";
+                    this.detalleRef.current.value="";
                     this.setState({
                         selectedTipo:[]
                     })
@@ -74,7 +93,7 @@ render() {
                 </div>
                 <div  id="center-section">
                         <label for="detalles" >Detalles:</label>
-                        <textarea ref={this.tipoRef} name="nombre" onChange={this.onChange}  rows="10" cols="50"/>
+                        <textarea ref={this.detalleRef} name="detalle" onChange={this.onChange}  rows="10" cols="50"/>
                 </div>
                 <div class="spacing-base">
                     <button type="button" class="btn btn-dark"  onClick={this.onClick}>Enviar</button>

@@ -54,7 +54,9 @@ class SignUp extends Component{
         pais: [],
         provincia: [],
         canton: [],
-        distrito: []
+        distrito: [],
+        movimientoOpc :[],
+        movimiento: []
     }
     
 
@@ -80,7 +82,8 @@ class SignUp extends Component{
                 celular:this.state.celular,
                 apellido1:this.state.apellido1,
                 apellido2:this.state.apellido2,
-                contrasena:this.state.contrasena
+                contrasena:this.state.contrasena,
+                movimiento:this.state.movimiento._id
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.err);
@@ -94,6 +97,9 @@ class SignUp extends Component{
                     this.apellido1Ref.current.value="";
                     this.apellido2Ref.current.value="";
                     this.contrasenaRef.current.value="";
+                    this.setState({
+                        movimiento:[]
+                    })
                     this.setState({
                         pais:[]
                     })
@@ -112,6 +118,27 @@ class SignUp extends Component{
         else{
             alert("Ingrese todos los datos")
         }
+    }
+
+    obtenerMovimientos(){
+        let arrMov = [];
+        axios.post("/allMovimientos", {}).then(res => {
+            const respuesta = res.data;
+            respuesta.forEach(movimiento=>{
+                arrMov.push({
+                    value:movimiento.nombre,
+                    label:movimiento.nombre,
+                    _id:movimiento._id
+                })
+            })   
+            this.setState({
+                movimeintoOpc:arrMov
+            })
+        })
+    }
+
+    componentWillMount() {
+        this.obtenerMovimientos();
     }
 
 
@@ -141,7 +168,11 @@ class SignUp extends Component{
         );
     };
 
-
+    handleChangeMovimiento = movimiento =>{
+        this.setState(
+            { movimiento },     
+        );
+    };
 
     // En esta parte se hace el diseño de la ventana de Registro de miembros
     // y se llama a las funciones anteriores.
@@ -183,6 +214,13 @@ class SignUp extends Component{
                         </div>
                         
                         <div class="label-container">
+                        <div className="label-wrapper">
+                            <label for="pais">Movimiento: </label>
+                                <div className="label-select" >
+                                    <Select components={makeAnimated} name="movimiento" value={this.state.movimiento} className="basic-multi-select"
+                                    options={this.state.movimeintoOpc} classNamePrefix="select" onChange={this.handleChangeMovimiento}/>   
+                                </div>
+                            </div>
                             <div className="label-wrapper">
                             <label for="pais">Pais: </label>
                                 <div className="label-select" >
@@ -211,9 +249,10 @@ class SignUp extends Component{
                                     options={this.state.distritoOpc} classNamePrefix="select" value={this.state.distrito}/>
                                 </div>
                             </div>
-                            <div className="label-wrapper"></div>
+                            <div className="label-wrapper">
+                            <button type="button" class="btn btn-dark" onClick={this.onClick} >Registrarse</button>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-dark" onClick={this.onClick} >Registrarse</button>
                 </div> 
             </div>
         )

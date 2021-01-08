@@ -7,12 +7,17 @@ export class VerificadorProxy implements Verificador  {
     private id: string;
     private password: string;
     private type: string;
+    private id_movimiento;
+    private nombre_movimiento;
+    private movimientos;
     private personas;
+    private nombre_persona;
 
-    constructor(id:string, password:string, personas){
+    constructor(id:string, password:string, personas, movimientos){
         this.id = id;
         this.password = password;
         this.personas = personas;
+        this.movimientos = movimientos;
     }
 
     public iniciarSesion(): string {
@@ -34,10 +39,26 @@ export class VerificadorProxy implements Verificador  {
             var id_persona = persona.datosPersona[0].identificacion;
             var contra_persona = persona.datosPersona[0].contrasena;
             if(id == id_persona && password == contra_persona){
+                this.type = persona.datosPersona[0].tipo;
+                this.nombre_persona = persona.datosPersona[0].nombre+ " "+persona.datosPersona[0].apellido1+" "+persona.datosPersona[0].apellido1;
                 auth = true;
+                var movimiento = this.movimientos.find(element => element._id = persona.datosPersona[0].idMovimiento);
+                this.id_movimiento = movimiento._id;
+                this.nombre_movimiento = movimiento.nombre;
             }
         })
         return auth;
     }
 
+    public getIdMovimiento(): string{
+        return this.id_movimiento;
+    }
+
+    public getNombreMovimiento(): string{
+        return this.nombre_movimiento;
+    }
+
+    public getNombrePersona(): string{
+        return this.nombre_persona;
+    }
 }
