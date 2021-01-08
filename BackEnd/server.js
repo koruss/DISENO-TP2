@@ -143,6 +143,12 @@ app.post('/enviarAporte', (req,res) => {
   control.enviarAporte(req,res);
 })
 
+app.post('/obtenerAportes', (req,res) => {
+  control.obtenerAportes(req,res);
+})
+
+
+
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 
 

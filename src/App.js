@@ -25,6 +25,7 @@ import contacto from './Componentes/Contacto/Contacto';
 import PosiblesMonitores from './Componentes/PosiblesMonitores/PosiblesMonitores';
 import SignUp from './Componentes/SignUp/SignUp';
 import Aportes from './Componentes/Aportes/Aportes';
+import ReporteAportes from './Componentes/ReporteAportes/ReporteAportes';
 
 //Funcion para establecer las rutas de la aplicacion con su respectivo componente
 function App() {
@@ -48,7 +49,7 @@ function App() {
           <Route path="/arbolEstructural" component={TreeContainer}/> 
           <Route path="/contacto" component={contacto}/> 
           <Route path="/PosiblesMonitores" component={PosiblesMonitores}/> 
-                    
+          <Route path="/ReporteAportes" component={ReporteAportes}/> 
           
           <Route path="/asignacionMiembros" component={AsignacionMiembros}/>
 

@@ -385,4 +385,16 @@ module.exports = class DAO {
         } else {res.json({success: true, info: info })}})
     }
 
+    async obtenerAportes(req,res){
+        this.openConnection()
+        MovimientoSchema.findOne({_id:req.body.id_movimiento}).populate("aportes").exec(function(err,data){
+            if(err){
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data.aportes);
+                res.end();
+            }
+        })
+    }
 }
