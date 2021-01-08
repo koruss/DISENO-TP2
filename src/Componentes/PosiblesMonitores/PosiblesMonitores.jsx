@@ -60,7 +60,7 @@ y enviarlos a la API*/
     onClick = (e) => {
         if(this.state.selectedPersona.length != 0 ){
             axios.post("/cambiarPosibleMonitor",{
-                persona:this.state.selectedPersona
+                identificacion:this.state.selectedPersona.datosPersona[0].identificacion
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.error);

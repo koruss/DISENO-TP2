@@ -112,6 +112,10 @@ module.exports = class Control{
         await this.gestorMiembro.obtenerPersonasGrupo(req, res)
     }
 
+    async allMovimientos(req,res){
+        await this.gestorEstructura.obtenerMovimientos(req, res)
+    }
+
     // Función que conecta con el gestor de la estructura, pasandole los 
     // datos necesarios para modificar el nombre de un grupo
     async cambiarNombreGrupo(req,res){
@@ -133,6 +137,15 @@ module.exports = class Control{
     async iniciarSesion(req, res){
         await this.gestorMiembro.iniciarSesion(req, res);
     }
+
+    async enviarAporte(req,res){
+        await this.gestorMiembro.enviarAporte(req, res);
+    }
+
+    async obtenerAportes(req, res){
+        await this.gestorEstructura.obtenerAportes(req, res);
+    }
 }
 
 
+//HACER QUE RECUPERE LA FECHA Y TAMBIEN GUARDAR EL NOMBRE EN EL REQ.SESSION

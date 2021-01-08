@@ -79,7 +79,6 @@ app.post("/allRama",(req, res)=>{
 })
 
 app.post("/allPersona",(req, res)=>{
-  console.log("en  el server")
   control.allPersona(req,res);
 })
 
@@ -132,11 +131,23 @@ app.post('/allMiembrosGrupos', function (req,res) {
   control.allMiembrosGrupos(req,res);
 })
 
-
+app.post('/allMovimientos', function (req,res) {
+  control.allMovimientos(req,res);
+})
 
 app.post('/iniciarSesion', (req,res) => {
   control.iniciarSesion(req,res);
 })
+
+app.post('/enviarAporte', (req,res) => {
+  control.enviarAporte(req,res);
+})
+
+app.post('/obtenerAportes', (req,res) => {
+  control.obtenerAportes(req,res);
+})
+
+
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 

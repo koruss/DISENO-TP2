@@ -115,7 +115,7 @@ class VentanaMiembro extends Component {
                                 <Link class="btn btn-dark" to='./asignacionMiembros'><img src={imagenAsignacion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Ver puestos asignados</Link>                                
                             </div>
                             <div class="form-group" class="spacing-base">
-                                <Link class="btn btn-dark" to='./registroMiembro'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Enviar aporte</Link>    
+                                <Link class="btn btn-dark" to='./aportes'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Enviar aporte</Link>    
                             </div>
                         </div>
                         <div className="label-wrapper" >

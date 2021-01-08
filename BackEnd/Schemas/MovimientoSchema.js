@@ -8,10 +8,11 @@ const MovimientoSchema= new Schema(
         nombre:String,
         telefono:String,
         aportes:{
-            petitoria:[{          
+            petitoria:[{
                 detalle:String,
                 nombre: String,
-                fecha: String}],
+                fecha: String
+            }],
             agradecimiento:[{
                 detalle:String,
                 nombre: String,

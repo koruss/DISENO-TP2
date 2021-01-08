@@ -8,8 +8,20 @@ var VerificadorReal = /** @class */ (function () {
         this.type = type;
     }
     VerificadorReal.prototype.iniciarSesion = function () {
-        //Hacer un if con el tipo o algo
-        this.type = "ASESOR";
+        switch (this.type) {
+            case '1':
+                this.type = "MIEMBRO";
+                break;
+            case '2':
+                this.type = "JEFE";
+                break;
+            case '3':
+                this.type = "ASESOR";
+                break;
+            default:
+                this.type = null;
+                break;
+        }
     };
     VerificadorReal.prototype.getTipo = function () {
         return this.type;
