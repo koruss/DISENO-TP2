@@ -1,5 +1,9 @@
 var DAO = require('../DAO/DAO');
 var Fachada = require('../Fachada/Fachada');
+const Agradecimiento = require('../Strategy/Agradecimiento');
+var CargarAporte = require('../Strategy/CargarAporte');
+const Ofrecimiento = require('../Strategy/Ofrecimiento');
+const Petitoria = require('../Strategy/Petitoria');
 
 module.exports = class GestorMiembro{
     miembros=[];
@@ -48,7 +52,21 @@ module.exports = class GestorMiembro{
     }
 
     async enviarAporte(req,res){
-        
+        const cargarAporte = new CargarAporte();
+        switch (req.body.tipo.value) {
+            case "Ofrecimiento":
+                cargarAporte.setStrategy(new Ofrecimiento());
+                break;
+            case "Agradecimiento": 
+                cargarAporte.setStrategy(new Agradecimiento());
+                break;
+            case "Petitoria": 
+                cargarAporte.setStrategy(new Petitoria());
+                break;
+            default:
+              console.log('default');
+        }
+        cargarAporte.cargarDatos(req,res);
     }
 
 }

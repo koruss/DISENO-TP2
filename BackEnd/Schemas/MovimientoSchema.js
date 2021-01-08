@@ -7,7 +7,7 @@ const MovimientoSchema= new Schema(
     {
         nombre:String,
         telefono:String,
-        aportes:[{
+        aportes:{
             petitoria:[{
                 detalle:String,
                 nombre: String,
@@ -23,7 +23,7 @@ const MovimientoSchema= new Schema(
                 nombre: String,
                 fecha: String
             }]
-        }],
+        },
         cedulaJuridica:String,
         direccionWeb: String,
         direccion: {

@@ -53,7 +53,7 @@ class Aportes extends Component{
                 }
                 else{
                     alert("Peticion enviada correctamente");
-                    this.detalle.current.value="";
+                    this.detalleRef.current.value="";
                     this.setState({
                         selectedTipo:[]
                     })

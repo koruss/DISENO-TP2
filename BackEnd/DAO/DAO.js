@@ -168,15 +168,6 @@ module.exports = class DAO {
                 res.json({ success: true })
             }
         })
-        // CompositeSchema.update({_id:req.body.selectedZona.identificacion},{$addToSet:{children:schema._id}},function(err, result){
-        //     if(err){
-        //         console.log(err);
-        //         res.json({success:false, error:"Se ha producido un error guardando",error})
-        //     }
-        //     else{
-        //         res.json({success:true})
-        //     }
-        // })
     }
 
     async allZonas(req,res){
@@ -367,9 +358,30 @@ module.exports = class DAO {
                 })
             }
         })
-        
-
     }
 
+    async subirAgradecimiento(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.agradecimiento':
+            {detalle:req.body.detalle, nombre:"Juan", fecha:"HOY"}}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
+        } else {res.json({success: true, info: info })}})
+    }
+
+    async subirPetitoria(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.petitoria':
+            {detalle:req.body.detalle, nombre:"Juan", fecha:"HOY"}}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
+        } else {res.json({success: true, info: info })}})
+    }
+
+    async subirOfrecimiento(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.ofrecimiento':
+            {detalle:req.body.detalle, nombre:"Juan", fecha:"HOY"}}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
+        } else {res.json({success: true, info: info })}})
+    }
 
 }
