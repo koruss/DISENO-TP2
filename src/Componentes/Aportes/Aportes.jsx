@@ -43,10 +43,12 @@ class Aportes extends Component{
     //Funcion para manejar los eventos de un boton
     onClick = (e) => {
         if(this.state.detalle != "" && this.state.selectedTipo.length != 0){
+            let today = new Date().toLocaleDateString()
             axios.post("/enviarAporte",{
                 tipo:this.state.selectedTipo,
                 detalle:this.state.detalle,
-                id_movimiento:this.state.codigo_movimiento
+                id_movimiento:this.state.codigo_movimiento,
+                fecha:today
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.err);

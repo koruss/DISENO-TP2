@@ -5,7 +5,6 @@ module.exports = class CargarAporte{
     tipoAporte;
 
     constructor() {
-        
     }
 
     async cargarDatos(req,res) {
