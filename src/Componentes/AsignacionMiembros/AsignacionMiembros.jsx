@@ -16,12 +16,12 @@ class AsignacionMiembros extends Component {
         selectedZona: [],
         selectedRama: [],
         selectedGrupo: [],
-        tipoMonitores: [{ value: "Miembro", label: "Miembro" }, { value: "Monitor", label: "Monitor" }, { value: "Jefe Grupo", label: "Jefe Grupo" }],
+        tipoMonitores: [{ value: "Monitor", label: "Monitor" }, { value: "Jefe Grupo", label: "Jefe Grupo" }],
         nombres: [],
         zonas: [],
         ramas: [],
         grupos: [],
-        posibleMonitor: false
+        selectedMonitor:[]
 
     }
 
@@ -113,12 +113,15 @@ class AsignacionMiembros extends Component {
     y enviarlos a la API*/
 
     onClick = (e) => {
-        if (this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0 &&
-            this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0) {
+        // if (this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0 &&
+        //     this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0) {
+        if(this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0){
             axios.post("/asignarMiembro", {
                 _idPerson: this.state.selectedNombre._id,
                 grupo: this.state.selectedGrupo._id,
-                posibleMonitor: this.state.posibleMonitor
+                rama: this.state.selectedRama._id,
+                zona: this.state.selectedZona._id,
+                categoriaPersona: this.state.selectedMonitor.value
             }).then(res => {
                 if (!res.data.success) {
                     alert(res.data.err);
@@ -126,6 +129,7 @@ class AsignacionMiembros extends Component {
                 else {
                     alert("Miembro asignado correctamente")
                     this.setState({
+                        selectedMonitor:[],
                         selectedGrupo: [],
                         selectedRama: [],
                         selectedZona: [],
@@ -174,6 +178,22 @@ class AsignacionMiembros extends Component {
         );
         this.state.selectedMonitor = []
     };
+
+    /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
+    handleChangeMonitor = selectedMonitor => {
+        if(this.state.selectedGrupo.length != 0){
+            var estado = this.verificarSeleccion(selectedMonitor)
+            if(estado == true){
+                this.setState(
+                    { selectedMonitor },     
+                );
+            }
+            else{
+                alert("No se pueden asignar mas personas de este tipo al grupo")
+            }
+        }
+    };
+
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeCheckBox = () => {
         this.setState({
@@ -181,22 +201,18 @@ class AsignacionMiembros extends Component {
         })
     };
 
-    // verificarSeleccion(seleccion) {
-    //     console.log("monitores", this.state.selectedGrupo.monitores.length)
-    //     console.log("jefes", this.state.selectedGrupo.jefesGrupo.length)
-    //     if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length < 2) {
-    //         return true
-    //     }
-    //     else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefesGrupo.length < 2) {
-    //         return true
-    //     }
-    //     else if (seleccion.value == "Miembro") {
-    //         return true
-    //     }
-    //     else {
-    //         return false
-    //     }
-    // }
+    verificarSeleccion(seleccion) {
+        if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length < 2) {
+            return true
+        }
+        else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefes.length < 2) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
     /* esta funcion se encarga de limpiar los states de los componentes*/
     limpiarRamas() {
         this.state.selectedRama = []
@@ -234,15 +250,15 @@ class AsignacionMiembros extends Component {
                                 options={this.state.grupos} classNamePrefix="select" onChange={this.handleChangeGrupo} />
                         </div>
                         <div class="form-group" class="spacing-base">
-                            {/* <label for="monitor">Seleccione el tipo de persona:</label> */}
-                            {/* <Select components={makeAnimated} name="monitor" value={this.state.selectedMonitor} className="basic-multi-select"
-                                options={this.state.tipoMonitores} classNamePrefix="select" onChange={this.handleChangeMonitor} /> */}
-                            <Form class="spacing-base">
+                            <label for="monitor">Seleccione el tipo de persona:</label> 
+                            <Select components={makeAnimated} name="monitor" value={this.state.selectedMonitor} className="basic-multi-select"
+                                options={this.state.tipoMonitores} classNamePrefix="select" onChange={this.handleChangeMonitor} />
+                            {/* <Form class="spacing-base">
                                 <Form.Group controlId="formBasicCheckbox">
                                     <Form.Check type="checkbox" label="Posible monitor" onChange={this.handleChangeCheckBox}/>
                                 </Form.Group>
 
-                            </Form>
+                            </Form> */}
 
                         </div>
                     </div>
