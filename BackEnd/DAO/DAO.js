@@ -364,7 +364,7 @@ module.exports = class DAO {
     async subirAgradecimiento(req,res){
         this.openConnection();
         MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.agradecimiento':
-            {detalle:req.body.detalle, nombre:"Juan", fecha:req.body.fecha}}}, 
+            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
             function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
         } else {res.json({success: true, info: info })}})
     }
@@ -372,7 +372,7 @@ module.exports = class DAO {
     async subirPetitoria(req,res){
         this.openConnection();
         MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.petitoria':
-            {detalle:req.body.detalle, nombre:"Juan", fecha:req.body.fecha}}}, 
+            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
             function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
         } else {res.json({success: true, info: info })}})
     }
@@ -380,7 +380,7 @@ module.exports = class DAO {
     async subirOfrecimiento(req,res){
         this.openConnection();
         MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.ofrecimiento':
-            {detalle:req.body.detalle, nombre:"Juan", fecha:req.body.fecha}}}, 
+            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
             function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
         } else {res.json({success: true, info: info })}})
     }

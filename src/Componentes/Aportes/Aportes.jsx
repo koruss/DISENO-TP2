@@ -19,7 +19,8 @@ class Aportes extends Component{
         tipos:[{value:"Petitoria", label:"Petitoria"}, {value:"Agradecimiento", label:"Agradecimiento"}, {value:"Ofrecimiento", label:"Ofrecimiento"}],
         detalle:"",
         selectedTipo: [],
-        codigo_movimiento: ""
+        codigo_movimiento: "",
+        nombre_persona: ""
     }
 
    
@@ -35,7 +36,8 @@ class Aportes extends Component{
     obtenerCodigoMovimiento(){
         axios.post('/getSesion',{}).then((res) =>{
             this.setState({
-                codigo_movimiento:res.data.id_movimiento
+                codigo_movimiento:res.data.id_movimiento,
+                nombre_persona:res.data.nombre_persona
             })
         })
     }
@@ -48,6 +50,7 @@ class Aportes extends Component{
                 tipo:this.state.selectedTipo,
                 detalle:this.state.detalle,
                 id_movimiento:this.state.codigo_movimiento,
+                nombre_persona:this.state.nombre_persona,
                 fecha:today
             }).then(res =>{
                 if(!res.data.success){

@@ -15,6 +15,7 @@ module.exports = class GestorMiembro{
         req.session.tipo = tipo;
         req.session.id_movimiento = this.VerfProxy.getIdMovimiento();
         req.session.nombre_movimiento = this.VerfProxy.getNombreMovimiento();
+        req.session.nombre_persona = this.VerfProxy.getNombrePersona();
         res.json({tipo: req.session.tipo});
     }
 }

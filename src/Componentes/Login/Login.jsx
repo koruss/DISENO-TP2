@@ -65,7 +65,10 @@ class Login extends Component{
                         identificacion:nombre.identificacion,
                         contrasena:nombre.contrasena,
                         tipo:nombre.tipo,
-                        idMovimiento:nombre.idMovimiento}]
+                        idMovimiento:nombre.idMovimiento,
+                        nombre:nombre.nombre,
+                        apellido1:nombre.apellido1,
+                        apellido2:nombre.apellido2}]
                 })
             })   
             this.setState({
