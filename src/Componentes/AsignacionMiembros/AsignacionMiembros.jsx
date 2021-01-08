@@ -39,7 +39,8 @@ class AsignacionMiembros extends Component {
                 arreglo.push({
                     value: zona.nombre,
                     label: zona.nombre,
-                    _id: zona._id
+                    _id: zona._id,
+                    jefes: zona.jefes
 
                 })
             })
@@ -79,7 +80,8 @@ class AsignacionMiembros extends Component {
                 arreglo.push({
                     value: rama.nombre,
                     label: rama.nombre,
-                    _id: rama._id
+                    _id: rama._id,
+                    jefes: rama.jefes
                 })
             })
             this.setState({
@@ -98,7 +100,9 @@ class AsignacionMiembros extends Component {
                 arreglo.push({
                     value: grupo.nombre,
                     label: grupo.nombre,
-                    _id: grupo._id
+                    _id: grupo._id,
+                    jefes: grupo.jefes,
+                    monitores: grupo.monitores
                 })
 
             })
@@ -116,30 +120,31 @@ class AsignacionMiembros extends Component {
         // if (this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0 &&
         //     this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0) {
         if(this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0){
-            axios.post("/asignarMiembro", {
-                _idPerson: this.state.selectedNombre._id,
-                grupo: this.state.selectedGrupo._id,
-                rama: this.state.selectedRama._id,
-                zona: this.state.selectedZona._id,
-                categoriaPersona: this.state.selectedMonitor.value
-            }).then(res => {
-                if (!res.data.success) {
-                    alert(res.data.err);
-                }
-                else {
-                    alert("Miembro asignado correctamente")
-                    this.setState({
-                        selectedMonitor:[],
-                        selectedGrupo: [],
-                        selectedRama: [],
-                        selectedZona: [],
-                        selectedNombre: [],
-                        nombres: []
-                    })
-
-                    this.obtenerPersonas()
-                }
-            })
+                console.log(this.state.selectedZona.jefes.length)
+                axios.post("/asignarMiembro", {
+                    _idPerson: this.state.selectedNombre._id,
+                    grupo: this.state.selectedGrupo._id,
+                    rama: this.state.selectedRama._id,
+                    zona: this.state.selectedZona._id,
+                    categoriaPersona: this.state.selectedMonitor.value
+                }).then(res => {
+                    if (!res.data.success) {
+                        alert(res.data.err);
+                    }
+                    else {
+                        alert("Miembro asignado correctamente")
+                        this.setState({
+                            selectedMonitor:[],
+                            selectedGrupo: [],
+                            selectedRama: [],
+                            selectedZona: [],
+                            selectedNombre: [],
+                            nombres: []
+                        })
+    
+                        this.obtenerPersonas()
+                    }
+                })
         }
         else {
             alert("Ingrese todos los datos")
@@ -153,23 +158,24 @@ class AsignacionMiembros extends Component {
     };
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeZonas = selectedZona => {
-        this.setState(
-            { selectedZona }
-        );
-        this.state.selectedMonitor = []
-        this.state.selectedRama = []
-        this.state.selectedGrupo = []
-        this.limpiarRamas();
-        this.obtenerRamas(selectedZona);
+            this.setState(
+                { selectedZona }
+            );
+            this.state.selectedMonitor = []
+            this.state.selectedRama = []
+            this.state.selectedGrupo = []
+            this.limpiarRamas();
+            this.obtenerRamas(selectedZona);
+
     }
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeRamas = selectedRama => {
-        this.setState(
-            { selectedRama }
-        );
-        this.state.selectedMonitor = []
-        this.limpiarGrupos();
-        this.obtenerGrupos(selectedRama);
+            this.setState(
+                { selectedRama }
+            );
+            this.state.selectedMonitor = []
+            this.limpiarGrupos();
+            this.obtenerGrupos(selectedRama);
     }
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeGrupo = selectedGrupo => {
@@ -201,11 +207,19 @@ class AsignacionMiembros extends Component {
         })
     };
 
+    verificarJefesZona(seleccion){
+        if(this.state.selectedZona.jefes.length<=2){
+            return true
+        }else{
+            return false
+        }
+    }
+
     verificarSeleccion(seleccion) {
-        if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length < 2) {
+        if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length <= 2) {
             return true
         }
-        else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefes.length < 2) {
+        else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefes.length <= 2) {
             return true
         }
         else {
