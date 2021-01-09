@@ -66,29 +66,19 @@ Esta funcion se encarga de recuperar todas las ramas y almacenarlas en la ventan
 esta funcion se encarga de obtener todos los grupos y
 guardarlos en el respectivo state
 */
-    obtenerGrupos(){
-        var self = this;
-        let arreglo =[];
-        axios.post("/allGrupos", {}).then(res => {
-            const respuesta=res.data;
-            const ramaNombre = this.state.selectedRama.value;
-            respuesta.forEach(grupo=>{
-                if(grupo.nombreRama == ramaNombre && grupo.monitores.length != 0){
-                    arreglo.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo,
-                        identificacion:grupo._id,
-                        miembros:grupo.miembros,
-                        jefesGrupo:grupo.jefesGrupo,
-                        monitores:grupo.monitores
-                    })
-                }
-            })   
-            this.setState({
-                grupos:arreglo
-            })
-        })
-    }
+    // obtenerGrupos(){
+    //     var self = this;
+    //     let arreglo =[];
+    //     axios.post("/gruposMonitor", {}).then(res => {
+    //         const respuesta=res.data;
+    //         const ramaNombre = this.state.selectedRama.value;
+    //         console.log(respuesta);
+
+    //         this.setState({
+    //             grupos:arreglo
+    //         })
+    //     })
+    // }
 /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */ 
     handleChangeRama = selectedRama => {
         this.setState(
@@ -109,13 +99,14 @@ guardarlos en el respectivo state
     };
 /* Esta funcion se ejecuta automaticamente,
 obtiene todas las zonas y las gurada en la ventana*/
-    componentWillMount() {
+    componentDidMount() {
         var self = this;
         let arreglo =[];
-        let arrRama = [];
-        let arrGrup = [];
-        axios.post("/allZonas", {}).then(res => {
+        
+        axios.post("/gruposMonitor", {
+        }).then(res => {
             const respuesta = res.data;
+            console.log(respuesta)
             respuesta.forEach(zona=>{
                 arreglo.push({
                     value:zona.nombreZona,
@@ -136,7 +127,7 @@ render() {
         <Header></Header>
         <main className = "container">
                 <div id="center-section">
-                    <h2>Consultar Composicion de Grupo</h2>
+{/*                    <h2>Consultar Composicion de Grupo</h2>
                     <div class="form-group">
                         <label for="zona">Seleccione la zona a la que pertenece el grupo:</label>
                         <Select components={makeAnimated} name="zona" onChange={this.handleChangeZona} 
@@ -147,6 +138,7 @@ render() {
                         <Select components={makeAnimated} name="rama" onChange={this.handleChangeRama} 
                         value={this.state.selectedRama} options={this.state.ramas} classNamePrefix="select"/>
                     </div>
+*/}
                     <div class="form-group" class="spacing-base">
                         <label for="grupo">Seleccione el grupo:</label>
                         <Select components={makeAnimated} name="grupo" onChange={this.handleChangeGrupo} 

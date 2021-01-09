@@ -98,5 +98,8 @@ module.exports = class GestorEstructura{
         console.log(`RESULT: ${component.operation()}`);
     }
 
+    async gruposMonitor(req, res){
+        await this.DAO.gruposMonitor(req,res);
+    }
     
 }

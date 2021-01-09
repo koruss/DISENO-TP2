@@ -145,6 +145,10 @@ module.exports = class Control{
     async obtenerAportes(req, res){
         await this.gestorEstructura.obtenerAportes(req, res);
     }
+
+    async gruposMonitor(req, res){
+        await this.gestorEstructura.gruposMonitor(req,res);
+    }
 }
 
 
