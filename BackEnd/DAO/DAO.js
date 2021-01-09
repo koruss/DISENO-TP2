@@ -410,7 +410,7 @@ module.exports = class DAO {
 
     async gruposMonitor(req,res){
         this.openConnection();
-        CompositeSchema.find({tipo:3,monitores:req.data.userID}).populate("miembros").exec(function(err,data){//query de monitores de grupo
+        CompositeSchema.find({tipo:3,monitores:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
             if(err){
                 return res.json({success:false,error:err})
             }

@@ -14,6 +14,8 @@ export default class CardGrupoResult extends Component {
         this.state.nombre = this.props.miembroData.nombre;
         this.state.indice = this.props.index;  
         this.state.apellido = this.props.miembroData.apellido1
+        this.state.apellido = this.props.miembroData.apellido1
+        this.state.apellido = this.props.miembroData.apellido1
         
         return (
             <div >
