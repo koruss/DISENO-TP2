@@ -48,13 +48,13 @@ class AsignacionMiembros extends Component {
                 zonas: arreglo
             })
         })
-        this.obtenerPersonas();
+        // this.obtenerPersonas();
     }
     // esta función se encarga de obtener todos los registros de personas,
     // y los guarda en la pantalla
-    obtenerPersonas() {
+    obtenerPersonas(selectedPlace) {
         let arrPers = [];
-        axios.post("/allPersona", {}).then(res => {
+        axios.post("/allMiembrosGrupos", {_id:selectedPlace._id}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
                 //if(nombre.estado==false){
@@ -70,6 +70,29 @@ class AsignacionMiembros extends Component {
             })
         })
     }
+
+    // esta función se encarga de obtener todos los registros de personas,
+    // y los guarda en la pantalla
+    obtenerPersonasMonitor() {
+        let arrPers = [];
+        axios.post("/allPersona", {}).then(res => {
+            const respuesta = res.data;
+            respuesta.forEach(persona=>{
+                if(persona.posibleMonitor==true){
+                    arrPers.push({
+                        value: persona.nombre,
+                        label: persona.nombre,
+                        _id: persona._id,
+                        posibleMonitor: persona.posibleMonitor
+                    })
+                }
+            })   
+            this.setState({
+                nombres: arrPers
+            })
+        })
+    }
+
     //esta funcion se encarga de obtener todas las ramas y guardarlas en la 
     //pagina
     obtenerRamas(selectedZona) {
@@ -166,6 +189,7 @@ class AsignacionMiembros extends Component {
             this.state.selectedGrupo = []
             this.limpiarRamas();
             this.obtenerRamas(selectedZona);
+            this.obtenerPersonas(selectedZona);
 
     }
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
@@ -176,6 +200,7 @@ class AsignacionMiembros extends Component {
             this.state.selectedMonitor = []
             this.limpiarGrupos();
             this.obtenerGrupos(selectedRama);
+            this.obtenerPersonas(selectedRama);
     }
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeGrupo = selectedGrupo => {
@@ -193,6 +218,11 @@ class AsignacionMiembros extends Component {
                 this.setState(
                     { selectedMonitor },     
                 );
+                if(selectedMonitor.value=="Monitor"){
+                    this.obtenerPersonasMonitor();
+                }else{
+                    this.obtenerPersonas(this.state.selectedGrupo);
+                }
             }
             else{
                 alert("No se pueden asignar mas personas de este tipo al grupo")
@@ -245,9 +275,6 @@ class AsignacionMiembros extends Component {
                     <div id="center-section">
                         <h2>Asignar miembros a grupos</h2>
                         <div class="spacing-base"></div>
-                        <h3>Nombre:</h3>
-                        <Select components={makeAnimated} name="nombre" value={this.state.selectedNombre} className="basic-multi-select"
-                            options={this.state.nombres} classNamePrefix="select" onChange={this.handleChangeNombre} />
                         <div class="form-group" class="spacing-base">
                             <label for="zona">Seleccione la zona a la que pertenecerá la persona:</label>
                             <Select components={makeAnimated} name="zona" value={this.state.selectedZona} className="basic-multi-select"
@@ -275,6 +302,10 @@ class AsignacionMiembros extends Component {
                             </Form> */}
 
                         </div>
+                        <div class="spacing-base"></div>
+                        <h3>Nombre:</h3>
+                        <Select components={makeAnimated} name="nombre" value={this.state.selectedNombre} className="basic-multi-select"
+                            options={this.state.nombres} classNamePrefix="select" onChange={this.handleChangeNombre} />
                     </div>
                     <button type="button" class="btn btn-dark" onClick={this.onClick} >Asignar</button>
                 </main>
