@@ -78,6 +78,7 @@ class Header extends Component {
                                 </>
                             }
                         }}/>
+                        <span class="small">Powered by Amber.SA </span>
                     </Navbar>
                     <Navbar  variant="dark"  expand="lg">
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -118,7 +119,6 @@ class Header extends Component {
                                             <NavDropdown.Item href="/cambiarNombreGrupo">Cambiar nombre de grupo</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/PosiblesMonitores">Establecer posibles mentores de grupo</NavDropdown.Item>
-                                            <NavDropdown.Divider />
                                         </NavDropdown>  
                                         <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>
@@ -130,7 +130,6 @@ class Header extends Component {
                                             <NavDropdown.Item href="/arbolEstructural">Arbol</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/ReporteAportes">Reporte de aportes</NavDropdown.Item>
-                                            <NavDropdown.Divider />
                                         </NavDropdown>   
                                         <NavDropdown title="Crear estructuras" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/crearZona">Crear zona</NavDropdown.Item>
@@ -138,7 +137,11 @@ class Header extends Component {
                                             <NavDropdown.Item href="/crearRama">Crear rama</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/crearGrupo">Crear grupo</NavDropdown.Item>
+                                        </NavDropdown>
+                                        <NavDropdown title="Aportes" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>
                                             <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/ReporteAportes">Reporte de aportes</NavDropdown.Item>
                                         </NavDropdown>
                                         <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
                                     </> 

@@ -291,29 +291,39 @@ module.exports = class DAO {
 
     async postPersona(req,res){
         this.openConnection()
-        const personaSchema = new PersonaSchema();
-        const direccion = {
-            pais: req.body.pais.value,
-            provincia: req.body.provincia.value,
-            canton: req.body.provincia.value,
-            distrito: req.body.distrito.value
-        }
-        personaSchema.idMovimiento= req.body.movimiento;
-        personaSchema.nombre=req.body.nombre;
-        personaSchema.contrasena=req.body.contrasena;
-        personaSchema.identificacion=req.body.identificacion;
-        personaSchema.apellido1=req.body.apellido1;
-        personaSchema.apellido2=req.body.apellido2;
-        personaSchema.posibleMonitor=false;
-        personaSchema.telefono=req.body.celular;
-        personaSchema.correo=req.body.correo;
-        personaSchema.direccion=direccion;
-        personaSchema.tipo=-1;
-        personaSchema.save(function(){
-            res.send({success:true})
-            res.end()
-        });
-        
+        PersonaSchema.findOne({identificacion:req.body.identificacion}, function(err,data){
+            if(err){
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else if(data == null){
+                const personaSchema = new PersonaSchema();
+                const direccion = {
+                    pais: req.body.pais.value,
+                    provincia: req.body.provincia.value,
+                    canton: req.body.provincia.value,
+                    distrito: req.body.distrito.value
+                }
+                personaSchema.idMovimiento= req.body.movimiento;
+                personaSchema.nombre=req.body.nombre;
+                personaSchema.contrasena=req.body.contrasena;
+                personaSchema.identificacion=req.body.identificacion;
+                personaSchema.apellido1=req.body.apellido1;
+                personaSchema.apellido2=req.body.apellido2;
+                personaSchema.posibleMonitor=false;
+                personaSchema.telefono=req.body.celular;
+                personaSchema.correo=req.body.correo;
+                personaSchema.direccion=direccion;
+                personaSchema.tipo=-1;
+                personaSchema.save(function(){
+                    res.send({success:true})
+                    res.end()
+                });
+            }
+            else{
+                res.json({success:false, error:" Ya esa identificacion esta registrada!"})
+            }
+        })
+            
     }
 
     async obtenerMovimientos(req,res){
