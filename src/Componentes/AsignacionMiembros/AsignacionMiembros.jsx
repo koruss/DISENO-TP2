@@ -48,7 +48,6 @@ class AsignacionMiembros extends Component {
                 zonas: arreglo
             })
         })
-        // this.obtenerPersonas();
     }
     // esta función se encarga de obtener todos los registros de personas,
     // y los guarda en la pantalla
@@ -143,31 +142,38 @@ class AsignacionMiembros extends Component {
         // if (this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0 &&
         //     this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0) {
         if(this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0){
-                console.log(this.state.selectedZona.jefes.length)
-                axios.post("/asignarMiembro", {
-                    _idPerson: this.state.selectedNombre._id,
-                    grupo: this.state.selectedGrupo._id,
-                    rama: this.state.selectedRama._id,
-                    zona: this.state.selectedZona._id,
-                    categoriaPersona: this.state.selectedMonitor.value
-                }).then(res => {
-                    if (!res.data.success) {
-                        alert(res.data.err);
-                    }
-                    else {
-                        alert("Miembro asignado correctamente")
-                        this.setState({
-                            selectedMonitor:[],
-                            selectedGrupo: [],
-                            selectedRama: [],
-                            selectedZona: [],
-                            selectedNombre: [],
-                            nombres: []
-                        })
-    
-                        this.obtenerPersonas()
-                    }
-                })
+            if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<=2){
+                if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<=2){
+                    axios.post("/asignarMiembro", {
+                        _idPerson: this.state.selectedNombre._id,
+                        grupo: this.state.selectedGrupo._id,
+                        rama: this.state.selectedRama._id,
+                        zona: this.state.selectedZona._id,
+                        categoriaPersona: this.state.selectedMonitor.value
+                    }).then(res => {
+                        if (!res.data.success) {
+                            alert(res.data.err);
+                        }
+                        else {
+                            alert("Miembro asignado correctamente")
+                            this.setState({
+                                selectedMonitor:[],
+                                selectedGrupo: [],
+                                selectedRama: [],
+                                selectedZona: [],
+                                selectedNombre: [],
+                                nombres: []
+                            })
+        
+                            this.obtenerPersonas()
+                        }
+                    })
+                }else{
+                    alert("No se pueden asignar mas personas de este tipo al grupo")
+                }
+            }else{
+                alert("No se pueden asignar mas personas de este tipo al grupo")
+            }
         }
         else {
             alert("Ingrese todos los datos")
@@ -236,14 +242,6 @@ class AsignacionMiembros extends Component {
             posibleMonitor: !this.state.posibleMonitor
         })
     };
-
-    verificarJefesZona(seleccion){
-        if(this.state.selectedZona.jefes.length<=2){
-            return true
-        }else{
-            return false
-        }
-    }
 
     verificarSeleccion(seleccion) {
         if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length <= 2) {

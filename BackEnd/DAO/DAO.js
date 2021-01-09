@@ -62,22 +62,6 @@ module.exports = class DAO {
     }
     
     //Funcion que inserta un miembro en un grupo y le establece un tipo
-    // async updateMiembroEnGrupo(req,res) {
-    //     this.openConnection();
-    //     CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
-    //         if(err)return handleError(err);
-    //         else{
-    //             PersonaSchema.updateOne({_id:req.body._idPerson},{estado:true},function(err,success){
-    //                 if(err)handleError(err);
-    //                 else{
-    //                     res.json({success:true})
-    //                     res.end();
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }
-
     async updateMiembroEnGrupo(req, res){
         console.log(req.body)
         if(req.body.rama==null){
@@ -152,43 +136,46 @@ module.exports = class DAO {
         })
     }
 
-    async actualizarMiembros(dataLugar, _idPerson, res){
-        CompositeSchema.updateOne({_id:dataLugar},{$addToSet:{miembros:_idPerson}},function(err,success){
-            if(err) {
-                res.json({success: false, error: 'No se pudo actualizar el dato',error});
-            }
-            else {
-                res.json({ success: true })
-            }
-        })
-    }
 
-    async actualizarTipoPersonaMiembro(req,res){
-        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo: 1},function(err,success){
-            if(err)return handleError(err);
-            else{
-                return res.json({success:true})
-            }
-        })
-    }
+    //*********************************    NO BORRAR    *************************************** */
+    // async actualizarMiembros(dataLugar, _idPerson, res){
+    //     CompositeSchema.updateOne({_id:dataLugar},{$addToSet:{miembros:_idPerson}},function(err,success){
+    //         if(err) {
+    //             res.json({success: false, error: 'No se pudo actualizar el dato',error});
+    //         }
+    //         else {
+    //             res.json({ success: true })
+    //         }
+    //     })
+    // }
 
-    async actualizarTipoPersonaMonitorJefe(_idPerson,res){
-        PersonaSchema.updateOne({identificacion:_idPerson},{tipo: 2},function(err,success){
-            if(err)return handleError(err);
-            else{
-                return res.json({success:true})
-            }
-        })
-    }
+    // async actualizarTipoPersonaMiembro(req,res){
+    //     PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo: 1},function(err,success){
+    //         if(err)return handleError(err);
+    //         else{
+    //             return res.json({success:true})
+    //         }
+    //     })
+    // }
 
-    async actualizarTipoPersonaAsesor(req,res){
-        PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo:3},function(err,success){
-            if(err)return handleError(err);
-            else{
-                return res.json({success:true})
-            }
-        })
-    }
+    // async actualizarTipoPersonaMonitorJefe(_idPerson,res){
+    //     PersonaSchema.updateOne({identificacion:_idPerson},{tipo: 2},function(err,success){
+    //         if(err)return handleError(err);
+    //         else{
+    //             return res.json({success:true})
+    //         }
+    //     })
+    // }
+
+    // async actualizarTipoPersonaAsesor(req,res){
+    //     PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo:3},function(err,success){
+    //         if(err)return handleError(err);
+    //         else{
+    //             return res.json({success:true})
+    //         }
+    //     })
+    // }
+    //*********************************    NO BORRAR    *************************************** */
 
     //Funcion que inserta un jefe en un grupo y le establece un tipo
     async updateJefeGrupo(data, schema, ramaSchema, res){
@@ -481,8 +468,4 @@ module.exports = class DAO {
             }
         })
     }
-
-    
-
-
 }
