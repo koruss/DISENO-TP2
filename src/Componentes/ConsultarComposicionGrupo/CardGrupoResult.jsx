@@ -14,8 +14,8 @@ export default class CardGrupoResult extends Component {
         this.state.nombre = this.props.miembroData.nombre;
         this.state.indice = this.props.index;  
         this.state.apellido = this.props.miembroData.apellido1
-        this.state.apellido = this.props.miembroData.apellido1
-        this.state.apellido = this.props.miembroData.apellido1
+        this.state.telefono = this.props.miembroData.telefono
+        this.state.correo = this.props.miembroData.correo
         
         return (
             <div >
@@ -24,6 +24,12 @@ export default class CardGrupoResult extends Component {
                         <Card.Title>{this.state.indice}</Card.Title>
                         <Card.Text>
                             {this.state.nombre} {this.state.apellido}
+                        </Card.Text>
+                        <Card.Text>
+                            Correo: {this.state.correo}
+                        </Card.Text>
+                        <Card.Text>
+                            Telefono {this.state.telefono}
                         </Card.Text>
                     </Card.Body>
                 </Card>

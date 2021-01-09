@@ -408,15 +408,40 @@ module.exports = class DAO {
         })
     }
 
-    async gruposMonitor(req,res){
+    async composicionGrupo(req,res){
         this.openConnection();
-        CompositeSchema.find({tipo:3,monitores:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
-            if(err){
-                return res.json({success:false,error:err})
-            }
-            res.send(data);
-            res.end();
-        })
+        console.log(req.body)
+        if(req.body.tipoUsuario=="JEFE"){
+            CompositeSchema.find({tipo:3,monitores:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
+                if(err){
+                    return res.json({success:false,error:err})
+                }
+                res.send(data);
+                res.end();
+                
+            })
+        }
+        if(req.body.tipoUsuario=="ASESOR"){
+            CompositeSchema.find({tipo:3}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
+                if(err){
+                    return res.json({success:false,error:err})
+                }
+                res.send(data);
+                res.end();
+                
+            })
+        }
+        if(req.body.tipoUsuario=="MIEMBRO"){
+            CompositeSchema.find({tipo:3,miembros:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
+                if(err){
+                    return res.json({success:false,error:err})
+                }
+                res.send(data);
+                res.end();
+                
+            })
 
+        }
+        
     }
 }
