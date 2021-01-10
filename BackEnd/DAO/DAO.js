@@ -224,6 +224,7 @@ module.exports = class DAO {
         const schema = new CompositeSchema();
         schema.nombre = req.body.nombreGrupo;
         schema.tipo=3;
+        schema.monitores.push(req.body.selectedMonitor.datosPersona[0]._id)
         schema.save();
         CompositeSchema.update({ _id: req.body.selectedRama._id}, { $addToSet: { children: schema._id } }, function (err, result) {
             if (err) {
