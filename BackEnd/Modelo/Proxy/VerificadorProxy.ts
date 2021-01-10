@@ -45,7 +45,6 @@ export class VerificadorProxy implements Verificador  {
                 this.id_persona = persona.datosPersona[0]._id;
                 auth = true;
                 var movimiento = this.movimientos.find(element => element._id == persona.datosPersona[0].idMovimiento);
-                console.log(movimiento)
                 this.id_movimiento = movimiento._id;
                 this.nombre_movimiento = movimiento.nombre;
             }

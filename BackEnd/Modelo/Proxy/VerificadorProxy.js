@@ -33,7 +33,6 @@ var VerificadorProxy = /** @class */ (function () {
                 _this.id_persona = persona.datosPersona[0]._id;
                 auth = true;
                 var movimiento = _this.movimientos.find(function (element) { return element._id == persona.datosPersona[0].idMovimiento; });
-                console.log(movimiento);
                 _this.id_movimiento = movimiento._id;
                 _this.nombre_movimiento = movimiento.nombre;
             }
