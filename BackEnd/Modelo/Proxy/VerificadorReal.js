@@ -24,7 +24,7 @@ var VerificadorReal = /** @class */ (function () {
         }
     };
     VerificadorReal.prototype.getTipo = function () {
-        return this.type;
+        return this.type;   
     };
     return VerificadorReal;
 }());

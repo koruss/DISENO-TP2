@@ -62,21 +62,120 @@ module.exports = class DAO {
     }
     
     //Funcion que inserta un miembro en un grupo y le establece un tipo
-    async updateMiembroEnGrupo(req,res) {
-        this.openConnection();
-        CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
-            if(err)return handleError(err);
-            else{
-                PersonaSchema.updateOne({_id:req.body._idPerson},{estado:true},function(err,success){
-                    if(err)handleError(err);
-                    else{
-                        res.json({success:true})
-                        res.end();
+    async updateMiembroEnGrupo(req, res){
+        console.log(req.body)
+        if(req.body.rama==null){
+            this.actualizarJefes(req.body.zona, req.body.rama, req.body._idPerson, res)
+
+        }else if(req.body.grupo==null){
+            //Se asigna jefe a la rama
+            this.actualizarJefes(req.body.rama, req.body.zona, req.body._idPerson, res)
+
+        }else{
+            if(req.body.categoriaPersona=="Monitor"){
+                //Se asigna como monitor grupo
+                CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{monitores:req.body._idPerson}},function(err,success){
+                    if(err) {
+                        res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                    }
+                    else {
+                        CompositeSchema.updateOne({_id:req.body.rama},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
+                            if(err) {
+                                res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                            }
+                            else {
+                                PersonaSchema.updateOne({_id:req.body._idPerson},{tipo: 2},function(err,success){
+                                    if(err)return handleError(err);
+                                    else{
+                                        return res.json({success:true})
+                                    }
+                                })
+                            }
+                        })
+                        // res.json({success: true, info: info });
                     }
                 })
+            }else{
+                //Se asigna jefe en grupo
+                this.actualizarJefes(req.body.grupo, req.body.rama, req.body._idPerson, res)
+            }
+        }
+    }
+
+    async actualizarJefes(dataLugarJefe, dataLugarMiembro, _idPerson, res){
+        CompositeSchema.updateOne({_id:dataLugarJefe},{$addToSet:{jefes:_idPerson}},function(err,success){
+            if(err) {
+                res.json({success: false, error: 'No se pudo actualizar el dato',error});
+            }
+            else {
+                if(dataLugarMiembro!=null){
+                    CompositeSchema.updateOne({_id:dataLugarMiembro},{$addToSet:{miembros:_idPerson}},function(err,success){
+                        if(err) {
+                            res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                        }
+                        else {
+                            PersonaSchema.updateOne({_id:_idPerson},{tipo: 2},function(err,success){
+                                if(err)return handleError(err);
+                                else{
+                                    return res.json({success:true})
+                                }
+                            })
+                        }
+                    })
+                }else{
+                    PersonaSchema.updateOne({_id:_idPerson},{tipo: 2},function(err,success){
+                        if(err)return handleError(err);
+                        else{
+                            return res.json({success:true})
+                        }
+                    })
+                }
+                // this.actualizarMiembros(dataLugarMiembro, _idPerson, res)
+                
             }
         })
     }
+
+
+    //*********************************    NO BORRAR    *************************************** */
+    // async actualizarMiembros(dataLugar, _idPerson, res){
+    //     CompositeSchema.updateOne({_id:dataLugar},{$addToSet:{miembros:_idPerson}},function(err,success){
+    //         if(err) {
+    //             res.json({success: false, error: 'No se pudo actualizar el dato',error});
+    //         }
+    //         else {
+    //             res.json({ success: true })
+    //         }
+    //     })
+    // }
+
+    // async actualizarTipoPersonaMiembro(req,res){
+    //     PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo: 1},function(err,success){
+    //         if(err)return handleError(err);
+    //         else{
+    //             return res.json({success:true})
+    //         }
+    //     })
+    // }
+
+    // async actualizarTipoPersonaMonitorJefe(_idPerson,res){
+    //     PersonaSchema.updateOne({identificacion:_idPerson},{tipo: 2},function(err,success){
+    //         if(err)return handleError(err);
+    //         else{
+    //             return res.json({success:true})
+    //         }
+    //     })
+    // }
+
+    // async actualizarTipoPersonaAsesor(req,res){
+    //     PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo:3},function(err,success){
+    //         if(err)return handleError(err);
+    //         else{
+    //             return res.json({success:true})
+    //         }
+    //     })
+    // }
+    //*********************************    NO BORRAR    *************************************** */
 
     //Funcion que inserta un jefe en un grupo y le establece un tipo
     async updateJefeGrupo(data, schema, ramaSchema, res){
@@ -348,6 +447,7 @@ module.exports = class DAO {
             }
         })
     }
+
 
     async cambiarMiembroGrupo(req,res){// hay que ver como 
         console.log(req.body)
