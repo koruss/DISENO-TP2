@@ -301,7 +301,7 @@ class AsignacionMiembros extends Component {
 
                         </div>
                         <div class="spacing-base"></div>
-                        <h3>Nombre:</h3>
+                        <label for="monitor">Nombre:</label> 
                         <Select components={makeAnimated} name="nombre" value={this.state.selectedNombre} className="basic-multi-select"
                             options={this.state.nombres} classNamePrefix="select" onChange={this.handleChangeNombre} />
                     </div>
