@@ -63,7 +63,7 @@ module.exports = class DAO {
     
     //Funcion que inserta un miembro en un grupo y le establece un tipo
     async updateMiembroEnGrupo(req, res){
-        console.log(req.body)
+        // console.log(req.body)
         if(req.body.rama==null){
             this.actualizarJefes(req.body.zona, req.body.rama, req.body._idPerson, res)
 
@@ -200,7 +200,7 @@ module.exports = class DAO {
                     res.json({success: false, error: 'No se pudo modificar el cliente',error});
                 } 
                 else {
-                    console.log(data.body.rama.identificacion)
+                    // console.log(data.body.rama.identificacion)
                     ramaSchema.updateOne({_id:data.body.rama.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}},
                         function(error, info) {
                             if(error) {
@@ -233,7 +233,7 @@ module.exports = class DAO {
     }
 
     async crearGrupo(req, res) {
-        console.log(req.body)
+        // console.log(req.body)
         this.openConnection();
         const schema = new CompositeSchema();
         schema.idMovimiento = req.body.id_movimiento;
@@ -457,7 +457,7 @@ module.exports = class DAO {
     }
 
     async cambiarEstadoMonitor(req,res){
-        console.log(req.body.identificacion)
+        // console.log(req.body.identificacion)
         PersonaSchema.updateOne({identificacion:req.body.identificacion},{posibleMonitor:true},function(err,success){
             if(err)return handleError(err);
             else{
@@ -468,7 +468,7 @@ module.exports = class DAO {
 
 
     async cambiarMiembroGrupo(req,res){// hay que ver como 
-        console.log(req.body)
+        // console.log(req.body)
         CompositeSchema.updateOne({_id:req.body.grupoTo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
             if(err)return handleError(err);
             else{
@@ -528,7 +528,7 @@ module.exports = class DAO {
 
     async composicionGrupo(req,res){
         this.openConnection();
-        console.log(req.body)
+        // console.log(req.body)
         if(req.body.tipoUsuario=="JEFE"){
             CompositeSchema.find({tipo:3,monitores:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
                 if(err){
