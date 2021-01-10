@@ -5,43 +5,46 @@ import Tree from 'react-hierarchy-tree-graph';
 import axios from 'axios';
 import '../General/Utils.css'
 
-class TreeContainer extends React.PureComponent{
+const fs = require('fs');
+
+class TreeContainer extends React.PureComponent {
     state = {
-        aux:true,
-        id:0,
-        arbol:[{name:"Movilize",children:[]}],
-        zonas:[],
-        ramas:[],
-        grupos:[],
+        state: false,
+        aux: true,
+        id: 0,
+        arbol2: [{ name: "BLABLA", children: [] }],
+        arbol: [{ name: "BLABLA", children: [] }],
+        zonas: [],
+        ramas: [],
+        grupos: [],
         treeData: [
             {
-              name: 'Ejemplo',
+                name: 'Ejemplo',
 
-              children: [
-                {
-                  name: 'Level 2: A',
-                  id:1,
-                  children:[
-                      {
-                          name:'level 2 : a',
-                          id:35
-                      },
-                      {
-                        name:'level 2 : b',
-                        id:36
-                      }
-                  ]
-                },
-                {
-                  name: 'Level 2: B',
-                  attributes:{
-                      id:2
-                  },
-                },
-              ],
+                children: [
+                    {
+                        id: "1",
+                        name: 'Level 2: A',
+                        children: [
+                            {
+                                id: "2",
+                                name: 'level 2 : a',
+
+                            },
+                            {
+                                name: 'level 2 : b',
+                                id: "3"
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Level 2: B',
+                        id: "4"
+                    },
+                ],
             },
-          ],
-          
+        ],
+
         svgSquare: {
             shape: 'rect',
             shapeProps: {
@@ -61,16 +64,17 @@ class TreeContainer extends React.PureComponent{
     }
 
     onClick = (nodeData, e) => {
-        console.log(nodeData.name);
-        console.log(e);
-        alert("Has clickeado un nodo nindo");
+        console.log(nodeData);
+        
+        alert(nodeData.name,nodeData.id);
     }
 
-    btnClick = (e)=>{
+    btnClick = (e) => {
         var self = this;
-        this.setState({
-            treeData: self.state.arbol
+        self.setState({
+            arbol2: this.state.arbol
         })
+        this.armarArbol();
     }
 
     translate() {
@@ -78,117 +82,111 @@ class TreeContainer extends React.PureComponent{
         this.setState({
             translate: {
                 x: dimensions.width / 2,
-                y: 30,
+                y: dimensions.height / 4
             }
         });
     }
 
-    armarArbol(){
-        let arbol=this.state.arbol;
-        let zonas= this.state.zonas;
-        let ramas= this.state.ramas;
-        let grupos= this.state.grupos;
-        zonas.forEach(zona=>{
-            let arregloRamas=[];
-            
-            zona.ramas.forEach(rama=>{//ingreso al arreglo de ramas que esta en el doc zona
-                let arregloGrupo=[]
-                const ramaExacta =ramas.find(ramita=>ramita.nombreRama==rama.nombre)//entro a todas las ramas y saco el que tnga match
-                
-                // ramaExacta.grupos.forEach(grupo=>{
-                //     this.state.id=(this.state.id+1)
-                //     arregloGrupo.push({name:grupo.nombre, id:this.state.id,children:[] })
-
-                // })
-    
-                ramaExacta.grupos.forEach(grupo=>{
-                    
-                    const grupoOriginal=grupos.find(element =>element.nombreGrupo==grupo.nombre)
-                    if(grupoOriginal.monitores.length != 0){
-                        this.state.id=(this.state.id+1)
-                        arregloGrupo.push({name:grupoOriginal.nombreGrupo, id:this.state.id,children:[] })
-
-                    }
-                    
+    armarArbol() {
+        //let arbol = this.state.arbol;
+        let zonas = this.state.zonas;
+        let ramas = this.state.ramas;
+        let grupos = this.state.grupos;
+        zonas.forEach(zona => {
+            let arregloRamas = [];
+            zona.children.forEach(rama => {
+                let arregloGrupo = []
+                const ramaExacta = ramas.find(ramita => ramita.id == rama)
+                ramaExacta.children.forEach(grupo => {
+                    const grupoOriginal = grupos.find(element => element.id == grupo)
+                    console.log(grupoOriginal)
+                    arregloGrupo.push({ name: grupoOriginal.name, id: grupoOriginal.id, children: [] })
                 })
-                this.state.id=(this.state.id+1)
-                arregloRamas.push({name:rama.nombre, id:this.state.id,children:arregloGrupo})
+                arregloRamas.push({ name: ramaExacta.name, id: ramaExacta.id, children: arregloGrupo })
             })
-            this.state.id=(this.state.id+1)
-            this.state.arbol[0].children.push({name:zona.nombreZona,id:this.state.id, children:arregloRamas})
+            this.state.arbol[0].children.push({ name: zona.name, id: zona.id, children: arregloRamas })
         })
         // ramas.forEach(rama=>{
         //     let nombreZona= rama.nombreZona;
-            
+
         // })
         // for(var i=0; i<zonas.length;i++){
         //     console.log(zonas[i]);
         //     this.state.arbol[0].children.push({name:zonas[i].nombreZona,id:zonas[i]._id, children:[]})
-        // } 
-        
-
-
+        // }
     }
 
 
 
 
     componentDidMount() {
-        console.log("1");
-
-        /*
-        Cuando se implemente los coordinadores se debe inicializar el arbol aqui
-        */ 
-
+        this.translate()
+        let arreglo = [];
+        let arreglo2 = [];
+        let arreglo3 = [];
+        var self = this;
         axios.post("/allZonas", {}).then(res => {
-            const respuesta1 = res.data;  
-            this.setState({
-                zonas:respuesta1
+            const respuesta = res.data;
+            respuesta.forEach(zona => {
+                arreglo.push({
+                    id: zona._id,
+                    children: zona.children,
+                    name: zona.nombre
+                })
             })
         })
         axios.post("/allRama", {}).then(res => {
             const respuesta2 = res.data;
-            this.setState({
-                ramas:respuesta2
+            respuesta2.forEach(rama => {
+                arreglo2.push({
+                    id: rama._id,
+                    children: rama.children,
+                    name: rama.nombre
+                })
             })
+
         })
         axios.post("/allGrupos", {}).then(res => {
             const respuesta3 = res.data;
-            this.setState({
-                grupos:respuesta3
+            respuesta3.forEach(grupo => {
+                arreglo3.push({
+                    id: grupo._id,
+                    children: grupo.children,
+                    name: grupo.nombre
+                })
             })
-        }).then(res=>{
-            this.armarArbol();
-            
-
-        }).then(res =>{
-            this.translate();
-
         })
-        console.log("3");
+        this.setState({
+            zonas: arreglo,
+            ramas: arreglo2,
+            grupos: arreglo3
+        })
+        this.armarArbol();
+
     }
 
     render() {
         return (
             <div>
                 <Header></Header>
-                <div style={{width:"8%",margin:"auto", "margin-top" : "15px","margin-bottom" : "15px"}}>
-                <button type="button" class="btn btn-dark" onClick={this.btnClick}>Cargar Jerarquía</button>
+                <div style={{ width: "8%", margin: "auto", "margin-top": "15px", "margin-bottom": "15px" }}>
+                    <button type="button" class="btn btn-dark" onClick={this.btnClick}>Cargar Jerarquía</button>
 
                 </div>
-                
-                <div style ={this.state.style} ref={tc => (this.treeContainer = tc)}>
-                <Tree 
-                data={this.state.treeData}
-                 nodeSvgShape={this.state.svgSquare} 
-                 orientation={"vertical"} 
-                 collapsible={true} 
-                 translate={this.state.translate}
-                // onClick={this.onClick} 
-                />
-            </div>
+                <div style={this.state.style} ref={tc => (this.treeContainer = tc)}>
+                    <Tree
+                        onClick={this.onClick}
+                        data={this.state.arbol2}
+                        nodeSvgShape={this.state.svgSquare}
+                        orientation={"vertical"}
+                        collapsible={false}
+                        translate={this.state.translate}
+                    />
 
-            </div>    
+
+                </div>
+
+            </div>
 
         )
     };

@@ -86,7 +86,7 @@ class SignUp extends Component{
                 movimiento:this.state.movimiento._id
             }).then(res =>{
                 if(!res.data.success){
-                    alert(res.data.err);
+                    alert(res.data.error);
                 }
                 else{
                     alert("Miembro Guardado correctamente")

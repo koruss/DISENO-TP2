@@ -139,6 +139,22 @@ app.post('/iniciarSesion', (req,res) => {
   control.iniciarSesion(req,res);
 })
 
+app.post('/enviarAporte', (req,res) => {
+  control.enviarAporte(req,res);
+})
+
+app.post('/obtenerAportes', (req,res) => {
+  control.obtenerAportes(req,res);
+})
+
+
+app.post('/composicionGrupo',(req,res)=>{
+  console.log("aqui toy")
+  control.composicionGrupo(req,res);
+})
+
+
+
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 
 

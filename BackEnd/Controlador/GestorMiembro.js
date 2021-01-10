@@ -1,5 +1,9 @@
-const {FachadaLogIn} = require('../Modelo/Fachada/FachadaLogIn.js');
 var DAO = require('../DAO/DAO');
+var Fachada = require('../Fachada/Fachada');
+const Agradecimiento = require('../Strategy/Agradecimiento');
+var CargarAporte = require('../Strategy/CargarAporte');
+const Ofrecimiento = require('../Strategy/Ofrecimiento');
+const Petitoria = require('../Strategy/Petitoria');
 
 module.exports = class GestorMiembro{
     miembros=[];
@@ -43,12 +47,26 @@ module.exports = class GestorMiembro{
     }
 
     async iniciarSesion(req, res){
-        var fachadaLogIn = new FachadaLogIn(req.body.usuario, req.body.password, req.body.personas);
-        var tipo = fachadaLogIn.iniciarSesionFachada();
-        req.session.loggedIn = true;
-        req.session.tipo = tipo;
-        //guardar el id del movimiento aqui req.session.movimiento = movimiento
-        res.json({tipo: tipo});
+        var fachadaLogIn = new Fachada(req.body.usuario, req.body.password, req.body.personas, req.body.movimientos);
+        await fachadaLogIn.iniciarSesionFachada(req,res);
+    }
+
+    async enviarAporte(req,res){
+        const cargarAporte = new CargarAporte();
+        switch (req.body.tipo.value) {
+            case "Ofrecimiento":
+                cargarAporte.setStrategy(new Ofrecimiento());
+                break;
+            case "Agradecimiento": 
+                cargarAporte.setStrategy(new Agradecimiento());
+                break;
+            case "Petitoria": 
+                cargarAporte.setStrategy(new Petitoria());
+                break;
+            default:
+              console.log('default');
+        }
+        cargarAporte.cargarDatos(req,res);
     }
 
 }

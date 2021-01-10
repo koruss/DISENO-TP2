@@ -137,6 +137,19 @@ module.exports = class Control{
     async iniciarSesion(req, res){
         await this.gestorMiembro.iniciarSesion(req, res);
     }
+
+    async enviarAporte(req,res){
+        await this.gestorMiembro.enviarAporte(req, res);
+    }
+
+    async obtenerAportes(req, res){
+        await this.gestorEstructura.obtenerAportes(req, res);
+    }
+
+    async composicionGrupo(req, res){
+        await this.gestorEstructura.composicionGrupo(req,res);
+    }
 }
 
 
+//HACER QUE RECUPERE LA FECHA Y TAMBIEN GUARDAR EL NOMBRE EN EL REQ.SESSION

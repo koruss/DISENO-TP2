@@ -14,7 +14,6 @@ export class VerificadorReal implements Verificador  {
     }
 
     public iniciarSesion(): void {
-        console.log(this.type);
         switch (this.type) {
         case '1':
             this.type = "MIEMBRO";
@@ -29,7 +28,6 @@ export class VerificadorReal implements Verificador  {
             this.type = null;
             break;
         }
-        console.log(this.type);
     }
 
     public getTipo(): string{

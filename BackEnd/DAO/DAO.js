@@ -236,10 +236,12 @@ module.exports = class DAO {
         console.log(req.body)
         this.openConnection();
         const schema = new CompositeSchema();
+        schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreGrupo;
         schema.tipo=3;
+        schema.monitores.push(req.body.selectedMonitor.datosPersona[0]._id)
         schema.save();
-        CompositeSchema.update({ _id: req.body.selectedRama.identificacion }, { $addToSet: { children: schema._id } }, function (err, result) {
+        CompositeSchema.update({ _id: req.body.selectedRama._id}, { $addToSet: { children: schema._id } }, function (err, result) {
             if (err) {
                 console.log(err);
                 res.json({ success: false, error: "Se ha producido un error guardando", error })
@@ -253,6 +255,7 @@ module.exports = class DAO {
     async crearRama(req, res) {
         this.openConnection();
         const schema = new CompositeSchema();
+        schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreRama;
         schema.tipo=2;
         schema.save();
@@ -270,6 +273,7 @@ module.exports = class DAO {
     async crearZona(req, res) {
         this.openConnection();
         const schema = new CompositeSchema();
+        schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreZona;
         schema.tipo=1
         schema.save(function (err, success) {
@@ -281,15 +285,6 @@ module.exports = class DAO {
                 res.json({ success: true })
             }
         })
-        // CompositeSchema.update({_id:req.body.selectedZona.identificacion},{$addToSet:{children:schema._id}},function(err, result){
-        //     if(err){
-        //         console.log(err);
-        //         res.json({success:false, error:"Se ha producido un error guardando",error})
-        //     }
-        //     else{
-        //         res.json({success:true})
-        //     }
-        // })
     }
 
     async allZonas(req,res){
@@ -413,29 +408,39 @@ module.exports = class DAO {
 
     async postPersona(req,res){
         this.openConnection()
-        const personaSchema = new PersonaSchema();
-        const direccion = {
-            pais: req.body.pais.value,
-            provincia: req.body.provincia.value,
-            canton: req.body.provincia.value,
-            distrito: req.body.distrito.value
-        }
-        personaSchema.idMovimiento= req.body.movimiento;
-        personaSchema.nombre=req.body.nombre;
-        personaSchema.contrasena=req.body.contrasena;
-        personaSchema.identificacion=req.body.identificacion;
-        personaSchema.apellido1=req.body.apellido1;
-        personaSchema.apellido2=req.body.apellido2;
-        personaSchema.posibleMonitor=false;
-        personaSchema.telefono=req.body.celular;
-        personaSchema.correo=req.body.correo;
-        personaSchema.direccion=direccion;
-        personaSchema.tipo=-1;
-        personaSchema.save(function(){
-            res.send({success:true})
-            res.end()
-        });
-        
+        PersonaSchema.findOne({identificacion:req.body.identificacion}, function(err,data){
+            if(err){
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else if(data == null){
+                const personaSchema = new PersonaSchema();
+                const direccion = {
+                    pais: req.body.pais.value,
+                    provincia: req.body.provincia.value,
+                    canton: req.body.provincia.value,
+                    distrito: req.body.distrito.value
+                }
+                personaSchema.idMovimiento= req.body.movimiento;
+                personaSchema.nombre=req.body.nombre;
+                personaSchema.contrasena=req.body.contrasena;
+                personaSchema.identificacion=req.body.identificacion;
+                personaSchema.apellido1=req.body.apellido1;
+                personaSchema.apellido2=req.body.apellido2;
+                personaSchema.posibleMonitor=false;
+                personaSchema.telefono=req.body.celular;
+                personaSchema.correo=req.body.correo;
+                personaSchema.direccion=direccion;
+                personaSchema.tipo=-1;
+                personaSchema.save(function(){
+                    res.send({success:true})
+                    res.end()
+                });
+            }
+            else{
+                res.json({success:false, error:" Ya esa identificacion esta registrada!"})
+            }
+        })
+            
     }
 
     async obtenerMovimientos(req,res){
@@ -452,6 +457,7 @@ module.exports = class DAO {
     }
 
     async cambiarEstadoMonitor(req,res){
+        console.log(req.body.identificacion)
         PersonaSchema.updateOne({identificacion:req.body.identificacion},{posibleMonitor:true},function(err,success){
             if(err)return handleError(err);
             else{
@@ -481,5 +487,79 @@ module.exports = class DAO {
                 })
             }
         })
+    }
+
+    async subirAgradecimiento(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.agradecimiento':
+            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
+        } else {res.json({success: true, info: info })}})
+    }
+
+    async subirPetitoria(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.petitoria':
+            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
+        } else {res.json({success: true, info: info })}})
+    }
+
+    async subirOfrecimiento(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.ofrecimiento':
+            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
+            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
+        } else {res.json({success: true, info: info })}})
+    }
+
+    async obtenerAportes(req,res){
+        this.openConnection()
+        MovimientoSchema.findOne({_id:req.body.id_movimiento}).populate("aportes").exec(function(err,data){
+            if(err){
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data.aportes);
+                res.end();
+            }
+        })
+    }
+
+    async composicionGrupo(req,res){
+        this.openConnection();
+        console.log(req.body)
+        if(req.body.tipoUsuario=="JEFE"){
+            CompositeSchema.find({tipo:3,monitores:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
+                if(err){
+                    return res.json({success:false,error:err})
+                }
+                res.send(data);
+                res.end();
+                
+            })
+        }
+        if(req.body.tipoUsuario=="ASESOR"){
+            CompositeSchema.find({tipo:3}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
+                if(err){
+                    return res.json({success:false,error:err})
+                }
+                res.send(data);
+                res.end();
+                
+            })
+        }
+        if(req.body.tipoUsuario=="MIEMBRO"){
+            CompositeSchema.find({tipo:3,miembros:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
+                if(err){
+                    return res.json({success:false,error:err})
+                }
+                res.send(data);
+                res.end();
+                
+            })
+
+        }
+        
     }
 }

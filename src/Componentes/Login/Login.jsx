@@ -22,6 +22,7 @@ class Login extends Component{
     // para ser utilizados cuando se cree en la aplicación
     state = {
         personas: [],
+        movimientos: [],
         isAuth: null,
         id: "",
         contrasena: ""
@@ -31,10 +32,12 @@ class Login extends Component{
     onClick = (e) => {
         var self = this;
         if(this.state.userName != null && this.state.password!=null){
-            console.log("hola",this.state.personas);
-            axios.post('/iniciarSesion',{usuario:this.state.userName,password:this.state.password,personas:this.state.personas}).then(res=>{
-                console.log("res",res.data);
-                if(res.data.tipo != null){  //cambiar esta condicional mas adelante
+            axios.post('/iniciarSesion',{
+                usuario:this.state.userName,
+                password:this.state.password,
+                personas:this.state.personas,
+                movimientos:this.state.movimientos}).then(res=>{
+                if(res.data.tipo != null){ 
                     self.setState({ isAuth: res.data.tipo })
                 }
                 else {
@@ -50,29 +53,7 @@ class Login extends Component{
             this.passwordRef.current.value="";
         }
     }
-      
-    //Clase que se encarga de la validación y acceso de las personas
-    logIn = (e) => {
-        // e.preventDefault();
-        // var self = this;
-        // if(this.state.userName != null && this.state.password!=null){
-        // axios.post('/allAsesores',{usuario:this.state.userName,password:this.state.password}).then(res=>{
-        //     const respuesta=res.data;
-        //     console.log("hola",respuesta);
-        //     if(1 == 1){//if(respuesta.contrasena == this.state.password){
-        //             axios.post('/logIn',{pName:this.state.userName,pPassword:this.state.password}).then(res=>{console.log("hola");});
-        //             self.setState(
-        //                 {
-        //                     isAuth: true
-        //                 }
-        //             )
-        //         }  else {
-        //             alert("Nombre de usuario o contraseña incorrecto!!");
-        //             this.userNameRef.current.value="";
-        //             this.passwordRef.current.value="";
-        //         }
-        // }) 
-    }
+     
 
     obtenerPersonas(){
         let arreglo = [];
@@ -81,17 +62,13 @@ class Login extends Component{
             respuesta.forEach(nombre=>{
                 arreglo.push({
                     datosPersona:[{ _id:nombre._id,
-                        direccion: nombre.direccion,
-                        nombre:nombre.nombre,
                         identificacion:nombre.identificacion,
                         contrasena:nombre.contrasena,
-                        apellido1:nombre.apellido1,
-                        apellido2:nombre.apellido2,
-                        correo:nombre.correo,
-                        telefono:nombre.telefono,
                         tipo:nombre.tipo,
                         idMovimiento:nombre.idMovimiento,
-                        estado:nombre.estado}]
+                        nombre:nombre.nombre,
+                        apellido1:nombre.apellido1,
+                        apellido2:nombre.apellido2}]
                 })
             })   
             this.setState({
@@ -100,10 +77,29 @@ class Login extends Component{
         })
     }
 
+    obtenerMovimientos(){
+        let arrMov = [];
+        axios.post("/allMovimientos", {}).then(res => {
+            const respuesta = res.data;
+            respuesta.forEach(movimiento=>{
+                arrMov.push({
+                    value:movimiento.nombre,
+                    label:movimiento.nombre,
+                    _id:movimiento._id,
+                    nombre:movimiento.nombre
+                })
+            })   
+            this.setState({
+                movimientos:arrMov
+            })
+        })
+    }
+
      // Llena los arreglos con la información requerida para presentar
     // cuando se accede a la ventana
     componentWillMount() {
         this.obtenerPersonas();
+        this.obtenerMovimientos();
     }
 
     onChange = (e) => this.setState({[e.target.name]:

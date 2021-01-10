@@ -90,9 +90,16 @@ module.exports = class GestorEstructura{
         await this.DAO.obtenerMovimientos(req,res);
     }
 
+    async obtenerAportes(req, res){
+        await this.DAO.obtenerAportes(req,res);
+    }
+
     clientCode(component) {
         console.log(`RESULT: ${component.operation()}`);
     }
 
+    async composicionGrupo(req, res){
+        await this.DAO.composicionGrupo(req,res);
+    }
     
 }

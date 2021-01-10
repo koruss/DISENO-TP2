@@ -134,25 +134,28 @@ export default class CrearGrupo extends Component {
     onClick = (e) => {
         if(this.state.nombreGrupo != "" && this.state.selectedRama.length != 0 &&
         this.state.selectedZona.length != 0){
-            axios.post("/guardarGrupo",{
-                nombreGrupo:this.state.nombreGrupo,
-                selectedZona:this.state.selectedZona,
-                selectedRama:this.state.selectedRama,
-                selectedMonitor:this.state.selectedMonitor
-            }).then (res =>{
-                if(!res.data.success){
-                    alert(res.data.error);
-                }
-                else{
-                    alert("Grupo guardado correctamente");
-                    this.nombreRef.current.value="";
-                    this.setState({
-                        selectedRama:[],
-                        selectedZona:[],
-                        selectedMonitor:[],
-                        ramas:[]
-                    })
-                }
+            axios.post('/getSesion',{}).then((res) =>{
+                axios.post("/guardarGrupo",{
+                    nombreGrupo:this.state.nombreGrupo,
+                    selectedZona:this.state.selectedZona,
+                    selectedRama:this.state.selectedRama,
+                    selectedMonitor:this.state.selectedMonitor,
+                    id_movimiento:res.data.id_movimiento
+                    }).then (res =>{
+                        if(!res.data.success){
+                            alert(res.data.error);
+                        }
+                        else{
+                            alert("Grupo guardado correctamente");
+                            this.nombreRef.current.value="";
+                            this.setState({
+                                selectedRama:[],
+                                selectedZona:[],
+                                selectedMonitor:[],
+                                ramas:[]
+                            })
+                        }
+                })
             })
         } 
         else{

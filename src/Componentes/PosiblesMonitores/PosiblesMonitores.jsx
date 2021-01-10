@@ -29,27 +29,31 @@ class PosiblesMonitores extends Component {
 
     obtenerPersonas(){
         let arrPers = [];
-        axios.post("/allPersona", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(nombre=>{
-                if(nombre.posibleMonitor!=true){
-                    arrPers.push({
-                        value:nombre.nombre,
-                        label:nombre.nombre,
-                        datosPersona:[{ _id:nombre._id,
-                            direccion: nombre.direccion,
-                            nombre:nombre.nombre,
-                            identificacion:nombre.identificacion,
-                            apellido1:nombre.apellido1,
-                            apellido2:nombre.apellido2,
-                            correo:nombre.correo,
-                            telefono:nombre.telefono,
-                            estado:nombre.estado }]
-                    })
-                }
-            })   
-            this.setState({
-                personas:arrPers
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento
+            axios.post("/allPersona", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(nombre=>{
+                    if(nombre.posibleMonitor!=true && nombre.idMovimiento == id_movimiento
+                     && nombre.tipo != 3){
+                        arrPers.push({
+                            value:nombre.nombre,
+                            label:nombre.nombre,
+                            datosPersona:[{ _id:nombre._id,
+                                direccion: nombre.direccion,
+                                nombre:nombre.nombre,
+                                identificacion:nombre.identificacion,
+                                apellido1:nombre.apellido1,
+                                apellido2:nombre.apellido2,
+                                correo:nombre.correo,
+                                telefono:nombre.telefono,
+                                estado:nombre.estado }]
+                        })
+                    }
+                })   
+                this.setState({
+                    personas:arrPers
+                })
             })
         })
     }
@@ -60,7 +64,7 @@ y enviarlos a la API*/
     onClick = (e) => {
         if(this.state.selectedPersona.length != 0 ){
             axios.post("/cambiarPosibleMonitor",{
-                persona:this.state.selectedPersona
+                identificacion:this.state.selectedPersona.datosPersona[0].identificacion
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.error);

@@ -8,10 +8,8 @@ var VerificadorReal = /** @class */ (function () {
         this.type = type;
     }
     VerificadorReal.prototype.iniciarSesion = function () {
-        console.log(this.type);
         switch (this.type) {
             case '1':
-                console.log("caca");
                 this.type = "MIEMBRO";
                 break;
             case '2':
@@ -24,10 +22,9 @@ var VerificadorReal = /** @class */ (function () {
                 this.type = null;
                 break;
         }
-        console.log(this.type);
     };
     VerificadorReal.prototype.getTipo = function () {
-        return this.type;   
+        return this.type;
     };
     return VerificadorReal;
 }());
