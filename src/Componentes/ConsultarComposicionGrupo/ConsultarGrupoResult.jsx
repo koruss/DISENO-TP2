@@ -31,28 +31,24 @@ class ConsultarGrupoResult extends Component {
 
 
     render() {
-         this.state.grupo = this.props.location.data.grupo
-         this.state.rama = this.props.location.data.rama
-         this.state.zona = this.props.location.data.zona
-         this.state.miembros = this.props.location.data.miembros
-         this.state.jefe = this.props.location.data.jefe
-         this.state.monitores =this.props.location.data.monitores
+         this.state.info = this.props.location.data;
+
 
         return (
             <div>
                 <Header></Header>
                 <main className="container">
                     <div id="center-section">
-                        <h2>Nombre del Grupo: {this.state.grupo}</h2>
+                        <h2>Nombre del Grupo: {this.state.info.nombre}</h2>
                     </div>
                     <div>
                         <label for="CantMiembros">Cantidad de personas</label>
-                        <label for="ResultCantMiembros">{this.state.miembros.length+
-                        this.state.jefe.length +this.state.monitores.length }</label>
+                        <label for="ResultCantMiembros">{this.state.info.miembros.length+
+                        this.state.info.jefes.length +this.state.info.monitores.length }</label>
                         <label for="CantMiembros">Cantidad de miembros</label>
-                        <label for="ResultCantMiembros">{this.state.miembros.length}</label>
+                        <label for="ResultCantMiembros">{this.state.info.miembros.length}</label>
                     </div>
-                    <div className="label-wrapper">
+                    {/* <div className="label-wrapper">
                         <div class="form-group" class="spacing-base">
                             <label for="zona">Zona a la que pertenece:</label>
                             <label for="zona">{this.state.zona}</label>
@@ -64,17 +60,17 @@ class ConsultarGrupoResult extends Component {
                             <label for="rama">Rama a la que pertenece:</label>
                             <label for="rama">{this.state.rama}</label>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="label-wrapper">
                         <div class="form-group" class="spacing-base">
-                            <label for="jefe"></label>
-                            {this.state.jefe.map((p, index) => (<Card index={"Jefe"} miembroData={p} />) )}
+                            <label for="jefe">Jefes</label>
+                            {this.state.info.jefes.map((p, index) => (<Card index={"Jefe"} miembroData={p} />) )}
                         </div>
                     </div>
                     <div className="label-wrapper">
                         <div class="form-group" class="spacing-base">
-                            <label for="monitores"></label>
-                            {this.state.monitores.map((p, index) =>  (<Card index={"Monitor"} miembroData={p} />) )}
+                            <label for="monitores">Monitores</label>
+                            {this.state.info.monitores.map((p, index) =>  (<Card index={"Monitor"} miembroData={p} />) )}
                         </div>
                     </div>
 
@@ -82,7 +78,7 @@ class ConsultarGrupoResult extends Component {
                         <div class="spacing-base-hard">
                             <div class="form-group" class="spacing-base">
                             <label for="monitores">Miembros:</label>
-                                {this.state.miembros.map((p, index) =>
+                                {this.state.info.miembros.map((p, index) =>
                                     (<Card index={"Miembro"} miembroData={p} />))
                                 }
                             </div>
