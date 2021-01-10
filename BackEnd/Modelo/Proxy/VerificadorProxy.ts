@@ -12,6 +12,7 @@ export class VerificadorProxy implements Verificador  {
     private movimientos;
     private personas;
     private nombre_persona;
+    private id_persona;
 
     constructor(id:string, password:string, personas, movimientos){
         this.id = id;
@@ -41,6 +42,7 @@ export class VerificadorProxy implements Verificador  {
             if(id == id_persona && password == contra_persona){
                 this.type = persona.datosPersona[0].tipo;
                 this.nombre_persona = persona.datosPersona[0].nombre+ " "+persona.datosPersona[0].apellido1+" "+persona.datosPersona[0].apellido1;
+                this.id_persona = persona.datosPersona[0]._id;
                 auth = true;
                 var movimiento = this.movimientos.find(element => element._id = persona.datosPersona[0].idMovimiento);
                 this.id_movimiento = movimiento._id;
@@ -60,5 +62,9 @@ export class VerificadorProxy implements Verificador  {
 
     public getNombrePersona(): string{
         return this.nombre_persona;
+    }
+
+    public getIdPersona(): string{
+        return this.id_persona;
     }
 }
