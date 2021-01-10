@@ -16,7 +16,7 @@ class AsignacionMiembros extends Component {
         selectedZona: [],
         selectedRama: [],
         selectedGrupo: [],
-        tipoMonitores: [{ value: "Monitor", label: "Monitor" }, { value: "Jefe Grupo", label: "Jefe Grupo" }],
+        tipoMonitores: [{ value: "Monitor", label: "Monitor" }, { value: "Jefe Grupo", label: "Jefe Grupo" }, { value: "Miembro", label: "Miembro"}],
         nombres: [],
         zonas: [],
         ramas: [],
@@ -92,6 +92,28 @@ class AsignacionMiembros extends Component {
         })
     }
 
+        // esta función se encarga de obtener todos los registros de personas,
+    // y los guarda en la pantalla
+    obtenerPersonasMiembro() {
+        let arrPers = [];
+        axios.post("/allPersona", {}).then(res => {
+            const respuesta = res.data;
+            respuesta.forEach(persona=>{
+                if(persona.tipo==-1){
+                    arrPers.push({
+                        value: persona.nombre,
+                        label: persona.nombre,
+                        _id: persona._id,
+                        posibleMonitor: persona.posibleMonitor
+                    })
+                }
+            })   
+            this.setState({
+                nombres: arrPers
+            })
+        })
+    }
+
     //esta funcion se encarga de obtener todas las ramas y guardarlas en la 
     //pagina
     obtenerRamas(selectedZona) {
@@ -134,6 +156,20 @@ class AsignacionMiembros extends Component {
         })
     }
 
+
+
+    verificarJefes(){
+        if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<=2){
+            // Llama a la función para meter los datos
+
+        }else if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<=2){
+            // Llama a la función para meter los datos
+        }else{
+            
+        }
+    }
+
+
     /*esta funcion se ejecuta al ser precionado el botón
     se encagada de recuperar los datos de los componentes 
     y enviarlos a la API*/
@@ -143,42 +179,48 @@ class AsignacionMiembros extends Component {
         //     this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0) {
         if(this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0){
             if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<=2){
-                if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<=2){
-                    axios.post("/asignarMiembro", {
-                        _idPerson: this.state.selectedNombre._id,
-                        grupo: this.state.selectedGrupo._id,
-                        rama: this.state.selectedRama._id,
-                        zona: this.state.selectedZona._id,
-                        categoriaPersona: this.state.selectedMonitor.value
-                    }).then(res => {
-                        if (!res.data.success) {
-                            alert(res.data.err);
-                        }
-                        else {
-                            alert("Miembro asignado correctamente")
-                            this.setState({
-                                selectedMonitor:[],
-                                selectedGrupo: [],
-                                selectedRama: [],
-                                selectedZona: [],
-                                selectedNombre: [],
-                                nombres: []
-                            })
-        
-                            this.obtenerPersonas()
-                        }
-                    })
-                }else{
-                    alert("No se pueden asignar mas personas de este tipo al grupo")
-                }
+                // Llama a la función para meter los datos
+                this.enviarDatosDelOnClick();
+            }else if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<=2){
+                // Llama a la función para meter los datos
+                this.enviarDatosDelOnClick()
+            }else if(this.state.selectedGrupo.length!=0 && this.state.selectedGrupo.jefes.length<=2){
+                this.enviarDatosDelOnClick()
             }else{
-                alert("No se pueden asignar mas personas de este tipo al grupo")
+                alert("No se pueden ingresar más personas de este tipo a este elemento")
             }
-        }
-        else {
+        }else {
             alert("Ingrese todos los datos")
         }
     }
+
+    enviarDatosDelOnClick(){
+        axios.post("/asignarMiembro", {
+            _idPerson: this.state.selectedNombre._id,
+            grupo: this.state.selectedGrupo._id,
+            rama: this.state.selectedRama._id,
+            zona: this.state.selectedZona._id,
+            categoriaPersona: this.state.selectedMonitor.value
+        }).then(res => {
+            if (!res.data.success) {
+                alert(res.data.err);
+            }
+            else {
+                alert("Miembro asignado correctamente")
+                this.setState({
+                    selectedMonitor:[],
+                    selectedGrupo: [],
+                    selectedRama: [],
+                    selectedZona: [],
+                    selectedNombre: [],
+                    nombres: []
+                })
+
+                // this.obtenerPersonas()
+            }
+        })
+    }
+
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
     handleChangeNombre = selectedNombre => {
         this.setState(
@@ -226,6 +268,8 @@ class AsignacionMiembros extends Component {
                 );
                 if(selectedMonitor.value=="Monitor"){
                     this.obtenerPersonasMonitor();
+                }else if(selectedMonitor.value=="Miembro"){
+                    this.obtenerPersonasMiembro();
                 }else{
                     this.obtenerPersonas(this.state.selectedGrupo);
                 }
@@ -249,8 +293,9 @@ class AsignacionMiembros extends Component {
         }
         else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefes.length <= 2) {
             return true
-        }
-        else {
+        }else if(seleccion.value == "Miembro"){
+            return true
+        }else {
             return false
         }
     }

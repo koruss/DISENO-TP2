@@ -84,7 +84,7 @@ module.exports = class DAO {
                                 res.json({success: false, error: 'No se pudo actualizar el dato',error});
                             }
                             else {
-                                PersonaSchema.updateOne({_id:req.body._idPerson},{tipo: 2},function(err,success){
+                                PersonaSchema.updateOne({_id:req.body._idPerson},{$set:{tipo: 2}},function(err,success){
                                     if(err)return handleError(err);
                                     else{
                                         return res.json({success:true})
@@ -93,6 +93,20 @@ module.exports = class DAO {
                             }
                         })
                         // res.json({success: true, info: info });
+                    }
+                })
+            }else if(req.body.categoriaPersona=="Miembro"){
+                CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
+                    if(err) {
+                        res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                    }
+                    else {
+                        PersonaSchema.updateOne({_id:req.body._idPerson},{tipo: 1},function(err,success){
+                            if(err)return handleError(err);
+                            else{
+                                return res.json({success:true})
+                            }
+                        })
                     }
                 })
             }else{
