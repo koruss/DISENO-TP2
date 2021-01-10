@@ -60,20 +60,23 @@ export default class CrearRama extends Component {
     //Funcion para manejar los eventos de un boton
     onClick = (e) => {
         if(this.state.selectedZona.length != 0 && this.state.nombreRama != ""){
-            axios.post("/guardarRama",{
-                nombreRama:this.state.nombreRama,
-                selectedZona:this.state.selectedZona,
-            }).then(res =>{
-                if(!res.data.success){
-                    alert(res.data.error);
-                }
-                else{
-                    alert("Rama guardada correctamente")
-                    this.nombreRef.current.value="";
-                    this.setState({
-                        selectedZona:[]
-                    })
-                }
+            axios.post('/getSesion',{}).then((res) =>{
+                axios.post("/guardarRama",{
+                    nombreRama:this.state.nombreRama,
+                    selectedZona:this.state.selectedZona,
+                    id_movimiento:res.data.id_movimiento
+                    }).then(res =>{
+                        if(!res.data.success){
+                            alert(res.data.error);
+                        }
+                        else{
+                            alert("Rama guardada correctamente")
+                            this.nombreRef.current.value="";
+                            this.setState({
+                                selectedZona:[]
+                            })
+                        }
+                })
             })
         }
         else{

@@ -222,6 +222,7 @@ module.exports = class DAO {
         console.log(req.body)
         this.openConnection();
         const schema = new CompositeSchema();
+        schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreGrupo;
         schema.tipo=3;
         schema.monitores.push(req.body.selectedMonitor.datosPersona[0]._id)
@@ -240,6 +241,7 @@ module.exports = class DAO {
     async crearRama(req, res) {
         this.openConnection();
         const schema = new CompositeSchema();
+        schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreRama;
         schema.tipo=2;
         schema.save();
@@ -257,6 +259,7 @@ module.exports = class DAO {
     async crearZona(req, res) {
         this.openConnection();
         const schema = new CompositeSchema();
+        schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreZona;
         schema.tipo=1
         schema.save(function (err, success) {
