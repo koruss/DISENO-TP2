@@ -21,7 +21,8 @@ class AsignacionMiembros extends Component {
         zonas: [],
         ramas: [],
         grupos: [],
-        selectedMonitor:[]
+        selectedMonitor:[],
+        id_movimiento: ""
 
     }
 
@@ -49,7 +50,8 @@ class AsignacionMiembros extends Component {
             })
         })
             this.setState({
-                zonas: arreglo
+                zonas: arreglo,
+                id_movimiento: id_movimiento
             })
         })
     }
@@ -62,12 +64,13 @@ class AsignacionMiembros extends Component {
             axios.post("/allMiembrosGrupos", {_id:selectedPlace._id}).then(res => {
                 const respuesta = res.data;
                 respuesta.forEach(persona=>{
-                    
+                    if(persona.idMovimiento == this.state.id_movimiento){
                         arrPers.push({
                             value: persona.nombre,
                             label: persona.nombre,
                             _id: persona._id
                         })
+                    }
                 })   
                 this.setState({
                     nombres: arrPers
@@ -83,7 +86,8 @@ class AsignacionMiembros extends Component {
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
-                if(persona.posibleMonitor==true){
+                if(persona.posibleMonitor==true &&
+                persona.idMovimiento == this.state.id_movimiento){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
@@ -105,7 +109,8 @@ class AsignacionMiembros extends Component {
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
-                if(persona.tipo==-1){
+                if(persona.tipo==-1 &&
+                    persona.idMovimiento == this.state.id_movimiento){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,

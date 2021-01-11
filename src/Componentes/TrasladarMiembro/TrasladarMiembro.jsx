@@ -78,21 +78,24 @@ class TrasladarMiembro extends Component {
     componentWillMount() {
         var self = this;
         let arreglo = [];
-        axios.post("/allZonas", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(zona=>{
-                arreglo.push({
-                    value:zona.nombre,
-                    label:zona.nombre,
-                    _id:zona._id
-
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento;
+            axios.post("/allZonas", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(zona=>{
+                    if(zona.idMovimiento == id_movimiento){
+                        arreglo.push({
+                            value:zona.nombre,
+                            label:zona.nombre,
+                            _id:zona._id
+                        })
+                    }
+                })   
+                this.setState({
+                    zonas:arreglo
                 })
-            })   
-            this.setState({
-                zonas:arreglo
             })
         })
-
     }
 
 //esta funcion se encarga de obtener todas las ramas y guardarlas en la 
@@ -102,11 +105,11 @@ class TrasladarMiembro extends Component {
         axios.post("/allRamaZona", {_id:selectedZona._id}).then(res => {
             const respuesta=res.data;
             respuesta.forEach(rama=>{
-                    arreglo.push({
-                        value:rama.nombre,
-                        label:rama.nombre,
-                        _id:rama._id
-                    })
+                arreglo.push({
+                    value:rama.nombre,
+                    label:rama.nombre,
+                    _id:rama._id
+                })
             })   
             this.setState({
                 ramas:arreglo
