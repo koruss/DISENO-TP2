@@ -64,17 +64,22 @@ export default class CrearGrupo extends Component {
     // cuando se accede a la ventana
     componentWillMount() {
         let arreglo =[];
-        axios.post("/allZonas", {}).then(res => {
-            const respuesta=res.data;
-            respuesta.forEach(zona=>{
-                arreglo.push({
-                    value:zona.nombre,
-                    label:zona.nombre,
-                    _id:zona._id
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento;
+            axios.post("/allZonas", {}).then(res => {
+                const respuesta=res.data;
+                respuesta.forEach(zona=>{
+                    if(zona.idMovimiento == id_movimiento){
+                        arreglo.push({
+                            value:zona.nombre,
+                            label:zona.nombre,
+                            _id:zona._id
+                        })
+                    }
+                })   
+                this.setState({
+                    zonas:arreglo
                 })
-            })   
-            this.setState({
-                zonas:arreglo
             })
         })
         this.obtenerPersonas();
@@ -82,24 +87,27 @@ export default class CrearGrupo extends Component {
 
     obtenerPersonas(){
         let arrPers = [];
-        axios.post("/allPersona", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(nombre=>{
-                if(nombre.posibleMonitor!=false){
-                    arrPers.push({
-                        value:nombre.nombre,
-                        label:nombre.nombre,
-                        datosPersona:[{ _id:nombre._id,
-                            direccion: nombre.direccion,
-                            nombre:nombre.nombre,
-                            identificacion:nombre.identificacion,
-                            apellido1:nombre.apellido1,
-                            apellido2:nombre.apellido2,
-                            correo:nombre.correo,
-                            telefono:nombre.telefono,
-                            estado:nombre.estado }]
-                    })
-                }
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento;
+            axios.post("/allPersona", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(nombre=>{
+                    if(nombre.posibleMonitor!=false && nombre.idMovimiento == id_movimiento){
+                        arrPers.push({
+                            value:nombre.nombre,
+                            label:nombre.nombre,
+                            datosPersona:[{ _id:nombre._id,
+                                direccion: nombre.direccion,
+                                nombre:nombre.nombre,
+                                identificacion:nombre.identificacion,
+                                apellido1:nombre.apellido1,
+                                apellido2:nombre.apellido2,
+                                correo:nombre.correo,
+                                telefono:nombre.telefono,
+                                estado:nombre.estado }]
+                        })
+                    }
+                })   
             })   
             this.setState({
                 monitores:arrPers
@@ -133,7 +141,7 @@ export default class CrearGrupo extends Component {
     //Funcion para manejar los eventos de un boton
     onClick = (e) => {
         if(this.state.nombreGrupo != "" && this.state.selectedRama.length != 0 &&
-        this.state.selectedZona.length != 0){
+        this.state.selectedZona.length != 0 && this.state.selectedMonitor.length !=0){
             axios.post('/getSesion',{}).then((res) =>{
                 axios.post("/guardarGrupo",{
                     nombreGrupo:this.state.nombreGrupo,

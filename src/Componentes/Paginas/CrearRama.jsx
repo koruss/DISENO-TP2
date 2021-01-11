@@ -42,17 +42,23 @@ export default class CrearRama extends Component {
     componentWillMount() {
         var self = this;
         let arreglo =[];
-        axios.post("/allZonas", {}).then(res => {
-            const respuesta=res.data;
-            respuesta.forEach(zona=>{
-                arreglo.push({
-                    value:zona.nombre,
-                    label:zona.nombre,
-                    identificacion:zona._id
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento;
+            axios.post("/allZonas", {}).then(res => {
+                const respuesta=res.data;
+                respuesta.forEach(zona=>{
+                if(zona.idMovimiento == id_movimiento){
+                        arreglo.push({
+                            value:zona.nombre,
+                            label:zona.nombre,
+                            identificacion:zona._id
+                        })
+                    }
                 })
-            })
-            this.setState({
-                zonas:arreglo
+                
+                this.setState({
+                    zonas:arreglo
+                })
             })
         })
     }
