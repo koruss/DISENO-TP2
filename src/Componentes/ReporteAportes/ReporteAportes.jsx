@@ -81,6 +81,21 @@ class ReporteAportes extends Component{
     }
 
 
+    limpiarBandeja = (e) => {
+        axios.post('/getSesion',{}).then((res) =>{
+            axios.post('/limpiarBandeja',{
+                id_movimiento:res.data.id_movimiento
+                }).then((res) =>{
+                    if(!res.data.success){
+                        alert(res.data.error);
+                    }
+                    else{
+                        alert("Bandeja limpia");
+                        this.obtenerAportes();
+                    }
+            })
+        })
+    }
 
 
 
@@ -103,10 +118,12 @@ render() {
                         <label for="agradecimiento">Aportes de petitoria: {this.state.petitorias.length}</label>
                     </div>
                 </div>
-                <div class="spacing-base">
+                <div className="label-wrapper">
                     <button type="button" class="btn btn-dark"  onClick={this.onClick}>Descargar datos</button>
                 </div>
-
+                <div className="label-wrapper"> 
+                    <button type="button" class="btn btn-dark"  onClick={this.limpiarBandeja} position="float">Limpiar bandeja</button>
+                </div>
         </main>
     </div>    
     )

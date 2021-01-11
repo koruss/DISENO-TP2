@@ -200,16 +200,16 @@ class SignUp extends Component{
                                 <input ref={this.nombreRef} type="text" name="nombre" onChange={this.onChange} className="input-standar"/>
                             </div>
                             <div className="label-wrapper">
-                                <label for="celular">Celular Personal: </label>
-                                <input ref={this.celularRef} type="text" name="celular" onChange={this.onChange} className="input-standar"/>
-                            </div>
-                            <div className="label-wrapper">
                                 <label for="apellido1">Apellido1: </label>
                                 <input ref={this.apellido1Ref} type="text" name="apellido1" onChange={this.onChange} className="input-standar"/>
                             </div>
                             <div className="label-wrapper">
                                 <label for="apellido2">Apellido2: </label>
                                 <input ref={this.apellido2Ref} type="text" name="apellido2" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="celular">Celular Personal: </label>
+                                <input ref={this.celularRef} type="text" name="celular" onChange={this.onChange} className="input-standar"/>
                             </div>
                         </div>
                         

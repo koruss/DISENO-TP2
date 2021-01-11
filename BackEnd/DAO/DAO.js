@@ -559,7 +559,25 @@ module.exports = class DAO {
                 
             })
 
-        }
-        
+        } 
+    }
+
+    async limpiarBandeja(req,res){
+        this.openConnection();
+        MovimientoSchema.updateOne({_id:req.body.id_movimiento},{'aportes.ofrecimiento':[], 'aportes.agradecimiento':[], 'aportes.petitoria':[]},(error,info)=>{
+            if (error) {
+                res.json({
+                    success: false,
+                    error: 'No se pudo limpiar la bandeja',
+                    error
+                });
+            } else {
+                res.json({
+                    success: true,
+                    info: info
+                })
+            }
+        })
+
     }
 }
