@@ -32,7 +32,8 @@ var VerificadorProxy = /** @class */ (function () {
                 _this.nombre_persona = persona.datosPersona[0].nombre + " " + persona.datosPersona[0].apellido1 + " " + persona.datosPersona[0].apellido1;
                 _this.id_persona = persona.datosPersona[0]._id;
                 auth = true;
-                var movimiento = _this.movimientos.find(function (element) { return element._id = persona.datosPersona[0].idMovimiento; });
+                var movimiento = _this.movimientos.find(function (element) { return element._id == persona.datosPersona[0].idMovimiento; });
+                console.log(movimiento);
                 _this.id_movimiento = movimiento._id;
                 _this.nombre_movimiento = movimiento.nombre;
             }
