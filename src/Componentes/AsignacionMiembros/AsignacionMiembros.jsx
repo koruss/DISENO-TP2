@@ -21,7 +21,8 @@ class AsignacionMiembros extends Component {
         zonas: [],
         ramas: [],
         grupos: [],
-        selectedMonitor:[]
+        selectedMonitor:[],
+        id_movimiento: ""
 
     }
 
@@ -33,19 +34,24 @@ class AsignacionMiembros extends Component {
     componentWillMount() {
         var self = this;
         let arreglo = [];
-        axios.post("/allZonas", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(zona => {
-                arreglo.push({
-                    value: zona.nombre,
-                    label: zona.nombre,
-                    _id: zona._id,
-                    jefes: zona.jefes
-
-                })
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento;
+            axios.post("/allZonas", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(zona => {
+                if(zona.idMovimiento == id_movimiento){
+                    arreglo.push({
+                        value: zona.nombre,
+                        label: zona.nombre,
+                        _id: zona._id,
+                        jefes: zona.jefes
+                    })
+                }
             })
+        })
             this.setState({
-                zonas: arreglo
+                zonas: arreglo,
+                id_movimiento: id_movimiento
             })
         })
     }
@@ -53,21 +59,24 @@ class AsignacionMiembros extends Component {
     // y los guarda en la pantalla
     obtenerPersonas(selectedPlace) {
         let arrPers = [];
-        axios.post("/allMiembrosGrupos", {_id:selectedPlace._id}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(persona=>{
-                //if(nombre.estado==false){
-                    arrPers.push({
-                        value: persona.nombre,
-                        label: persona.nombre,
-                        _id: persona._id
-                    })
-                //}
-            })   
-            this.setState({
-                nombres: arrPers
+        //axios.post('/getSesion',{}).then((res) =>{
+        //const id_movimiento = res.data.id_movimiento;
+            axios.post("/allMiembrosGrupos", {_id:selectedPlace._id}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(persona=>{
+                    if(persona.idMovimiento == this.state.id_movimiento){
+                        arrPers.push({
+                            value: persona.nombre,
+                            label: persona.nombre,
+                            _id: persona._id
+                        })
+                    }
+                })   
+                this.setState({
+                    nombres: arrPers
+                })
             })
-        })
+        //})
     }
 
     // esta función se encarga de obtener todos los registros de personas,
@@ -77,7 +86,8 @@ class AsignacionMiembros extends Component {
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
-                if(persona.posibleMonitor==true){
+                if(persona.posibleMonitor==true &&
+                persona.idMovimiento == this.state.id_movimiento){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
@@ -99,7 +109,8 @@ class AsignacionMiembros extends Component {
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
-                if(persona.tipo==-1){
+                if(persona.tipo==-1 &&
+                    persona.idMovimiento == this.state.id_movimiento){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
