@@ -149,10 +149,19 @@ app.post('/obtenerAportes', (req,res) => {
 
 
 app.post('/composicionGrupo',(req,res)=>{
-  console.log("aqui toy")
+  //console.log("aqui toy")
   control.composicionGrupo(req,res);
 })
 
+app.post('/composicionRama',(req,res)=>{
+  //console.log("aqui toy")
+  control.composicionRama(req,res);
+})
+
+app.post('/composicionZona',(req,res)=>{
+  //console.log("aqui toy")
+  control.composicionZona(req,res);
+})
 
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));

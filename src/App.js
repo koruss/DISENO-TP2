@@ -16,6 +16,8 @@ import ConsultaMiembroXElemento from './Componentes/Consultas/miembrosXelemento'
 import AsignacionMiembros from './Componentes/AsignacionMiembros/AsignacionMiembros';
 import ConsultaGruposRolesXMiembro from './Componentes/GrupoRolesXMiembro/GrupoRolesXMiembro';
 import ConsultaCompGrupo from './Componentes/ConsultarComposicionGrupo/ConsultarCompGrupo';
+import ConsultaCompRama from './Componentes/ConsultarComposicionGrupo/ConsultarCompRama';
+import ConsultaCompZona from './Componentes/ConsultarComposicionGrupo/ConsultarCompZona';
 import ConsultarGrupoResult from './Componentes/ConsultarComposicionGrupo/ConsultarGrupoResult';
 import VentanaAsesor from './Componentes/VentanaAsesor/VentanaAsesor';
 import VentanaMiembro from './Componentes/VentanaMiembro/VentanaMiembro';
@@ -26,6 +28,7 @@ import PosiblesMonitores from './Componentes/PosiblesMonitores/PosiblesMonitores
 import SignUp from './Componentes/SignUp/SignUp';
 import Aportes from './Componentes/Aportes/Aportes';
 import ReporteAportes from './Componentes/ReporteAportes/ReporteAportes';
+
 
 //Funcion para establecer las rutas de la aplicacion con su respectivo componente
 function App() {
@@ -60,6 +63,8 @@ function App() {
           <Route path="/consultaMiembrosPorElemento" component={ConsultaMiembroXElemento}/> 
           <Route path="/consultaGruposPorMiembro" component={ConsultaGruposRolesXMiembro}/> 
           <Route path="/consultaComposicionGrupo" component={ConsultaCompGrupo}/>
+          <Route path="/consultaComposicionRama" component={ConsultaCompRama}/>
+          <Route path="/consultaComposicionZona" component={ConsultaCompZona}/>
           <Route path="/arbolEstructural" component={arbolEstructural}/>
            
 

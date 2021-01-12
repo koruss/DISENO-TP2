@@ -23,6 +23,14 @@ state.on('error', console.error.bind(console, '------->>> Fallo en la conexión 
 //     }
 // })
 
+MovimientoSchema.find({$or:[{tipo:2,miembros:req.body.idUsuario},{tipo:2,jefes:req.body.idUsuario}]}).populate("jefes").populate("miembros").exec(function(err,data){
+    if(err){return res.json({success:false, error:"Error en la funcion composicionRama"})}
+    else{
+        res.send(data);
+        res.end();
+    }
+})
+
 
 
 CompositeSchema.find({tipo:3,monitores:"5ff223c8b0b5c517c0b124e8"}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
