@@ -561,11 +561,22 @@ module.exports = class DAO {
                     return res.json({success:false,error:err})
                 }
                 res.send(data);
-                res.end();
-                
+                res.end();               
             })
+        }   
+    }
 
-        }
-        
+
+    async nodeData(req,res){
+        this.openConnection();
+        CompositeSchema.findOne({_id:req.body.idNodo}).populate("miembros").exec((err,data)=>{
+            if(err){
+                return res.json({success:false,error:err})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
     }
 }

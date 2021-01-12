@@ -163,7 +163,7 @@ class Header extends Component {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/consultaComposicionZona">Ver informacion de zonas a las que pertenece</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de nodo</NavDropdown.Item>
+                                            <NavDropdown.Item href="/arbolEstructural">Ver informacion de nodo</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown title="Aportes" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>

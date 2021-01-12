@@ -110,4 +110,7 @@ module.exports = class GestorEstructura{
         await this.DAO.composicionZona(req,res);
     }
     
+    async nodeData(req, res){
+        await this.DAO.nodeData(req,res);
+    }
 }

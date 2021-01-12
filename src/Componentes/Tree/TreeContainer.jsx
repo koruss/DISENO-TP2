@@ -4,46 +4,48 @@ import Header from '../General/Header';
 import Tree from 'react-hierarchy-tree-graph';
 import axios from 'axios';
 import '../General/Utils.css'
+import PopUp from '../General/PopUp'
 
 const fs = require('fs');
 
 class TreeContainer extends React.PureComponent {
     state = {
         state: false,
-        aux: true,
+        seen: false,
         id: 0,
-        arbol2: [{ name: "BLABLA", children: [] }],
-        arbol: [{ name: "BLABLA", children: [] }],
+        arbol2: [{ name: "", children: [] }],
+        arbol: [{ name: "", children: [] }],
         zonas: [],
         ramas: [],
         grupos: [],
-        treeData: [
-            {
-                name: 'Ejemplo',
+        selectedNode:null,
+        // treeData: [
+        //     {
+        //         name: 'Ejemplo',
 
-                children: [
-                    {
-                        id: "1",
-                        name: 'Level 2: A',
-                        children: [
-                            {
-                                id: "2",
-                                name: 'level 2 : a',
+        //         children: [
+        //             {
+        //                 id: "1",
+        //                 name: 'Level 2: A',
+        //                 children: [
+        //                     {
+        //                         id: "2",
+        //                         name: 'level 2 : a',
 
-                            },
-                            {
-                                name: 'level 2 : b',
-                                id: "3"
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Level 2: B',
-                        id: "4"
-                    },
-                ],
-            },
-        ],
+        //                     },
+        //                     {
+        //                         name: 'level 2 : b',
+        //                         id: "3"
+        //                     }
+        //                 ]
+        //             },
+        //             {
+        //                 name: 'Level 2: B',
+        //                 id: "4"
+        //             },
+        //         ],
+        //     },
+        // ],
 
         svgSquare: {
             shape: 'rect',
@@ -57,17 +59,25 @@ class TreeContainer extends React.PureComponent {
 
         style: {
             width: "100%",
-            height: "100vh"
+            height: "100vh",
+            border: "5px solid #333"
         }
 
 
     }
 
     onClick = (nodeData, e) => {
-        console.log(nodeData);
-        
-        alert(nodeData.name,nodeData.id);
+        //console.log(nodeData);
+        this.setState({
+            seen: !this.state.seen,
+            selectedNode:nodeData
+        })
+        //alert(nodeData.name,nodeData.id);
     }
+
+
+
+    
 
     btnClick = (e) => {
         var self = this;
@@ -106,20 +116,19 @@ class TreeContainer extends React.PureComponent {
             })
             this.state.arbol[0].children.push({ name: zona.name, id: zona.id, children: arregloRamas })
         })
-        // ramas.forEach(rama=>{
-        //     let nombreZona= rama.nombreZona;
 
-        // })
-        // for(var i=0; i<zonas.length;i++){
-        //     console.log(zonas[i]);
-        //     this.state.arbol[0].children.push({name:zonas[i].nombreZona,id:zonas[i]._id, children:[]})
-        // }
     }
-
+    
 
 
 
     componentDidMount() {
+        axios.post("/getSesion",{}).then(res =>{
+            console.log(res)
+            this.state.arbol[0].name=res.data.nombre_movimiento
+            this.state.arbol2[0].name=res.data.nombre_movimiento
+            this.render()
+        })
         this.translate()
         let arreglo = [];
         let arreglo2 = [];
@@ -173,8 +182,12 @@ class TreeContainer extends React.PureComponent {
                     <button type="button" class="btn btn-dark" onClick={this.btnClick}>Cargar Jerarquía</button>
 
                 </div>
+                <div>
+                    {this.state.seen ?<PopUp onClick={this.onClick} data={this.state.selectedNode}/>:null}
+                </div>
                 <div style={this.state.style} ref={tc => (this.treeContainer = tc)}>
                     <Tree
+                        visible={false}
                         onClick={this.onClick}
                         data={this.state.arbol2}
                         nodeSvgShape={this.state.svgSquare}
@@ -182,9 +195,8 @@ class TreeContainer extends React.PureComponent {
                         collapsible={false}
                         translate={this.state.translate}
                     />
-
-
                 </div>
+
 
             </div>
 
