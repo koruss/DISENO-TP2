@@ -143,6 +143,18 @@ app.post('/enviarAporte', (req,res) => {
   control.enviarAporte(req,res);
 })
 
+app.post('/allMiembrosPorMiembro', (req,res) => {
+  control.allMiembrosPorMiembro(req,res);
+})
+
+app.post('/allJefesPorMiembro', (req,res) => {
+  control.allJefesPorMiembro(req,res);
+})
+
+app.post('/allMonitoresPorMiembro', (req,res) => {
+  control.allMonitoresPorMiembro(req,res);
+})
+
 app.post('/obtenerAportes', (req,res) => {
   control.obtenerAportes(req,res);
 })

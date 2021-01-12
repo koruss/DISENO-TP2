@@ -112,7 +112,7 @@ class VentanaAsesor extends Component {
                     </div>
                     <div className="label-wrapper" >
                             <div class="form-group" class="spacing-base">
-                                <Link class="btn btn-dark" to='./asignacionMiembros'><img src={imagenAsignacion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Ver puestos asignados</Link>                                
+                                <Link class="btn btn-dark" to='./consultaGruposPorMiembro'><img src={imagenAsignacion} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Ver puestos asignados</Link>                                
                             </div>
                             <div class="form-group" class="spacing-base">
                                 <Link class="btn btn-dark" to='./registroMiembro'><img src={imagenJefes} alt={"imagenAsesor"} width="50" height="50" style={{"float":"left"}} />Crear publicacion</Link>    

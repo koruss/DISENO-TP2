@@ -387,6 +387,48 @@ module.exports = class DAO {
         })
     }
 
+    async allMiembrosPorMiembro(req,res){
+        this.openConnection();
+        CompositeSchema.find({miembros:{_id:req.body._id}}, function(err,data){
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async allJefesPorMiembro(req,res){
+        this.openConnection();
+        CompositeSchema.find({jefes:{_id:req.body._id}}, function(err,data){
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async allMonitoresPorMiembro(req,res){
+        this.openConnection();
+        CompositeSchema.find({monitores:{_id:req.body._id}}, function(err,data){
+            if(err){
+                console.log(err)
+                res.json({success:false, error:" Algo salio del orto"})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
     async cambiarNombreGrupo(req,res){
         this.openConnection();
         CompositeSchema.updateOne({_id:req.body.grupo},{nombre:req.body.nombre},(error,info)=>{
