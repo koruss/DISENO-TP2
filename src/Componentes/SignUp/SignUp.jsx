@@ -70,7 +70,7 @@ class SignUp extends Component{
             this.state.apellido1 != "" && this.state.apellido2 != "" &&
             this.state.pais.length != 0 && this.state.provincia.length != 0 &&
             this.state.canton.length != 0 && this.state.distrito.length != 0 &&
-            this.state.contrasena != ""){
+            this.state.contrasena != "" && this.state.movimiento){
             axios.post("/guardarMiembro",{
                 pais:this.state.pais,
                 provincia:this.state.provincia,

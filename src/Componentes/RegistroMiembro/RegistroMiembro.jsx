@@ -16,6 +16,7 @@ class RegistroMiembro extends Component{
         super(props);
         this.identificacionRef=React.createRef();
         this.correoRef=React.createRef();
+        this.contrasenaRef=React.createRef();
         this.nombreRef=React.createRef();
         this.celularRef=React.createRef();
         this.apellido1Ref=React.createRef();
@@ -44,6 +45,7 @@ class RegistroMiembro extends Component{
         ],
         identificacion: "",
         correo: "",
+        contrasena: "",
         nombre: "",
         celular: "",
         apellido1: "",
@@ -64,7 +66,9 @@ class RegistroMiembro extends Component{
             this.state.nombre != "" && this.state.celular != "" &&
             this.state.apellido1 != "" && this.state.apellido2 != "" &&
             this.state.pais.length != 0 && this.state.provincia.length != 0 &&
-            this.state.canton.length != 0 && this.state.distrito.length != 0){
+            this.state.canton.length != 0 && this.state.distrito.length != 0 &&
+            this.state.contrasena != ""){
+            axios.post('/getSesion',{}).then((res) =>{
             axios.post("/guardarMiembro",{
                 pais:this.state.pais,
                 provincia:this.state.provincia,
@@ -75,7 +79,9 @@ class RegistroMiembro extends Component{
                 nombre:this.state.nombre,
                 celular:this.state.celular,
                 apellido1:this.state.apellido1,
-                apellido2:this.state.apellido2
+                apellido2:this.state.apellido2,
+                contrasena:this.state.contrasena,
+                movimiento:res.data.id_movimiento
             }).then(res =>{
                 if(!res.data.success){
                     alert(res.data.err);
@@ -101,6 +107,7 @@ class RegistroMiembro extends Component{
                         distrito:[]
                     })
                 }
+            })
             })
         }
         else{
@@ -155,12 +162,12 @@ class RegistroMiembro extends Component{
                                 <input ref={this.correoRef}  type="text" name="correo" onChange={this.onChange} className="input-standar"/>
                             </div>
                             <div className="label-wrapper">
-                                <label for="nombre">Nombre: </label>
-                                <input ref={this.nombreRef} type="text" name="nombre" onChange={this.onChange} className="input-standar"/>
+                                <label for="correo">Contraseña: </label>
+                                <input ref={this.contrasenaRef}  input type="text" name="contrasena" onChange={this.onChange} className="input-standar"/>
                             </div>
                             <div className="label-wrapper">
-                                <label for="celular">Celular Personal: </label>
-                                <input ref={this.celularRef} type="text" name="celular" onChange={this.onChange} className="input-standar"/>
+                                <label for="nombre">Nombre: </label>
+                                <input ref={this.nombreRef} type="text" name="nombre" onChange={this.onChange} className="input-standar"/>
                             </div>
                             <div className="label-wrapper">
                                 <label for="apellido1">Apellido1: </label>
@@ -169,6 +176,10 @@ class RegistroMiembro extends Component{
                             <div className="label-wrapper">
                                 <label for="apellido2">Apellido2: </label>
                                 <input ref={this.apellido2Ref} type="text" name="apellido2" onChange={this.onChange} className="input-standar"/>
+                            </div>
+                            <div className="label-wrapper">
+                                <label for="celular">Celular Personal: </label>
+                                <input ref={this.celularRef} type="text" name="celular" onChange={this.onChange} className="input-standar"/>
                             </div>
                         </div>
                         
@@ -201,8 +212,12 @@ class RegistroMiembro extends Component{
                                     options={this.state.distritoOpc} classNamePrefix="select" value={this.state.distrito}/>
                                 </div>
                             </div>
+                            <div className="label-wrapper">
+                            </div>
+                            <div className="label-wrapper">
+                            <button type="button" class="btn btn-dark" onClick={this.onClick} >Registrarse</button>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-dark" onClick={this.onClick} >Afiliar miembro</button>
                 </div> 
             </div>
         )
