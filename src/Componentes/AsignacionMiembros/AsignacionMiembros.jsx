@@ -81,13 +81,14 @@ class AsignacionMiembros extends Component {
 
     // esta función se encarga de obtener todos los registros de personas,
     // y los guarda en la pantalla
-    obtenerPersonasMonitor() {
+    obtenerPersonasMonitor(monitoresGrupo) {
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
                 if(persona.posibleMonitor==true &&
-                persona.idMovimiento == this.state.id_movimiento){
+                persona.idMovimiento == this.state.id_movimiento &&
+                persona._id != monitoresGrupo){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
@@ -278,7 +279,7 @@ class AsignacionMiembros extends Component {
                     { selectedMonitor },     
                 );
                 if(selectedMonitor.value=="Monitor"){
-                    this.obtenerPersonasMonitor();
+                    this.obtenerPersonasMonitor(this.state.selectedGrupo.monitores);
                 }else if(selectedMonitor.value=="Miembro"){
                     this.obtenerPersonasMiembro();
                 }else{
