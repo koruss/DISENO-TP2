@@ -306,7 +306,7 @@ module.exports = class DAO {
         CompositeSchema.find({tipo:2}, function(err,data){
             if(err){
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:"Error recuperando la informacion"})
             }
             else{
                 res.send(data);
@@ -321,7 +321,7 @@ module.exports = class DAO {
         CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
             if(err){
                 // console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:" Error recuperando la informacion"})
             }
             else{
                 res.send(data.children);
@@ -336,7 +336,7 @@ module.exports = class DAO {
         CompositeSchema.find({tipo:3}, function(err,data){
             if(err){
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:"Error recuperando la informacion"})
             }
             else{
                 res.send(data);
@@ -350,7 +350,7 @@ module.exports = class DAO {
         CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
             if(err){
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:" Error recuperando la informacion"})
             }
             else{
                 res.send(data.children);
@@ -363,7 +363,7 @@ module.exports = class DAO {
         this.openConnection();
         PersonaSchema.find({}, function(err,data){
             if(err){
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:"Error recuperando la informacion"})
             }
             else{
                 //console.log(data)
@@ -378,7 +378,7 @@ module.exports = class DAO {
         CompositeSchema.findOne({_id:req.body._id}).populate("miembros").exec(function(err,data){
             if(err){
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:"Error recuperando la informacion"})
             }
             else{
                 res.send(data.miembros);
@@ -452,7 +452,7 @@ module.exports = class DAO {
         this.openConnection()
         PersonaSchema.findOne({identificacion:req.body.identificacion}, function(err,data){
             if(err){
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:" Error guardando la informacion"})
             }
             else if(data == null){
                 const personaSchema = new PersonaSchema();
@@ -489,7 +489,7 @@ module.exports = class DAO {
         this.openConnection()
         MovimientoSchema.find({}, function(err,data){
             if(err){
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:" Error recuperando movimientos"})
             }
             else{
                 res.send(data);
@@ -559,10 +559,34 @@ module.exports = class DAO {
         this.openConnection()
         MovimientoSchema.findOne({_id:req.body.id_movimiento}).populate("aportes").exec(function(err,data){
             if(err){
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({success:false, error:" Error en la funcion obtenerAportes"})
             }
             else{
                 res.send(data.aportes);
+                res.end();
+            }
+        })
+    }
+
+    async composicionRama(req,res){
+        this.openConnection();
+        CompositeSchema.find({$or:[{tipo:2,miembros:req.body.idUsuario},{tipo:2,jefes:req.body.idUsuario}]}).populate("jefes").populate("miembros").exec(function(err,data){
+            if(err){return res.json({success:false, error:"Error en la funcion composicionRama"})}
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+    async composicionZona(req,res){
+        this.openConnection();
+        CompositeSchema.find({$or:[{tipo:1,miembros:req.body.idUsuario},{tipo:1,jefes:req.body.idUsuario}]}).populate("jefes").populate("miembros").exec(function(err,data){
+            if(err){
+                return res.json({success:false,error:"Error en la funcion composicion de Zonas"})
+            }
+            else{
+                res.send(data);
                 res.end();
             }
         })
@@ -597,11 +621,24 @@ module.exports = class DAO {
                     return res.json({success:false,error:err})
                 }
                 res.send(data);
-                res.end();
-                
+                res.end();               
             })
+        }   
+    }
 
         } 
+
+    async nodeData(req,res){
+        this.openConnection();
+        CompositeSchema.findOne({_id:req.body.idNodo}).populate("miembros").exec((err,data)=>{
+            if(err){
+                return res.json({success:false,error:err})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
     }
 
     async limpiarBandeja(req,res){

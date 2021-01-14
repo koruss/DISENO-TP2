@@ -159,11 +159,11 @@ class Header extends Component {
                                         <NavDropdown alignItems="left" title="Consultas de rango" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de grupos que monitorea</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de ramas a las que pertenece</NavDropdown.Item>
+                                            <NavDropdown.Item href="/consultaComposicionRama">Ver informacion de ramas a las que pertenece</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de zonas a las que pertenece</NavDropdown.Item>
+                                            <NavDropdown.Item href="/consultaComposicionZona">Ver informacion de zonas a las que pertenece</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver informacion de nodo</NavDropdown.Item>
+                                            <NavDropdown.Item href="/arbolEstructural">Ver informacion de nodo</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown title="Aportes" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>

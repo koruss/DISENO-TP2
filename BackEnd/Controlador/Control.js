@@ -162,6 +162,18 @@ module.exports = class Control{
         await this.gestorEstructura.composicionGrupo(req,res);
     }
 
+    async composicionRama(req, res){
+        await this.gestorEstructura.composicionRama(req,res);
+    }
+
+    async composicionZona(req, res){
+        await this.gestorEstructura.composicionZona(req,res);
+    }
+
+    async nodeData(req, res){
+        await this.gestorEstructura.nodeData(req,res);
+    }
+
     async limpiarBandeja(req, res){
         await this.gestorEstructura.limpiarBandeja(req,res);
     }

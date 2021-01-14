@@ -8,13 +8,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Nav, NavDropdown } from 'react-bootstrap';
 
-class ConsultarComposicionGrupo extends Component {
+class ConsultarComposicionRama extends Component {
     state = {
         idMovimiento: "",
         idUsuario: "",
         info: [],
-        grupos: [],
-        selectedGrupo: [],
+        ramas: [],
+        selectedRama: [],
         pointerNull: 'none'
 
     }
@@ -29,13 +29,13 @@ class ConsultarComposicionGrupo extends Component {
 
 
     limpiarGrupo() {
-        this.state.selectedGrupo = []
+        this.state.selectedRama = []
     }
     /*Esta funcion lo que hace es asignar los datos del componente en su respectivo state */
-    handleChangeGrupo = selectedGrupo => {
-        const seleccionado = this.state.info.find(element => element._id == selectedGrupo._id)
+    handleChangeRama = selectedRama => {
+        const seleccionado = this.state.info.find(element => element._id == selectedRama._id)
         this.setState(
-            { selectedGrupo: seleccionado }
+            { selectedRama: seleccionado }
         );
     };
     /* Esta funcion se ejecuta automaticamente,
@@ -47,28 +47,28 @@ class ConsultarComposicionGrupo extends Component {
     obtenerCodigoMovimiento() {
         let arreglo = [];
         let respuesta;
-        axios.post('/getSesion',{}).then((res) =>{
-            const id_movimiento = res.data.id_movimiento;
-            axios.post("/composicionGrupo", {
-                idUsuario:res.data.id_persona,
-                tipoUsuario:res.data.tipo
-                }).then(data =>{
-                    respuesta= data.data;
-                    this.setState({
-                        info:respuesta})
-                    respuesta.forEach(grupo=>{
-                        if(grupo.idMovimiento == id_movimiento){
-                            arreglo.push({
-                                label:grupo.nombre,
-                                value:grupo.nombre,
-                                _id:grupo._id
-                            })
-                        }
+        axios.post('/getSesion', {}).then((res) => {
+            console.log(res);
+            axios.post("/composicionRama", {
+                idUsuario: res.data.id_persona,
+                // tipoUsuario:res.data.tipo
+            }).then(data => {
+                respuesta = data.data;
+                this.setState({
+                    info: respuesta
+                })
+                respuesta.forEach(grupo => {
+                    console.log(grupo)
+                    arreglo.push({
+                        label: grupo.nombre,
+                        value: grupo.nombre,
+                        _id: grupo._id
                     })
+                })
             })
             this.setState({
 
-                grupos: arreglo,
+                ramas: arreglo,
                 idMovimiento: res.data.id_movimiento,
                 idUsuario: res.data.id_persona
             })
@@ -84,12 +84,13 @@ class ConsultarComposicionGrupo extends Component {
                 <main className="container">
                     <div id="center-section">
                         <div class="form-group" class="spacing-base">
-                            <label for="grupo">Seleccione el grupo:</label>
-                            <Select components={makeAnimated} name="grupo" onChange={this.handleChangeGrupo}
-                                options={this.state.grupos} classNamePrefix="select" />
+                            <label for="rama">Seleccione la Rama:</label>
+                            <Select components={makeAnimated} name="rama" onChange={this.handleChangeRama}
+                                options={this.state.ramas} classNamePrefix="select" />
                         </div>
+
                         <button>
-                            <Link to={{ pathname: '/consultarGrupoResult', data: { info: this.state.selectedGrupo, tipo: "Grupo" } }}>Consultar</Link>
+                            <Link to={{ pathname: '/consultarGrupoResult', data: {info:this.state.selectedRama,tipo:"Rama"}}}>Consultar</Link>
                         </button>
                     </div>
 
@@ -100,4 +101,4 @@ class ConsultarComposicionGrupo extends Component {
 
 }
 
-export default ConsultarComposicionGrupo;
+export default ConsultarComposicionRama;

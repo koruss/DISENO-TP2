@@ -31,7 +31,8 @@ class ConsultarGrupoResult extends Component {
 
 
     render() {
-         this.state.info = this.props.location.data;
+         this.state.info = this.props.location.data.info;
+         this.state.tipo = this.props.location.data.tipo;
 
 
         return (
@@ -39,7 +40,7 @@ class ConsultarGrupoResult extends Component {
                 <Header></Header>
                 <main className="container">
                     <div id="center-section">
-                        <h2>Nombre del Grupo: {this.state.info.nombre}</h2>
+                        <h2>Nombre de {this.state.tipo} : {this.state.info.nombre}</h2>
                     </div>
                     <div>
                         <label for="CantMiembros">Cantidad de personas</label>
