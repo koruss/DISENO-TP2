@@ -235,11 +235,12 @@ module.exports = class DAO {
     async crearGrupo(req, res) {
         // console.log(req.body)
         this.openConnection();
+        const _idPerson = req.body.selectedMonitor.datosPersona[0]._id;
         const schema = new CompositeSchema();
         schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreGrupo;
         schema.tipo=3;
-        schema.monitores.push(req.body.selectedMonitor.datosPersona[0]._id)
+        schema.monitores.push(_idPerson)
         schema.save();
         CompositeSchema.update({ _id: req.body.selectedRama._id}, { $addToSet: { children: schema._id } }, function (err, result) {
             if (err) {
@@ -247,7 +248,14 @@ module.exports = class DAO {
                 res.json({ success: false, error: "Se ha producido un error guardando", error })
             }
             else {
-                res.json({ success: true })
+                PersonaSchema.updateOne({_id:_idPerson},{tipo: 2},function(err,success){
+                    if(err){
+                        res.json({ success: false, error: "Se ha producido un error guardando", error })
+                    }
+                    else{
+                        res.json({ success: true })
+                    }
+                })
             }
         })
     }

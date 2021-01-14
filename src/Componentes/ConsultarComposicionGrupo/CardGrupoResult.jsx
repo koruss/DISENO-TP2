@@ -16,7 +16,7 @@ export default class CardGrupoResult extends Component {
         this.state.apellido = this.props.miembroData.apellido1
         this.state.telefono = this.props.miembroData.telefono
         this.state.correo = this.props.miembroData.correo
-        
+
         return (
             <div >
                 <Card style={{ width: '13rem' }}>
