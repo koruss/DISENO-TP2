@@ -626,8 +626,6 @@ module.exports = class DAO {
         }   
     }
 
-        } 
-
     async nodeData(req,res){
         this.openConnection();
         CompositeSchema.findOne({_id:req.body.idNodo}).populate("miembros").exec((err,data)=>{
