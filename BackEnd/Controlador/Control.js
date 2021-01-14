@@ -149,6 +149,10 @@ module.exports = class Control{
     async composicionGrupo(req, res){
         await this.gestorEstructura.composicionGrupo(req,res);
     }
+
+    async limpiarBandeja(req, res){
+        await this.gestorEstructura.limpiarBandeja(req,res);
+    }
 }
 
 

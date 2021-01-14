@@ -48,22 +48,23 @@ obtiene todas las zonas y las gurada en la ventana*/
         let arreglo = [];
         let respuesta;
         axios.post('/getSesion',{}).then((res) =>{
-            console.log(res);
+            const id_movimiento = res.data.id_movimiento;
             axios.post("/composicionGrupo", {
                 idUsuario:res.data.id_persona,
                 tipoUsuario:res.data.tipo
-            }).then(data =>{
-                respuesta= data.data;
-                this.setState({
-                    info:respuesta})
-                respuesta.forEach(grupo=>{
-                    console.log(grupo)
-                    arreglo.push({
-                        label:grupo.nombre,
-                        value:grupo.nombre,
-                        _id:grupo._id
+                }).then(data =>{
+                    respuesta= data.data;
+                    this.setState({
+                        info:respuesta})
+                    respuesta.forEach(grupo=>{
+                        if(grupo.idMovimiento == id_movimiento){
+                            arreglo.push({
+                                label:grupo.nombre,
+                                value:grupo.nombre,
+                                _id:grupo._id
+                            })
+                        }
                     })
-                })
             })
             this.setState({
                 

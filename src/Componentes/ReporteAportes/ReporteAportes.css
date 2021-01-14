@@ -48,16 +48,21 @@
 }
 
 .label-wrapper {
-    size: 50;
+    size: 20;
     width: 50%;
     float: left;
-    height: 85px;
+    height: 50px;
 }
 
 h1 {
     font-weight: 600;
     font-size: 32px;
     line-height: 1.2;
+    padding:20px;
+    margin: 0;
+}
+
+.buttonSp {
     padding:20px;
     margin: 0;
 }
@@ -94,3 +99,4 @@ body {
     width:500px;
     height:500px;
 }
+

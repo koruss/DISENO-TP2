@@ -149,8 +149,11 @@ app.post('/obtenerAportes', (req,res) => {
 
 
 app.post('/composicionGrupo',(req,res)=>{
-  console.log("aqui toy")
   control.composicionGrupo(req,res);
+})
+
+app.post('/limpiarBandeja', (req,res) => {
+  control.limpiarBandeja(req,res);
 })
 
 

@@ -41,11 +41,10 @@ export class VerificadorProxy implements Verificador  {
             var contra_persona = persona.datosPersona[0].contrasena;
             if(id == id_persona && password == contra_persona){
                 this.type = persona.datosPersona[0].tipo;
-                this.nombre_persona = persona.datosPersona[0].nombre+ " "+persona.datosPersona[0].apellido1+" "+persona.datosPersona[0].apellido1;
+                this.nombre_persona = persona.datosPersona[0].nombre+ " "+persona.datosPersona[0].apellido1+" "+persona.datosPersona[0].apellido2;
                 this.id_persona = persona.datosPersona[0]._id;
                 auth = true;
                 var movimiento = this.movimientos.find(element => element._id == persona.datosPersona[0].idMovimiento);
-                console.log(movimiento)
                 this.id_movimiento = movimiento._id;
                 this.nombre_movimiento = movimiento.nombre;
             }
