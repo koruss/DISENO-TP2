@@ -90,6 +90,18 @@ module.exports = class GestorEstructura{
         await this.DAO.obtenerMovimientos(req,res);
     }
 
+    async allMiembrosPorMiembro(req, res){
+        await this.DAO.allMiembrosPorMiembro(req,res);
+    }
+
+    async allJefesPorMiembro(req, res){
+        await this.DAO.allJefesPorMiembro(req,res);
+    }
+
+    async allMonitoresPorMiembro(req, res){
+        await this.DAO.allMonitoresPorMiembro(req,res);
+    }
+
     async obtenerAportes(req, res){
         await this.DAO.obtenerAportes(req,res);
     }

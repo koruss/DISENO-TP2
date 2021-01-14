@@ -11,29 +11,27 @@ export default class CardGrupoRoles extends Component {
     // para ser utilizados cuando se cree en la aplicación
     state = {
         rol: "",
-        grupo: "",
-        rama: ""
+        grupo: ""
     }
 
     // En esta parte se hace el diseño de la ventana para mostrar grupos y roles
     // y se llama a las funciones anteriores.
     render() {
         this.state.rol = this.props.miembroData.rol;
-        this.state.grupo = this.props.miembroData.grupo;  
-        this.state.rama = this.props.miembroData.rama;
+        this.state.grupo = this.props.miembroData.grupo;
 
         return (
             <div className="card1-container" >
-                <div id="center-section">
-                    <Card style={{ width: '30rem' }}>
+                {/* <div id="center-section"> */}
+                    <Card style={{ width: '13rem' }}>
                         <Card.Body>
                             <Card.Title></Card.Title>
                             <Card.Text>
-                                | Rol: {this.state.rol} | Grupo: {this.state.grupo} | Rama: {this.state.rama} |
+                                | Rol: {this.state.rol} | {this.state.grupo} | 
                             </Card.Text>
                         </Card.Body>
                     </Card>
-                </div>
+                {/* </div> */}
             </div>
         )
     };
