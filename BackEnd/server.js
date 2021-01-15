@@ -143,16 +143,30 @@ app.post('/enviarAporte', (req,res) => {
   control.enviarAporte(req,res);
 })
 
+app.post('/allMiembrosPorMiembro', (req,res) => {
+  control.allMiembrosPorMiembro(req,res);
+})
+
+app.post('/allJefesPorMiembro', (req,res) => {
+  control.allJefesPorMiembro(req,res);
+})
+
+app.post('/allMonitoresPorMiembro', (req,res) => {
+  control.allMonitoresPorMiembro(req,res);
+})
+
 app.post('/obtenerAportes', (req,res) => {
   control.obtenerAportes(req,res);
 })
 
 
 app.post('/composicionGrupo',(req,res)=>{
-  //console.log("aqui toy")
   control.composicionGrupo(req,res);
 })
 
+app.post('/limpiarBandeja', (req,res) => {
+  control.limpiarBandeja(req,res);
+})
 app.post('/composicionRama',(req,res)=>{
   //console.log("aqui toy")
   control.composicionRama(req,res);

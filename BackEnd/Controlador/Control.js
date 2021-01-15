@@ -116,6 +116,18 @@ module.exports = class Control{
         await this.gestorEstructura.obtenerMovimientos(req, res)
     }
 
+    async allMiembrosPorMiembro(req,res){
+        await this.gestorEstructura.allMiembrosPorMiembro(req, res)
+    }
+
+    async allJefesPorMiembro(req,res){
+        await this.gestorEstructura.allJefesPorMiembro(req, res)
+    }
+
+    async allMonitoresPorMiembro(req,res){
+        await this.gestorEstructura.allMonitoresPorMiembro(req, res)
+    }
+
     // Función que conecta con el gestor de la estructura, pasandole los 
     // datos necesarios para modificar el nombre de un grupo
     async cambiarNombreGrupo(req,res){
@@ -160,6 +172,10 @@ module.exports = class Control{
 
     async nodeData(req, res){
         await this.gestorEstructura.nodeData(req,res);
+    }
+
+    async limpiarBandeja(req, res){
+        await this.gestorEstructura.limpiarBandeja(req,res);
     }
 }
 

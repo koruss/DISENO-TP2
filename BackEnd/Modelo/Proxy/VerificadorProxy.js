@@ -29,11 +29,10 @@ var VerificadorProxy = /** @class */ (function () {
             var contra_persona = persona.datosPersona[0].contrasena;
             if (id == id_persona && password == contra_persona) {
                 _this.type = persona.datosPersona[0].tipo;
-                _this.nombre_persona = persona.datosPersona[0].nombre + " " + persona.datosPersona[0].apellido1 + " " + persona.datosPersona[0].apellido1;
+                _this.nombre_persona = persona.datosPersona[0].nombre + " " + persona.datosPersona[0].apellido1 + " " + persona.datosPersona[0].apellido2;
                 _this.id_persona = persona.datosPersona[0]._id;
                 auth = true;
                 var movimiento = _this.movimientos.find(function (element) { return element._id == persona.datosPersona[0].idMovimiento; });
-                console.log(movimiento);
                 _this.id_movimiento = movimiento._id;
                 _this.nombre_movimiento = movimiento.nombre;
             }

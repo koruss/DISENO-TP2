@@ -100,7 +100,7 @@ class Header extends Component {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver noticias</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver puestos</NavDropdown.Item>
+                                            <NavDropdown.Item href="/consultaGruposPorMiembro">Ver puestos</NavDropdown.Item>
                                         </NavDropdown>   
                                         <NavDropdown title="Aportes" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>
@@ -119,6 +119,8 @@ class Header extends Component {
                                             <NavDropdown.Item href="/cambiarNombreGrupo">Cambiar nombre de grupo</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/PosiblesMonitores">Establecer posibles mentores de grupo</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/registroMiembro">Registrar persona en movimiento</NavDropdown.Item>
                                         </NavDropdown>  
                                         <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>
@@ -128,8 +130,6 @@ class Header extends Component {
                                             <NavDropdown.Item href="/consultaMiembrosPorElemento">Miembros por elemento</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/arbolEstructural">Arbol</NavDropdown.Item>
-                                            <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/ReporteAportes">Reporte de aportes</NavDropdown.Item>
                                         </NavDropdown>   
                                         <NavDropdown title="Crear estructuras" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/crearZona">Crear zona</NavDropdown.Item>
@@ -148,14 +148,7 @@ class Header extends Component {
                                 }
                                 else if(session == "JEFE"){ 
                                     return <>
-                                        <Nav.Link href="/ventanaJefe">Inicio</Nav.Link>                                 
-                                        <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>
-                                            <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver noticias</NavDropdown.Item>
-                                            <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver puestos</NavDropdown.Item>
-                                        </NavDropdown>   
+                                        <Nav.Link href="/ventanaJefe">Inicio</Nav.Link>
                                         <NavDropdown alignItems="left" title="Consultas de rango" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de grupos que monitorea</NavDropdown.Item>
                                             <NavDropdown.Divider />
@@ -169,7 +162,9 @@ class Header extends Component {
                                             <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown title="Publicaciones" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/crearZona">Crear publicacion</NavDropdown.Item>
+                                            <NavDropdown.Item href="/ventanaJefe">Ver noticias</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/ventanaJefe">Crear publicacion</NavDropdown.Item>
                                         </NavDropdown>
                                         <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
                                     </> 

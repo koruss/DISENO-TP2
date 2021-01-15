@@ -29,16 +29,19 @@ class CrearZona extends Component {
     //Funcion para manejar los eventos de un boton
     onClick = (e) => {
         if(this.state.nombreZona != ""){
-            axios.post("/guardarZona", {
-                nombreZona: this.state.nombreZona
-            }).then(res => {
-                if (!res.data.success) {
-                    alert(res.data.error);
-                }
-                else {
-                    alert("Zona Guardada correctamente")
-                    this.zonaRef.current.value="";
-                }
+            axios.post('/getSesion',{}).then((res) =>{
+                axios.post("/guardarZona", {
+                    nombreZona: this.state.nombreZona,
+                    id_movimiento:res.data.id_movimiento
+                        }).then(res => {
+                        if (!res.data.success) {
+                            alert(res.data.error);
+                        }
+                        else {
+                            alert("Zona Guardada correctamente")
+                            this.zonaRef.current.value="";
+                        }
+                })
             })
         }
         else{

@@ -19,6 +19,7 @@ class TreeContainer extends React.PureComponent {
         ramas: [],
         grupos: [],
         selectedNode:null,
+        id_movimiento: "",
         // treeData: [
         //     {
         //         name: 'Ejemplo',
@@ -124,7 +125,7 @@ class TreeContainer extends React.PureComponent {
 
     componentDidMount() {
         axios.post("/getSesion",{}).then(res =>{
-            console.log(res)
+            this.state.id_movimiento = res.data.id_movimiento
             this.state.arbol[0].name=res.data.nombre_movimiento
             this.state.arbol2[0].name=res.data.nombre_movimiento
             this.render()
@@ -137,32 +138,38 @@ class TreeContainer extends React.PureComponent {
         axios.post("/allZonas", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(zona => {
-                arreglo.push({
-                    id: zona._id,
-                    children: zona.children,
-                    name: zona.nombre
-                })
+                if(zona.idMovimiento == this.state.id_movimiento){
+                    arreglo.push({
+                        id: zona._id,
+                        children: zona.children,
+                        name: zona.nombre
+                    })
+                }
             })
         })
         axios.post("/allRama", {}).then(res => {
             const respuesta2 = res.data;
             respuesta2.forEach(rama => {
-                arreglo2.push({
-                    id: rama._id,
-                    children: rama.children,
-                    name: rama.nombre
-                })
+                if(rama.idMovimiento == this.state.id_movimiento){
+                    arreglo2.push({
+                        id: rama._id,
+                        children: rama.children,
+                        name: rama.nombre
+                    })
+                }
             })
 
         })
         axios.post("/allGrupos", {}).then(res => {
             const respuesta3 = res.data;
             respuesta3.forEach(grupo => {
-                arreglo3.push({
-                    id: grupo._id,
-                    children: grupo.children,
-                    name: grupo.nombre
-                })
+                if(grupo.idMovimiento == this.state.id_movimiento){
+                    arreglo3.push({
+                        id: grupo._id,
+                        children: grupo.children,
+                        name: grupo.nombre
+                    })
+                }
             })
         })
         this.setState({
