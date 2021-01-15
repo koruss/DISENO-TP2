@@ -28,6 +28,8 @@ import PosiblesMonitores from './Componentes/PosiblesMonitores/PosiblesMonitores
 import SignUp from './Componentes/SignUp/SignUp';
 import Aportes from './Componentes/Aportes/Aportes';
 import ReporteAportes from './Componentes/ReporteAportes/ReporteAportes';
+import Bandeja from './Componentes/Noticias/Bandeja';
+import CrearNoticia from './Componentes/Noticias/CrearNoticia';
 
 
 //Funcion para establecer las rutas de la aplicacion con su respectivo componente
@@ -52,7 +54,8 @@ function App() {
           <Route path="/arbolEstructural" component={TreeContainer}/> 
           <Route path="/contacto" component={contacto}/> 
           <Route path="/PosiblesMonitores" component={PosiblesMonitores}/> 
-          <Route path="/ReporteAportes" component={ReporteAportes}/> 
+          <Route path="/ReporteAportes" component={ReporteAportes}/>
+          <Route path="/crearNoticia" component={CrearNoticia}/> 
           
           <Route path="/asignacionMiembros" component={AsignacionMiembros}/>
 
@@ -66,6 +69,7 @@ function App() {
           <Route path="/consultaComposicionRama" component={ConsultaCompRama}/>
           <Route path="/consultaComposicionZona" component={ConsultaCompZona}/>
           <Route path="/arbolEstructural" component={arbolEstructural}/>
+          <Route path="/bandeja" component={Bandeja}/>
            
 
           {/*                        Creacion de estructuras */}
