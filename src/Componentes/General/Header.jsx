@@ -98,7 +98,7 @@ class Header extends Component {
                                         <NavDropdown alignItems="left" title="Consultas" id="basic-nav-dropdown">
                                             <NavDropdown.Item href="/consultaComposicionGrupo">Ver composición de un grupo</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/consultaComposicionGrupo">Ver noticias</NavDropdown.Item>
+                                            <NavDropdown.Item href="/bandeja">Ver noticias</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/consultaGruposPorMiembro">Ver puestos</NavDropdown.Item>
                                         </NavDropdown>   
@@ -162,9 +162,9 @@ class Header extends Component {
                                             <NavDropdown.Item href="/aportes">Crear aporte</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown title="Publicaciones" id="basic-nav-dropdown">
-                                            <NavDropdown.Item href="/ventanaJefe">Ver noticias</NavDropdown.Item>
+                                            <NavDropdown.Item href="/bandeja">Ver noticias</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item href="/ventanaJefe">Crear publicacion</NavDropdown.Item>
+                                            <NavDropdown.Item href="/crearNoticia">Crear Noticia</NavDropdown.Item>
                                         </NavDropdown>
                                         <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
                                     </> 
