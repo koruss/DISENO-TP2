@@ -116,14 +116,14 @@ class Login extends Component{
                     <div id="center-section">
                         <div id="main-section">
                             <div class="border">
-                                <div class="box-container">
+                                <div id="center-section" >
                                     <h1>Log In</h1>
                                     <div class="spacig-base">
-                                        <label for="email">Username or Email</label>
+                                        <label for="email">Identificación</label>
                                         <input ref={this.idRef} type="text" name="userName" autoComplete="on" onChange={this.onChange} tabIndex="1"></input>
                                     </div>    
                                     <div class="spacig-base">
-                                        <label for="password">Password</label>
+                                        <label for="password">Contraseña</label>
                                         <input ref={this.contrasenaRef} type="password" name="password" onChange={this.onChange} tabIndex="2"/>       
                                     </div>  
                                     <div class="spacing-base">
@@ -133,7 +133,7 @@ class Login extends Component{
                             </div>
                         </div>
                         <div class="divider">
-                            <h5>You don't have an account?</h5>
+                            <h5>¿No tienes cuenta?</h5>
                         </div>
                         <span id="registrationLink" class="button" >
                             <Link to="/SignUp" className="btn btn-primary">Registro</Link>          

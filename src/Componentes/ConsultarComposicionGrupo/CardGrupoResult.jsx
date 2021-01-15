@@ -13,10 +13,10 @@ export default class CardGrupoResult extends Component {
     render() {
         this.state.nombre = this.props.miembroData.nombre;
         this.state.indice = this.props.index;  
-        this.state.apellido = this.props.miembroData.apellido1
-        this.state.telefono = this.props.miembroData.telefono
-        this.state.correo = this.props.miembroData.correo
-
+        this.state.apellido = this.props.miembroData.apellido1;
+        this.state.telefono = this.props.miembroData.telefono;
+        this.state.correo = this.props.miembroData.correo;
+        this.state.direccion = this.props.miembroData.direccion;
         return (
             <div >
                 <Card style={{ width: '13rem' }}>
@@ -29,7 +29,12 @@ export default class CardGrupoResult extends Component {
                             Correo: {this.state.correo}
                         </Card.Text>
                         <Card.Text>
-                            Telefono {this.state.telefono}
+                            Telefono:
+                            {this.state.telefono}
+                        </Card.Text>
+                        <Card.Text>
+                            Direccion:
+                            {this.state.direccion.pais+", "+this.state.direccion.provincia+", "+this.state.direccion.canton+", "+this.state.direccion.distrito }
                         </Card.Text>
                     </Card.Body>
                 </Card>
