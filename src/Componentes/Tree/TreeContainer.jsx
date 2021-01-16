@@ -59,9 +59,12 @@ class TreeContainer extends React.PureComponent {
         },
 
         style: {
-            width: "100%",
+            "margin-right":"5%",
+            "margin-left":"5%",
+            width: "90%",
             height: "100vh",
-            border: "5px solid #333"
+            border: "5px solid #333",
+            background: "#fff"
         }
 
 
