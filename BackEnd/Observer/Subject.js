@@ -13,28 +13,30 @@ module.exports = class Subject{
         this.observers.push(c);
     }
 
-    // async cargarPersonas (req, res){
-    //     // this.dao.cargarPersonas(req){
-    //     //     console.log("personas: "+result+", prueba: "+result2)
-    //     // })
-    //     // let result=this.dao.cargarPersonas(req).then(data=>{
-    //     //     console.log("Subject result: "+data)
-
-    //     // })
-    //     const result= await this.dao.cargarPersonas(req)
-    //     console.log("subject: "+result.length);
-    // }
-
     async cargarPersonas(req, res){
         const resultado = await this.dao.cargarPersonas(req, res)
-        console.log("subject: "+resultado)
+        resultado.forEach(num=>{
+            // console.log("id: "+num._id)
+            this.suscribir(num._id)
+        })
+        // console.log("subject: "+resultado)
+
+        // console.log("observer subject cargarPersonas: "+this.observers)
+        this.notificar(req, this.observers,res)
     }
 
-    async notificar (req, res){
-        await this.dao.notificarNoticia(req, res)
+    async notificar (req, observer, res){
+        // console.log("***************************************************************")
+        // console.log("observers Subject: "+observer)
+        observer.forEach(element=>{
+            // console.log("------------------------------------------------------------")
+            // console.log(element)
+            this.dao.NotificarNoticia(req, element, res)
+        })
     }
 
     crearNoticia(req, res){
         this.cargarPersonas(req, res)
+
     }
 }

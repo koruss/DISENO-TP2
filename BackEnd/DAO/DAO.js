@@ -678,12 +678,30 @@ module.exports = class DAO {
     }
 
     async cargarPersonas(req, res){
-        console.log(req.body)
+        // console.log(req.body)
+        const personas=[]
         // console.log("value: "+req.body.nivel.value)
         //**************************Siempre se llama a todas las personas porque pertenecen como miembros en los grupos********************* */
         this.openConnection();
         if(req.body.nivel.etiqueta=="0"){
-            const result=PersonaSchema.find({idMovimiento:req.body.nivel._id}, function(err,data){
+            const result = await PersonaSchema.find({idMovimiento:req.body.nivel._id}, function(err,data){
+                // if(err){
+                //     console.log(err)
+                //     res.json({success:false, error:" Algo salio del orto"})
+                // }
+                // else{
+                //     data.forEach(num=>{
+                //         console.log(num._id)
+                //         personas.push(num._id)
+                //     })
+                //     res.send(personas);
+                //     res.end();
+                // }
+            })
+            // console.log("Dao: "+result)
+            return result
+        }else if(req.body.nivel.etiqueta=="1"){
+            const result = await PersonaSchema.find({zonas:{_id:req.body.nivel._id}}, function(err,data){
                 // if(err){
                 //     console.log(err)
                 //     res.json({success:false, error:" Algo salio del orto"})
@@ -693,23 +711,10 @@ module.exports = class DAO {
                 //     res.send(data);
                 //     res.end();
                 // }
-            console.log("Dao: "+result)
+            })
             return result
-            })
-        }else if(req.body.nivel.etiqueta=="1"){
-            PersonaSchema.find({zonas:{_id:req.body.nivel._id}}, function(err,data){
-                if(err){
-                    console.log(err)
-                    res.json({success:false, error:" Algo salio del orto"})
-                }
-                else{
-                    console.log(data)
-                    res.send(data);
-                    res.end();
-                }
-            })
         }else{
-            const result=PersonaSchema.find({ramas:{_id:req.body.nivel._id}}, function(err,data){
+            const result = await PersonaSchema.find({ramas:{_id:req.body.nivel._id}}, function(err,data){
                 // if(err){
                 //     console.log(err)
                 //     res.json({success:false, error:" Algo salio del orto"})
@@ -720,42 +725,25 @@ module.exports = class DAO {
                 //     res.end();
                 // }
             })
-            console.log("Dao: "+result)
+            // console.log("Dao: "+result)
             return result
         }
     }
 
-    // async cargarPersonas(req){
-    //     this.openConnection();
-    //     const personas=[]
-    //     console.log(req.body)
-    //     const result= await CompositeSchema.find({tipo:2, miembros:{_id:req.body.autor_id}}).populate("children").exec(
-    //     //     function(err,data){
-    //     //         if(err){
-    //     //             return err
-    //     //         }
-    //     //         else{
-    //     //             // console.log(data)
-    //     //             data.forEach(data1=>{
-    //     //                 data1.children.forEach(element=>{
-    //     //                     // console.log(element)
-    //     //                     element.miembros.forEach(miembros=>{
-    //     //                         // console.log(miembros._id)
-    //     //                         personas.push(miembros._id)
-    //     //                     })
-    //     //                 })
-    //     //             })
-    //     //             return personas
-    //     //         }
-
-    //     //     }
-    //     )
-    //     console.log(result)
-    //     result.forEach()
-
-    //     return result
-    //     // return personas
-    // }
+    async NotificarNoticia(req, observers, res){
+        this.openConnection();
+        // let today = new Date()
+        // console.log("autor: "+req.body.autorNombre)
+        // console.log("noticia: "+req.body.noticia)
+        // console.log("Date: "+today)
+        // console.log("observers: "+observers)
+        PersonaSchema.updateOne({_id:observers},{$addToSet:{noticia:{autor:req.body.autorNombre, fecha:today, noticia: req.body.noticia, isPendiente:false}}},function(err,success){
+            if(err)return handleError(err);
+            // else{
+            //     return res.json({success:true})
+            // }
+        })
+    }
 
 
     async CrearNoticia(req,res){
