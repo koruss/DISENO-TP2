@@ -13,16 +13,21 @@ module.exports = class Subject{
         this.observers.push(c);
     }
 
-    async cargarPersonas (req, res){
-        // this.dao.cargarPersonas(req){
-        //     console.log("personas: "+result+", prueba: "+result2)
-        // })
-        // let result=this.dao.cargarPersonas(req).then(data=>{
-        //     console.log("Subject result: "+data)
+    // async cargarPersonas (req, res){
+    //     // this.dao.cargarPersonas(req){
+    //     //     console.log("personas: "+result+", prueba: "+result2)
+    //     // })
+    //     // let result=this.dao.cargarPersonas(req).then(data=>{
+    //     //     console.log("Subject result: "+data)
 
-        // })
-        const result= await this.dao.cargarPersonas(req)
-        console.log("subject: "+result.length);
+    //     // })
+    //     const result= await this.dao.cargarPersonas(req)
+    //     console.log("subject: "+result.length);
+    // }
+
+    async cargarPersonas(req, res){
+        const resultado = await this.dao.cargarPersonas(req, res)
+        console.log("subject: "+resultado)
     }
 
     async notificar (req, res){
@@ -30,7 +35,6 @@ module.exports = class Subject{
     }
 
     crearNoticia(req, res){
-
         this.cargarPersonas(req, res)
     }
 }

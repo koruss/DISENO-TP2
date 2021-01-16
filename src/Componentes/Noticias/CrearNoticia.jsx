@@ -11,10 +11,7 @@ import './Noticias.css'
 export default class CrearNoticia extends Component {
 
     state = {
-        opciones: [
-            { value: "Movimiento", label: "Movimiento" }
-            
-        ],
+        opciones: [],
         selectedOpcion: null,
         sesion:null,
         noticia:null
@@ -35,25 +32,27 @@ export default class CrearNoticia extends Component {
         let arreglo=[]
         axios.post("/getLugares", {_id}).then(res=>{
             const respuesta=res.data
-            console.log(respuesta)
             respuesta.zonas.forEach(lugar=>{
                 arreglo.push({
                     value:lugar.nombre,
                     label:lugar.nombre,
-                    _id:lugar._id
+                    _id:lugar._id,
+                    etiqueta:"1"
                 })
             })
             respuesta.ramas.forEach(lugar=>{
                 arreglo.push({
                     value:lugar.nombre,
                     label:lugar.nombre,
-                    _id:lugar._id
+                    _id:lugar._id,
+                    etiqueta:"2"
                 })
             })
             arreglo.push({
                 value:this.state.sesion.nombre_movimiento,
                 label:this.state.sesion.nombre_movimiento,
-                _id:this.state.sesion.id_movimiento
+                _id:this.state.sesion.id_movimiento,
+                etiqueta:"0"
             })
             this.setState({
                 opciones: arreglo
@@ -81,7 +80,6 @@ export default class CrearNoticia extends Component {
     };
 
     onClick = (e) => {
-        // console.log(this.state.sesion)
         axios.post("/CrearNoticia",{
             autorNombre: this.state.sesion.nombre_persona,
             autor_id: this.state.sesion.id_persona,

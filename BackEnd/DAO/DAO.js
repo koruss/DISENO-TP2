@@ -672,65 +672,91 @@ module.exports = class DAO {
             if(err){
                 return res.json({success:false,error:err})
             }
-            console.log(data)
             res.send(data);
             res.end();  
         })
     }
 
-    async cargarPersonas(req){
-        this.openConnection();
-        const personas=[]
+    async cargarPersonas(req, res){
         console.log(req.body)
-        const result= await CompositeSchema.find({tipo:2, miembros:{_id:req.body.autor_id}}).populate("children").exec(
-        //     function(err,data){
-        //         if(err){
-        //             return err
-        //         }
-        //         else{
-        //             // console.log(data)
-        //             data.forEach(data1=>{
-        //                 data1.children.forEach(element=>{
-        //                     // console.log(element)
-        //                     element.miembros.forEach(miembros=>{
-        //                         // console.log(miembros._id)
-        //                         personas.push(miembros._id)
-        //                     })
-        //                 })
-        //             })
-        //             return personas
-        //         }
-
-        //     }
-        )
-        console.log(result)
-        result.forEach()
-
-        return result
-        // return personas
-
+        // console.log("value: "+req.body.nivel.value)
+        //**************************Siempre se llama a todas las personas porque pertenecen como miembros en los grupos********************* */
+        this.openConnection();
+        if(req.body.nivel.etiqueta=="0"){
+            const result=PersonaSchema.find({idMovimiento:req.body.nivel._id}, function(err,data){
+                // if(err){
+                //     console.log(err)
+                //     res.json({success:false, error:" Algo salio del orto"})
+                // }
+                // else{
+                //     console.log(data)
+                //     res.send(data);
+                //     res.end();
+                // }
+            console.log("Dao: "+result)
+            return result
+            })
+        }else if(req.body.nivel.etiqueta=="1"){
+            PersonaSchema.find({zonas:{_id:req.body.nivel._id}}, function(err,data){
+                if(err){
+                    console.log(err)
+                    res.json({success:false, error:" Algo salio del orto"})
+                }
+                else{
+                    console.log(data)
+                    res.send(data);
+                    res.end();
+                }
+            })
+        }else{
+            const result=PersonaSchema.find({ramas:{_id:req.body.nivel._id}}, function(err,data){
+                // if(err){
+                //     console.log(err)
+                //     res.json({success:false, error:" Algo salio del orto"})
+                // }
+                // else{
+                //     console.log(data._id)
+                //     res.send(data);
+                //     res.end();
+                // }
+            })
+            console.log("Dao: "+result)
+            return result
+        }
     }
-    // CompositeSchema.findOne({_id:req.body._id}).populate("miembros").exec(function(err,data){
-    //     if(err){
-    //         console.log(err)
-    //         res.json({success:false, error:"Error recuperando la informacion"})
-    //     }
-    //     else{
-    //         res.send(data.miembros);
-    //         res.end();
-    //     }
-    // })
 
-    // CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
-    //     if(err){
-    //         console.log(err)
-    //         res.json({success:false, error:" Error recuperando la informacion"})
-    //     }
-    //     else{
-    //         res.send(data.children);
-    //         res.end();
-    //     }
-    // })
+    // async cargarPersonas(req){
+    //     this.openConnection();
+    //     const personas=[]
+    //     console.log(req.body)
+    //     const result= await CompositeSchema.find({tipo:2, miembros:{_id:req.body.autor_id}}).populate("children").exec(
+    //     //     function(err,data){
+    //     //         if(err){
+    //     //             return err
+    //     //         }
+    //     //         else{
+    //     //             // console.log(data)
+    //     //             data.forEach(data1=>{
+    //     //                 data1.children.forEach(element=>{
+    //     //                     // console.log(element)
+    //     //                     element.miembros.forEach(miembros=>{
+    //     //                         // console.log(miembros._id)
+    //     //                         personas.push(miembros._id)
+    //     //                     })
+    //     //                 })
+    //     //             })
+    //     //             return personas
+    //     //         }
+
+    //     //     }
+    //     )
+    //     console.log(result)
+    //     result.forEach()
+
+    //     return result
+    //     // return personas
+    // }
+
 
     async CrearNoticia(req,res){
         this.openConnection();
