@@ -181,6 +181,16 @@ app.post('/nodeData',(req,res)=>{
   control.nodeData(req,res);
 })
 
+app.post('/CrearNoticia',(req,res)=>{
+  control.CrearNoticia(req,res);
+})
+
+app.post('/getLugares',(req,res)=>{
+  control.getLugares(req,res);
+})
+
+
+
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
 

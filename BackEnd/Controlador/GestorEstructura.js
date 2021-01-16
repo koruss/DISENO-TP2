@@ -2,6 +2,7 @@ var ZonaDAO = require('../DAO/ZonaDAO');
 var RamaDAO = require('../DAO/RamaDAO');
 var GrupoDAO = require('../DAO/GrupoDAO');
 var DAO = require("../DAO/DAO")
+var Subject = require('../Observer/Subject')
 
 
 
@@ -128,5 +129,16 @@ module.exports = class GestorEstructura{
     
     async nodeData(req, res){
         await this.DAO.nodeData(req,res);
+    }
+
+    async getLugares(req, res){
+        await this.DAO.getLugares(req,res);
+    }
+
+    async CrearNoticia(req, res){
+        // await this.DAO.cargarMiembros(req, res)
+        const subject = new Subject();
+        subject.crearNoticia(req, res)
+        // await this.DAO.CrearNoticia(req,res);
     }
 }

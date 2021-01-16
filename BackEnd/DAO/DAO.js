@@ -101,7 +101,7 @@ module.exports = class DAO {
                         res.json({success: false, error: 'No se pudo actualizar el dato',error});
                     }
                     else {
-                        PersonaSchema.updateOne({_id:req.body._idPerson},{tipo: 1},function(err,success){
+                        PersonaSchema.updateOne({_id:req.body._idPerson},{tipo: 1, $addToSet:{zonas:req.body.zona,ramas:req.body.rama,grupos:req.body.grupo}},function(err,success){
                             if(err)return handleError(err);
                             else{
                                 return res.json({success:true})
@@ -665,4 +665,77 @@ module.exports = class DAO {
         })
 
     }
+
+    async getLugares(req, res){
+        this.openConnection();
+        PersonaSchema.findOne({_id: req.body._id}).populate("zonas").populate("ramas").exec(function(err,data){
+            if(err){
+                return res.json({success:false,error:err})
+            }
+            console.log(data)
+            res.send(data);
+            res.end();  
+        })
+    }
+
+    async cargarPersonas(req){
+        this.openConnection();
+        const personas=[]
+        console.log(req.body)
+        const result= await CompositeSchema.find({tipo:2, miembros:{_id:req.body.autor_id}}).populate("children").exec(
+        //     function(err,data){
+        //         if(err){
+        //             return err
+        //         }
+        //         else{
+        //             // console.log(data)
+        //             data.forEach(data1=>{
+        //                 data1.children.forEach(element=>{
+        //                     // console.log(element)
+        //                     element.miembros.forEach(miembros=>{
+        //                         // console.log(miembros._id)
+        //                         personas.push(miembros._id)
+        //                     })
+        //                 })
+        //             })
+        //             return personas
+        //         }
+
+        //     }
+        )
+        console.log(result)
+        result.forEach()
+
+        return result
+        // return personas
+
+    }
+    // CompositeSchema.findOne({_id:req.body._id}).populate("miembros").exec(function(err,data){
+    //     if(err){
+    //         console.log(err)
+    //         res.json({success:false, error:"Error recuperando la informacion"})
+    //     }
+    //     else{
+    //         res.send(data.miembros);
+    //         res.end();
+    //     }
+    // })
+
+    // CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
+    //     if(err){
+    //         console.log(err)
+    //         res.json({success:false, error:" Error recuperando la informacion"})
+    //     }
+    //     else{
+    //         res.send(data.children);
+    //         res.end();
+    //     }
+    // })
+
+    async CrearNoticia(req,res){
+        this.openConnection();
+        //Continuará
+    }
+
+
 }

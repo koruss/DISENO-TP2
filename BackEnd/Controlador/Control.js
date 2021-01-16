@@ -177,6 +177,15 @@ module.exports = class Control{
     async limpiarBandeja(req, res){
         await this.gestorEstructura.limpiarBandeja(req,res);
     }
+
+    async CrearNoticia(req, res){
+        await this.gestorEstructura.CrearNoticia(req,res);
+    }
+
+    async getLugares(req, res){
+        await this.gestorEstructura.getLugares(req,res);
+    }
+    
 }
 
 
