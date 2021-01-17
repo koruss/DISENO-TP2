@@ -120,6 +120,7 @@ class ReporteAportes extends Component{
                 alert("Estadisticas enviadas correctamente")
             }
         })
+        alert("Estadisticas enviadas correctamente")
     }
 
     enviarEstadisticas = (e) => {
@@ -141,6 +142,7 @@ class ReporteAportes extends Component{
                 alert("Estadisticas enviadas correctamente")
             }
         })
+        alert("Estadisticas enviadas correctamente")
     }
 
 /* se encarga de renderizar el codigo html*/

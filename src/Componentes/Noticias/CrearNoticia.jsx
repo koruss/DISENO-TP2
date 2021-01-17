@@ -101,6 +101,11 @@ export default class CrearNoticia extends Component {
             //     })
             // }
         })
+        alert("Noticia creada correctamente")
+        this.setState({
+            selectedOpcion:[],
+            value:""
+        })
     }
 
     render() {

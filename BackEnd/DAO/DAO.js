@@ -244,13 +244,14 @@ module.exports = class DAO {
         schema.tipo = 3;
         schema.monitores.push(_idPerson)
         schema.save();
-        CompositeSchema.update({ _id: req.body.selectedRama._id }, { $addToSet: { children: schema._id } }, function (err, result) {
+        CompositeSchema.updateOne({ _id: req.body.selectedRama._id }, { $addToSet: { children: schema._id }, $addToSet: { miembros:_idPerson} }, function (err, result) {
             if (err) {
                 console.log(err);
                 res.json({ success: false, error: "Se ha producido un error guardando", error })
             }
             else {
-                PersonaSchema.updateOne({ _id: _idPerson }, { tipo: 2, $addToSet: {grupos: schema._id } }, function (err, success) {
+                PersonaSchema.updateMany({ _id: _idPerson }, { tipo: 2, $addToSet: {grupos: schema._id, ramas: req.body.selectedRama._id, zonas: req.body.selectedZona._id  }}, 
+                    function (err, success) {
                     if (err) {
                         res.json({ success: false, error: "Se ha producido un error guardando", error })
                     }

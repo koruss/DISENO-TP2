@@ -33,44 +33,53 @@ class VentanaAsesor extends Component {
         let arreglo =[];
         let arrRama = [];
         let arrGrup = [];
-        axios.post("/allZonas", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(zona=>{
-                arreglo.push({
-                    value:zona.nombreZona,
-                    label:zona.nombreZona
-                })
-            })   
-            this.setState({
-                zonas:arreglo
-            })
-        })
+        axios.post('/getSesion',{}).then((res) =>{
+            const id_movimiento = res.data.id_movimiento;
+            axios.post("/allZonas", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(zona=>{
+                    if(zona.idMovimiento == id_movimiento){
+                        arreglo.push({
+                            value:zona.nombre,
+                            label:zona.nombre,
+                            _id:zona._id
 
-        axios.post("/allRama", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(rama=>{
-                arrRama.push({
-                    value:rama.nombreRama,
-                    label:rama.nombreRama
+                        })
+                    }
+                })   
+                this.setState({
+                    zonas:arreglo
                 })
-            })   
-            this.setState({
-                ramas:arrRama
             })
-        })
 
-        axios.post("/allGrupos", {}).then(res => {
-            const respuesta = res.data;
-            respuesta.forEach(grupo=>{
-                if(grupo.monitores.length != 0){
-                    arrGrup.push({
-                        value:grupo.nombreGrupo,
-                        label:grupo.nombreGrupo
-                    })
-                }
-            })   
-            this.setState({
-                grupos:arrGrup
+            axios.post("/allRama", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(rama=>{
+                    if(rama.idMovimiento == id_movimiento){
+                        arrRama.push({
+                            value:rama.nombre,
+                            label:rama.nombre
+                        })
+                    }
+                })   
+                this.setState({
+                    ramas:arrRama
+                })
+            })
+
+            axios.post("/allGrupos", {}).then(res => {
+                const respuesta = res.data;
+                respuesta.forEach(grupo=>{
+                    if(grupo.idMovimiento == id_movimiento){
+                        arrGrup.push({
+                            value:grupo.nombre,
+                            label:grupo.nombre
+                        })
+                    }
+                })   
+                this.setState({
+                    grupos:arrGrup
+                })
             })
         })
     }

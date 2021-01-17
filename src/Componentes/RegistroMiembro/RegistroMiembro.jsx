@@ -84,7 +84,7 @@ class RegistroMiembro extends Component{
                 movimiento:res.data.id_movimiento
             }).then(res =>{
                 if(!res.data.success){
-                    alert(res.data.err);
+                    alert(res.data.error);
                 }
                 else{
                     alert("Miembro Guardado correctamente")

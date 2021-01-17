@@ -111,7 +111,8 @@ class AsignacionMiembros extends Component {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
                 if(persona.ramas.includes(miembrosRama) == false &&
-                    persona.idMovimiento == this.state.id_movimiento){
+                    persona.idMovimiento == this.state.id_movimiento &&
+                    persona.tipo != 3){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
@@ -153,6 +154,7 @@ class AsignacionMiembros extends Component {
             const respuesta = res.data;
             const ramaNombre = this.state.selectedRama.value;
             respuesta.forEach(grupo => {
+
                 arreglo.push({
                     value: grupo.nombre,
                     label: grupo.nombre,
@@ -172,10 +174,10 @@ class AsignacionMiembros extends Component {
 
 
     verificarJefes(){
-        if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<=2){
+        if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<2){
             // Llama a la función para meter los datos
 
-        }else if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<=2){
+        }else if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<2){
             // Llama a la función para meter los datos
         }else{
             
@@ -191,13 +193,13 @@ class AsignacionMiembros extends Component {
         // if (this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0 &&
         //     this.state.selectedRama.length != 0 && this.state.selectedGrupo.length != 0) {
         if(this.state.selectedNombre.length != 0 && this.state.selectedZona.length != 0){
-            if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<=2){
+            if(this.state.selectedRama.length==0 && this.state.selectedZona.jefes.length<2){
                 // Llama a la función para meter los datos
                 this.enviarDatosDelOnClick();
-            }else if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<=2){
+            }else if(this.state.selectedGrupo.length==0 && this.state.selectedRama.jefes.length<2){
                 // Llama a la función para meter los datos
                 this.enviarDatosDelOnClick()
-            }else if(this.state.selectedGrupo.length!=0 && this.state.selectedGrupo.jefes.length<=2){
+            }else if(this.state.selectedGrupo.length!=0 && this.state.selectedGrupo.jefes.length<2){
                 this.enviarDatosDelOnClick()
             }else{
                 alert("No se pueden ingresar más personas de este tipo a este elemento")
@@ -301,10 +303,10 @@ class AsignacionMiembros extends Component {
     };
 
     verificarSeleccion(seleccion) {
-        if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length <= 2) {
+        if (seleccion.value == "Monitor" && this.state.selectedGrupo.monitores.length < 2) {
             return true
         }
-        else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefes.length <= 2) {
+        else if (seleccion.value == "Jefe Grupo" && this.state.selectedGrupo.jefes.length < 2) {
             return true
         }else if(seleccion.value == "Miembro"){
             return true
