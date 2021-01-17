@@ -87,11 +87,12 @@ export default class CrearNoticia extends Component {
             nivel: this.state.selectedOpcion
         }).then(res=>{
             if(!res.data.success){
-                alert(res.data.err);
+                alert(res.data.error);
             }else{
                 alert("Noticia creada correctamente")
                 this.setState({
-                    selectedOpcion:[]
+                    selectedOpcion:[],
+                    noticia:null
                 })
             }
         })

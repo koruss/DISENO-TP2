@@ -303,7 +303,7 @@ module.exports = class DAO {
         CompositeSchema.find({ tipo: 1 }, function (err, data) {
             if (err) {
                 console.log(err)
-                res.json({ success: false, error: " Algo salio del orto" })
+                res.json({ success: false, error: " Algo salio mal" })
             }
             else {
                 res.send(data);
@@ -403,7 +403,7 @@ module.exports = class DAO {
         CompositeSchema.find({ miembros: { _id: req.body._id } }, function (err, data) {
             if (err) {
                 console.log(err)
-                res.json({ success: false, error: " Algo salio del orto" })
+                res.json({ success: false, error: " Algo salio mal" })
             }
             else {
                 res.send(data);
@@ -417,7 +417,7 @@ module.exports = class DAO {
         CompositeSchema.find({ jefes: { _id: req.body._id } }, function (err, data) {
             if (err) {
                 console.log(err)
-                res.json({ success: false, error: " Algo salio del orto" })
+                res.json({ success: false, error: " Algo salio mal" })
             }
             else {
                 res.send(data);
@@ -431,7 +431,7 @@ module.exports = class DAO {
         CompositeSchema.find({ monitores: { _id: req.body._id } }, function (err, data) {
             if (err) {
                 console.log(err)
-                res.json({ success: false, error: " Algo salio del orto" })
+                res.json({ success: false, error: " Algo salio mal" })
             }
             else {
                 res.send(data);
@@ -743,12 +743,18 @@ module.exports = class DAO {
 
     async NotificarNoticia(req, observers, res) {
         this.openConnection();
-        let today = new Date()
+        let date = new Date();
+        let today = "Fecha: " + date.getDate() + "/"
+        + (date.getMonth()+1)  + "/" 
+        + date.getFullYear() + " Hora: "  
+        + date.getHours() + ":"  
+        + date.getMinutes() + ":" 
+        + date.getSeconds();
         PersonaSchema.updateOne({ _id: observers }, { $addToSet: { noticia: { autor: req.body.autorNombre, fecha: today, noticia: req.body.noticia, isPendiente: true } } }, function (err, success) {
-            if (err) return handleError(err);
-            // else{
-            //     return res.json({success:true})
-            // }
+            if (err) return res.json({ success: false, error: err })
+             else{
+                 return res.json({success:true})
+             }
         })
     }
 

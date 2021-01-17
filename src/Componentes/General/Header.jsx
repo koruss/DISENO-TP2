@@ -143,6 +143,11 @@ class Header extends Component {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item href="/ReporteAportes">Reporte de aportes</NavDropdown.Item>
                                         </NavDropdown>
+                                        <NavDropdown title="Publicaciones" id="basic-nav-dropdown">
+                                            <NavDropdown.Item href="/bandeja">Ver noticias</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item href="/crearNoticia">Crear Noticia</NavDropdown.Item>
+                                        </NavDropdown>
                                         <Nav.Link className="link" to="/" onClick={() => this.logOut()}>Cerrar sesión</Nav.Link>                                 
                                     </> 
                                 }

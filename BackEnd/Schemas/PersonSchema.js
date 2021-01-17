@@ -42,7 +42,7 @@ const PersonSchema= new Schema(
       noticia: [
         {
           autor: String,
-          fecha: Date,
+          fecha: String,
           noticia: String,
           isPendiente: Boolean
         }
