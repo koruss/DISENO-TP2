@@ -16,6 +16,8 @@ class ReporteAportes extends Component{
         agradecimientos: Array,
         ofrecimientos: Array,
         petitorias: Array,
+        id_persona: "",
+        id_movimiento: ""
     }
 
    
@@ -30,6 +32,10 @@ class ReporteAportes extends Component{
 
     obtenerAportes(){
         axios.post('/getSesion',{}).then((res) =>{
+            this.setState({
+                id_persona:res.data.id_persona,
+                id_movimiento:res.data.id_movimiento
+            })
             axios.post('/obtenerAportes',{
                 id_movimiento:res.data.id_movimiento
                 }).then((res) =>{
@@ -97,7 +103,43 @@ class ReporteAportes extends Component{
         })
     }
 
+    enviarReporteMes = (e) => {
+        let date = new Date();
+        let totalAportes = this.state.agradecimientos.length + this.state.petitorias.length
+        + this.state.ofrecimientos.length;
+        const mensaje = "En el mes: "+ date.getMonth()+1 +" se recibieron " + totalAportes + " aportes";
+        axios.post("/CrearNoticia",{
+            autorNombre: "Anonimo",
+            autor_id: this.state.id_persona,
+            noticia: mensaje,
+            nivel: { _id: this.state.id_movimiento, etiqueta: "0"}
+        }).then(res=>{
+            if(!res.data.success){
+                alert(res.data.error);
+            }else{
+                alert("Estadisticas enviadas correctamente")
+            }
+        })
+    }
 
+    enviarEstadisticas = (e) => {
+        let date = new Date();
+        let totalAportes = this.state.agradecimientos.length + this.state.petitorias.length
+        + this.state.ofrecimientos.length;
+        const mensaje = "En el mes: "+ date.getMonth()+1 +" se recibieron " + totalAportes + " aportes”"
+        axios.post("/CrearNoticia",{
+            autorNombre: "Anonimo",
+            autor_id: this.state.id_persona,
+            noticia: mensaje,
+            nivel: { _id: this.state.id_movimiento, etiqueta: "0"}
+        }).then(res=>{
+            if(!res.data.success){
+                alert(res.data.error);
+            }else{
+                alert("Estadisticas enviadas correctamente")
+            }
+        })
+    }
 
 /* se encarga de renderizar el codigo html*/
 render() {
@@ -123,6 +165,12 @@ render() {
                 </div>
                 <div className="label-wrapper"> 
                     <button type="button" class="btn btn-dark"  onClick={this.limpiarBandeja} position="float">Limpiar bandeja</button>
+                </div>
+                <div className="label-wrapper"> 
+                    <button type="button" class="btn btn-dark"  onClick={this.enviarEstadisticas} position="float">Enviar estadisticas detalladas</button>
+                </div>
+                <div className="label-wrapper"> 
+                    <button type="button" class="btn btn-dark"  onClick={this.enviarReporteMes} position="float">Enviar estadisticas por mes</button>
                 </div>
         </main>
     </div>    

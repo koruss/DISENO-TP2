@@ -68,6 +68,7 @@ export default class CrearNoticia extends Component {
     });
 
     handleChangeOpcion = selectedOpcion => {
+        console.log(this.state.selectedOpcion)
         this.setState(
             { selectedOpcion },     
         );
@@ -92,7 +93,7 @@ export default class CrearNoticia extends Component {
                 alert("Noticia creada correctamente")
                 this.setState({
                     selectedOpcion:[],
-                    noticia:null
+                    value:""
                 })
             }
         })
