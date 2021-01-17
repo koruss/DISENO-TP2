@@ -177,6 +177,14 @@ module.exports = class Control{
     async limpiarBandeja(req, res){
         await this.gestorEstructura.limpiarBandeja(req,res);
     }
+
+    async infoPersona(req, res){
+        await this.gestorMiembro.infoPersona(req,res);
+    }
+
+    async updateEstadoNoticia(req, res){
+        await this.gestorMiembro.updateEstadoNoticia(req,res);
+    }
 }
 
 

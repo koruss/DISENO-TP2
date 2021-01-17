@@ -665,4 +665,58 @@ module.exports = class DAO {
         })
 
     }
+
+    async infoPersona(req,res){
+        this.openConnection();
+        PersonaSchema.findOne({_id:req.body._id}, function(err,data){
+            if(err){
+                return res.json({success:false,error:err})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
+
+
+    // async updateEstadoNoticia(req,res){
+    //     console.log(req.body);
+    //     this.openConnection();
+    //     PersonaSchema.findOneAndUpdate({_id:req.body.idUsuario},
+    //         {$set:{"noticias.$[el].isPendiente":false}},
+    //         {
+    //             arrayFilters:[{"el._id":req.body.idNoticia}], 
+    //             new:true}, 
+    //             function(err,data){   
+    //         if(err){
+    //             console.log(err)
+    //             return res.json({success:false,error:err})
+    //         }
+    //         else{
+    //             res.send(data);
+    //             res.end();
+    //         }
+    //     })
+    // }
+
+    async updateEstadoNoticia(req,res){
+        console.log(req.body);
+        this.openConnection();
+        PersonaSchema.findOneAndUpdate({_id:req.body.idUsuario},
+            {$set:{"noticias.$[el].isPendiente":false}},
+            {
+                arrayFilters:[{"el._id":req.body.idNoticia}], 
+                new:true}, 
+                function(err,data){   
+            if(err){
+                console.log(err)
+                return res.json({success:false,error:err})
+            }
+            else{
+                res.send(data);
+                res.end();
+            }
+        })
+    }
 }
