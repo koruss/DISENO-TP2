@@ -678,66 +678,28 @@ module.exports = class DAO {
     }
 
     async cargarPersonas(req, res){
-        // console.log(req.body)
         const personas=[]
-        // console.log("value: "+req.body.nivel.value)
         //**************************Siempre se llama a todas las personas porque pertenecen como miembros en los grupos********************* */
         this.openConnection();
         if(req.body.nivel.etiqueta=="0"){
             const result = await PersonaSchema.find({idMovimiento:req.body.nivel._id}, function(err,data){
-                // if(err){
-                //     console.log(err)
-                //     res.json({success:false, error:" Algo salio del orto"})
-                // }
-                // else{
-                //     data.forEach(num=>{
-                //         console.log(num._id)
-                //         personas.push(num._id)
-                //     })
-                //     res.send(personas);
-                //     res.end();
-                // }
             })
-            // console.log("Dao: "+result)
             return result
         }else if(req.body.nivel.etiqueta=="1"){
             const result = await PersonaSchema.find({zonas:{_id:req.body.nivel._id}}, function(err,data){
-                // if(err){
-                //     console.log(err)
-                //     res.json({success:false, error:" Algo salio del orto"})
-                // }
-                // else{
-                //     console.log(data)
-                //     res.send(data);
-                //     res.end();
-                // }
             })
             return result
         }else{
             const result = await PersonaSchema.find({ramas:{_id:req.body.nivel._id}}, function(err,data){
-                // if(err){
-                //     console.log(err)
-                //     res.json({success:false, error:" Algo salio del orto"})
-                // }
-                // else{
-                //     console.log(data._id)
-                //     res.send(data);
-                //     res.end();
-                // }
             })
-            // console.log("Dao: "+result)
             return result
         }
     }
 
     async NotificarNoticia(req, observers, res){
         this.openConnection();
-        // let today = new Date()
-        // console.log("autor: "+req.body.autorNombre)
-        // console.log("noticia: "+req.body.noticia)
-        // console.log("Date: "+today)
-        // console.log("observers: "+observers)
-        PersonaSchema.updateOne({_id:observers},{$addToSet:{noticia:{autor:req.body.autorNombre, fecha:today, noticia: req.body.noticia, isPendiente:false}}},function(err,success){
+        let today = new Date()
+        PersonaSchema.updateOne({_id:observers},{$addToSet:{noticia:{autor:req.body.autorNombre, fecha:today, noticia: req.body.noticia, isPendiente:true}}},function(err,success){
             if(err)return handleError(err);
             // else{
             //     return res.json({success:true})
