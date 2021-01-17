@@ -185,6 +185,7 @@ app.post('/infoPersona',(req,res)=>{
   control.infoPersona(req,res);
 })
 
+//la funcion del update
 app.post('/updateEstadoNoticia',(req,res)=>{
   control.updateEstadoNoticia(req,res);
 })
