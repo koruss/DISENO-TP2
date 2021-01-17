@@ -4,7 +4,7 @@ import makeAnimated from 'react-select/animated';
 import Button from 'react-bootstrap/Button'
 import axios from 'axios';
 import Header from '../General/Header.jsx';
-import './Noticias.css'
+
 
 
 
@@ -17,8 +17,8 @@ export default class CrearNoticia extends Component {
         noticia:null
     }
 
-    componentDidMount(){
-        axios.post("/getSesion",{}).then(res=>{
+    componentDidMount() {
+        axios.post("/getSesion", {}).then(res => {
             this.setState({
                 sesion:res.data
                 
@@ -115,21 +115,13 @@ export default class CrearNoticia extends Component {
                                 <textarea style={{width:"350px",height:"100px", resize:"none"}}value={this.state.value} name="noticia" onChange={this.onChange} />
 
                                 </div>
-
                                 <div className="spacing-base">
                                     <button type="button" class="btn btn-dark" onClick={this.onClick} >Enviar</button>
                                 </div>
-
                             </div>
-
-
                         </div>
-
                     </div>
-
                 </div>
-
-
             </div>
         )
     }

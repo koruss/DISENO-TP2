@@ -47,6 +47,14 @@ module.exports = class GestorMiembro{
         await this.DAO.cambiarEstadoMonitor(req,res);
     }
 
+    async infoPersona(req,res){
+        await this.DAO.infoPersona(req,res);
+    }
+
+    async updateEstadoNoticia(req,res){
+        await this.DAO.updateEstadoNoticia(req,res);
+    }
+
     async iniciarSesion(req, res){
         var fachadaLogIn = new Fachada(req.body.usuario, req.body.password, req.body.personas, req.body.movimientos);
         await fachadaLogIn.iniciarSesionFachada(req,res);

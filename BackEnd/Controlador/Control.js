@@ -186,6 +186,14 @@ module.exports = class Control{
         await this.gestorEstructura.getLugares(req,res);
     }
     
+
+    async infoPersona(req, res){
+        await this.gestorMiembro.infoPersona(req,res);
+    }
+
+    async updateEstadoNoticia(req, res){
+        await this.gestorMiembro.updateEstadoNoticia(req,res);
+    }
 }
 
 
