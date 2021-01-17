@@ -87,15 +87,19 @@ export default class CrearNoticia extends Component {
             noticia: this.state.noticia,
             nivel: this.state.selectedOpcion
         }).then(res=>{
-            if(!res.data.success){
-                alert(res.data.error);
-            }else{
-                alert("Noticia creada correctamente")
-                this.setState({
-                    selectedOpcion:[],
-                    value:""
-                })
-            }
+            this.setState({
+                selectedOpcion:[],
+                value:""
+            })
+            // if(!res.data.success){
+            //     alert(res.data.error);
+            // }else{
+            //     alert("Noticia creada correctamente")
+            //     this.setState({
+            //         selectedOpcion:[],
+            //         value:""
+            //     })
+            // }
         })
     }
 

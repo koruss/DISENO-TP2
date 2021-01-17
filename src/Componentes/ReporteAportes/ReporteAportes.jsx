@@ -124,9 +124,11 @@ class ReporteAportes extends Component{
 
     enviarEstadisticas = (e) => {
         let date = new Date();
-        let totalAportes = this.state.agradecimientos.length + this.state.petitorias.length
-        + this.state.ofrecimientos.length;
-        const mensaje = "En el mes: "+ date.getMonth()+1 +" se recibieron " + totalAportes + " aportes”"
+        let aportesAgradecimiento = this.state.agradecimientos.length + " aportes de agradecimiento";
+        let aportesOfrecimiento = this.state.ofrecimientos.length + " aportes de ofrecimiento";
+        let aportesPetitoria = this.state.petitorias.length + " aportes de petitoria";
+        const mensaje = "En el mes: "+ date.getMonth()+1 +" se recibieron " + aportesAgradecimiento + ", "+ aportesOfrecimiento +
+        " y " + aportesPetitoria;
         axios.post("/CrearNoticia",{
             autorNombre: "Anonimo",
             autor_id: this.state.id_persona,

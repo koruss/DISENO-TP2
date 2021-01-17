@@ -32,8 +32,6 @@ const MovimientoSchema= new Schema(
             canton:String,
             distrito: String
         },
-        
-
     }
 );
 

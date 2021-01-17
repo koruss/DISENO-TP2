@@ -94,6 +94,7 @@ class RegistroMiembro extends Component{
                     this.celularRef.current.value="";
                     this.apellido1Ref.current.value="";
                     this.apellido2Ref.current.value="";
+                    this.contrasenaRef.current.value="";
                     this.setState({
                         pais:[]
                     })

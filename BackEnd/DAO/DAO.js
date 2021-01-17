@@ -236,7 +236,6 @@ module.exports = class DAO {
     }
 
     async crearGrupo(req, res) {
-        // console.log(req.body)
         this.openConnection();
         const _idPerson = req.body.selectedMonitor.datosPersona[0]._id;
         const schema = new CompositeSchema();
@@ -251,7 +250,7 @@ module.exports = class DAO {
                 res.json({ success: false, error: "Se ha producido un error guardando", error })
             }
             else {
-                PersonaSchema.updateOne({ _id: _idPerson }, { tipo: 2 }, function (err, success) {
+                PersonaSchema.updateOne({ _id: _idPerson }, { tipo: 2, $addToSet: {grupos: schema._id } }, function (err, success) {
                     if (err) {
                         res.json({ success: false, error: "Se ha producido un error guardando", error })
                     }
@@ -751,10 +750,10 @@ module.exports = class DAO {
         + date.getMinutes() + ":" 
         + date.getSeconds();
         PersonaSchema.updateOne({ _id: observers }, { $addToSet: { noticia: { autor: req.body.autorNombre, fecha: today, noticia: req.body.noticia, isPendiente: true } } }, function (err, success) {
-            if (err) return res.json({ success: false, error: err })
-             else{
-                 return res.json({success:true})
-             }
+            // if (err) return res.json({ success: false, error: err })
+            //  else{
+            //      return res.json({success:true})
+            //  }
         })
     }
 
