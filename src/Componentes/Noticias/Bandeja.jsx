@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import CardNoticia from './CardNoticia';
 
 
+
 class Bandeja extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +16,7 @@ class Bandeja extends Component {
     }
 
     state = {
-        noticias:[],
+        noticias: [],
         // noticias: [{ render:true,noticia: "Esto es una noticia", isPendiente: true, autor: "Lombas el bromas", fecha: "15/10/1996", procedencia: "Rama: San Jose, Zona:San Jose" }, ,
         // {render:true, noticia: "Esto es una noticia x2", isPendiente: true, autor: "Lombas el bromas", fecha: "15/10/1996", procedencia: "Rama: San Jose, Zona:San Jose" },
         // { render:true,noticia: "Esto es una noticia x3", isPendiente: true, autor: "Lombas el bromas", fecha: "15/10/1996", procedencia: "Rama: San Jose, Zona:San Jose" },
@@ -23,7 +24,7 @@ class Bandeja extends Component {
         style: {
 
         },
-        session:null
+        session: null
     }
 
     componentDidMount() {
@@ -31,54 +32,54 @@ class Bandeja extends Component {
             this.setState({
                 session: res.data
             });
-            this.obtenerNoticias(this.state.session.id_persona)   
+            this.obtenerNoticias(this.state.session.id_persona)
         })
-        
+
     }
 
-    obtenerNoticias(_id){
-        let arreglo=[];
+    obtenerNoticias(_id) {
+        let arreglo = [];
         //console.log("respuesta");
-        axios.post("/infoPersona",{_id:_id}).then(res =>{
-            const noticias= res.data.noticias;
+        axios.post("/infoPersona", { _id: _id }).then(res => {
+            const noticias = res.data.noticia;
             console.log(noticias)
-            noticias.forEach(element =>{
+            noticias.forEach(element => {
                 console.log(element)
-                if(element.isPendiente==true){
+                if (element.isPendiente == true) {
                     arreglo.push({
-                        render:true,
-                        _id:element._id,
-                        noticia:element.noticia,
-                        fecha:element.fecha,
-                        autor:element.autor,
+                        render: true,
+                        _id: element._id,
+                        noticia: element.noticia,
+                        fecha: element.fecha,
+                        autor: element.autor,
                         //procedencia:element.procedencia
                     })
                 }
             })
             this.setState({
-                noticias:arreglo
-            })   
+                noticias: arreglo
+            })
         })
     }
 
 
 
-    
 
 
 
-    handleChildUnmount(index,id){
-        let noticias=this.state.noticias
-        noticias[index].render=false
+
+    handleChildUnmount(index, id) {
+        let noticias = this.state.noticias
+        noticias[index].render = false
         this.setState({
-            noticias:noticias
+            noticias: noticias
         })
 
-        axios.post("/updateEstadoNoticia",{idNoticia:id,idUsuario:this.state.session.id_persona}).then(res=>{
-            if(!res.data.success){
+        axios.post("/updateEstadoNoticia", { idNoticia: id, idUsuario: this.state.session.id_persona }).then(res => {
+            if (!res.data.success) {
                 alert(res.data.error);
             }
-            else{
+            else {
                 alert("Eliminado de tus noticias :3")
             }
 
@@ -89,18 +90,18 @@ class Bandeja extends Component {
         return (
             <div>
                 <Header></Header>
-                <div id="center-section">
-                    <div className="spacing-base">
-                        <div class="border">
-                            <div class="box-container">
-                                {this.state.noticias.map((p, index) =>
-                                    (this.state.noticias[index].render ? <CardNoticia index={"Noticia"} noticiaData={p} session={this.state.session} unmountMe={this.handleChildUnmount} index={index} />:null))
-                                }
-                            </div>
+
+                <div className="spacing-base">
+                    <div class="border" style={{ width: "60%", margin: "auto",border: "5px solid #333", }}>
+                        <div class="box-container" >
+                            {this.state.noticias.map((p, index) =>
+                                (this.state.noticias[index].render ? <CardNoticia index={"Noticia"} noticiaData={p} session={this.state.session} unmountMe={this.handleChildUnmount} index={index} /> : null))
+                            }
                         </div>
                     </div>
                 </div>
             </div>
+
         )
     }
 }

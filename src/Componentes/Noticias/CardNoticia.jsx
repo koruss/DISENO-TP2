@@ -29,7 +29,7 @@ export default class CardNoticia extends Component {
         
         return (
             <div >
-                <Card style={{ width: '80%', backgroud: "#", "margin-left": "10%", "margin-right": "10%", "margin-top": "10px", border: "1px solid #333" }}>
+                <Card style={{ width: '80%', backgroud: "#", "margin-left": "10%", "margin-right": "10%", "margin-top": "15px","margin-bottom+-":"15px", border: "1px solid #333" }}>
                     <Card.Body>
                         <Card.Title style={{ "text-align": "center" }}>{this.state.fecha}</Card.Title>
                         <Card.Text>

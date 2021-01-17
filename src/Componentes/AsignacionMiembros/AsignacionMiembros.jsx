@@ -81,13 +81,14 @@ class AsignacionMiembros extends Component {
 
     // esta función se encarga de obtener todos los registros de personas,
     // y los guarda en la pantalla
-    obtenerPersonasMonitor() {
+    obtenerPersonasMonitor(monitoresGrupo) {
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
                 if(persona.posibleMonitor==true &&
-                persona.idMovimiento == this.state.id_movimiento){
+                persona.idMovimiento == this.state.id_movimiento &&
+                persona._id != monitoresGrupo){
                     arrPers.push({
                         value: persona.nombre,
                         label: persona.nombre,
@@ -104,12 +105,13 @@ class AsignacionMiembros extends Component {
 
         // esta función se encarga de obtener todos los registros de personas,
     // y los guarda en la pantalla
-    obtenerPersonasMiembro() {
+    obtenerPersonasMiembro(miembrosGrupo) {
         let arrPers = [];
         axios.post("/allPersona", {}).then(res => {
             const respuesta = res.data;
             respuesta.forEach(persona=>{
-                if(persona.tipo==-1 &&
+                if(
+                    miembrosGrupo.includes(persona._id) == false &&
                     persona.idMovimiento == this.state.id_movimiento){
                     arrPers.push({
                         value: persona.nombre,
@@ -157,7 +159,8 @@ class AsignacionMiembros extends Component {
                     label: grupo.nombre,
                     _id: grupo._id,
                     jefes: grupo.jefes,
-                    monitores: grupo.monitores
+                    monitores: grupo.monitores,
+                    miembros:grupo.miembros
                 })
 
             })
@@ -278,9 +281,9 @@ class AsignacionMiembros extends Component {
                     { selectedMonitor },     
                 );
                 if(selectedMonitor.value=="Monitor"){
-                    this.obtenerPersonasMonitor();
+                    this.obtenerPersonasMonitor(this.state.selectedGrupo.monitores);
                 }else if(selectedMonitor.value=="Miembro"){
-                    this.obtenerPersonasMiembro();
+                    this.obtenerPersonasMiembro(this.state.selectedGrupo.miembros);
                 }else{
                     this.obtenerPersonas(this.state.selectedGrupo);
                 }

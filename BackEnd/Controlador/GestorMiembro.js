@@ -4,6 +4,7 @@ const Agradecimiento = require('../Strategy/Agradecimiento');
 var CargarAporte = require('../Strategy/CargarAporte');
 const Ofrecimiento = require('../Strategy/Ofrecimiento');
 const Petitoria = require('../Strategy/Petitoria');
+var Subject = require('../Observer/Subject')
 
 module.exports = class GestorMiembro{
     miembros=[];
@@ -76,5 +77,10 @@ module.exports = class GestorMiembro{
         }
         cargarAporte.cargarDatos(req,res);
     }
+
+    // async crearNoticia(req, res){
+    //     const subject = new Subject();
+    //     subject.crearNoticia(req, res)
+    // }
 
 }

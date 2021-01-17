@@ -54,40 +54,43 @@ module.exports = class DAO {
     }
 
     //Funcion que inserta un monitor en un grupo y le establece un tipo
-    async updateMonitorGrupo(data, schema, res){
+    async updateMonitorGrupo(data, schema, res) {
         this.openConnection();
-        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ monitores: data.body.nombre.datosPersona}}, 
-            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo modificar el cliente',error});
-        } else {res.json({success: true, info: info })}})
+        schema.updateOne({ _id: data.body.grupo.identificacion }, { $push: { monitores: data.body.nombre.datosPersona } },
+            function (error, info) {
+                if (error) {
+                    res.json({ success: false, error: 'No se pudo modificar el cliente', error });
+                } else { res.json({ success: true, info: info }) }
+            })
     }
-    
+
     //Funcion que inserta un miembro en un grupo y le establece un tipo
-    async updateMiembroEnGrupo(req, res){
+    async updateMiembroEnGrupo(req, res) {
         // console.log(req.body)
-        if(req.body.rama==null){
+        if (req.body.rama == null) {
             this.actualizarJefes(req.body.zona, req.body.rama, req.body._idPerson, res)
 
-        }else if(req.body.grupo==null){
+        } else if (req.body.grupo == null) {
             //Se asigna jefe a la rama
             this.actualizarJefes(req.body.rama, req.body.zona, req.body._idPerson, res)
 
-        }else{
-            if(req.body.categoriaPersona=="Monitor"){
+        } else {
+            if (req.body.categoriaPersona == "Monitor") {
                 //Se asigna como monitor grupo
-                CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{monitores:req.body._idPerson}},function(err,success){
-                    if(err) {
-                        res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                CompositeSchema.updateOne({ _id: req.body.grupo }, { $addToSet: { monitores: req.body._idPerson } }, function (err, success) {
+                    if (err) {
+                        res.json({ success: false, error: 'No se pudo actualizar el dato', error });
                     }
                     else {
-                        CompositeSchema.updateOne({_id:req.body.rama},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
-                            if(err) {
-                                res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                        CompositeSchema.updateOne({ _id: req.body.rama }, { $addToSet: { miembros: req.body._idPerson } }, function (err, success) {
+                            if (err) {
+                                res.json({ success: false, error: 'No se pudo actualizar el dato', error });
                             }
                             else {
-                                PersonaSchema.updateOne({_id:req.body._idPerson},{$set:{tipo: 2}},function(err,success){
-                                    if(err)return handleError(err);
-                                    else{
-                                        return res.json({success:true})
+                                PersonaSchema.updateOne({ _id: req.body._idPerson }, { $set: { tipo: 2 } }, function (err, success) {
+                                    if (err) return handleError(err);
+                                    else {
+                                        return res.json({ success: true })
                                     }
                                 })
                             }
@@ -95,57 +98,57 @@ module.exports = class DAO {
                         // res.json({success: true, info: info });
                     }
                 })
-            }else if(req.body.categoriaPersona=="Miembro"){
-                CompositeSchema.updateOne({_id:req.body.grupo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
-                    if(err) {
-                        res.json({success: false, error: 'No se pudo actualizar el dato',error});
+            } else if (req.body.categoriaPersona == "Miembro") {
+                CompositeSchema.updateOne({ _id: req.body.grupo }, { $addToSet: { miembros: req.body._idPerson } }, function (err, success) {
+                    if (err) {
+                        res.json({ success: false, error: 'No se pudo actualizar el dato', error });
                     }
                     else {
-                        PersonaSchema.updateOne({_id:req.body._idPerson},{tipo: 1},function(err,success){
-                            if(err)return handleError(err);
-                            else{
-                                return res.json({success:true})
+                        PersonaSchema.updateOne({ _id: req.body._idPerson }, { tipo: 1, $addToSet: { zonas: req.body.zona, ramas: req.body.rama, grupos: req.body.grupo } }, function (err, success) {
+                            if (err) return handleError(err);
+                            else {
+                                return res.json({ success: true })
                             }
                         })
                     }
                 })
-            }else{
+            } else {
                 //Se asigna jefe en grupo
                 this.actualizarJefes(req.body.grupo, req.body.rama, req.body._idPerson, res)
             }
         }
     }
 
-    async actualizarJefes(dataLugarJefe, dataLugarMiembro, _idPerson, res){
-        CompositeSchema.updateOne({_id:dataLugarJefe},{$addToSet:{jefes:_idPerson}},function(err,success){
-            if(err) {
-                res.json({success: false, error: 'No se pudo actualizar el dato',error});
+    async actualizarJefes(dataLugarJefe, dataLugarMiembro, _idPerson, res) {
+        CompositeSchema.updateOne({ _id: dataLugarJefe }, { $addToSet: { jefes: _idPerson } }, function (err, success) {
+            if (err) {
+                res.json({ success: false, error: 'No se pudo actualizar el dato', error });
             }
             else {
-                if(dataLugarMiembro!=null){
-                    CompositeSchema.updateOne({_id:dataLugarMiembro},{$addToSet:{miembros:_idPerson}},function(err,success){
-                        if(err) {
-                            res.json({success: false, error: 'No se pudo actualizar el dato',error});
+                if (dataLugarMiembro != null) {
+                    CompositeSchema.updateOne({ _id: dataLugarMiembro }, { $addToSet: { miembros: _idPerson } }, function (err, success) {
+                        if (err) {
+                            res.json({ success: false, error: 'No se pudo actualizar el dato', error });
                         }
                         else {
-                            PersonaSchema.updateOne({_id:_idPerson},{tipo: 2},function(err,success){
-                                if(err)return handleError(err);
-                                else{
-                                    return res.json({success:true})
+                            PersonaSchema.updateOne({ _id: _idPerson }, { tipo: 2 }, function (err, success) {
+                                if (err) return handleError(err);
+                                else {
+                                    return res.json({ success: true })
                                 }
                             })
                         }
                     })
-                }else{
-                    PersonaSchema.updateOne({_id:_idPerson},{tipo: 2},function(err,success){
-                        if(err)return handleError(err);
-                        else{
-                            return res.json({success:true})
+                } else {
+                    PersonaSchema.updateOne({ _id: _idPerson }, { tipo: 2 }, function (err, success) {
+                        if (err) return handleError(err);
+                        else {
+                            return res.json({ success: true })
                         }
                     })
                 }
                 // this.actualizarMiembros(dataLugarMiembro, _idPerson, res)
-                
+
             }
         })
     }
@@ -192,26 +195,26 @@ module.exports = class DAO {
     //*********************************    NO BORRAR    *************************************** */
 
     //Funcion que inserta un jefe en un grupo y le establece un tipo
-    async updateJefeGrupo(data, schema, ramaSchema, res){
+    async updateJefeGrupo(data, schema, ramaSchema, res) {
         this.openConnection();
-        schema.updateOne({_id:data.body.grupo.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}}, 
-            function(error, info) {
+        schema.updateOne({ _id: data.body.grupo.identificacion }, { $push: { jefesGrupo: data.body.nombre.datosPersona } },
+            function (error, info) {
                 if (error) {
-                    res.json({success: false, error: 'No se pudo modificar el cliente',error});
-                } 
+                    res.json({ success: false, error: 'No se pudo modificar el cliente', error });
+                }
                 else {
                     // console.log(data.body.rama.identificacion)
-                    ramaSchema.updateOne({_id:data.body.rama.identificacion}, {$push:{ jefesGrupo: data.body.nombre.datosPersona}},
-                        function(error, info) {
-                            if(error) {
-                                res.json({success: false, error: 'No se pudo modificar el cliente',error});
+                    ramaSchema.updateOne({ _id: data.body.rama.identificacion }, { $push: { jefesGrupo: data.body.nombre.datosPersona } },
+                        function (error, info) {
+                            if (error) {
+                                res.json({ success: false, error: 'No se pudo modificar el cliente', error });
                             }
                             else {
-                                res.json({success: true, info: info });
+                                res.json({ success: true, info: info });
                             }
-                    })
+                        })
                 }
-        })
+            })
     }
 
 
@@ -239,20 +242,20 @@ module.exports = class DAO {
         const schema = new CompositeSchema();
         schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreGrupo;
-        schema.tipo=3;
+        schema.tipo = 3;
         schema.monitores.push(_idPerson)
         schema.save();
-        CompositeSchema.update({ _id: req.body.selectedRama._id}, { $addToSet: { children: schema._id } }, function (err, result) {
+        CompositeSchema.update({ _id: req.body.selectedRama._id }, { $addToSet: { children: schema._id } }, function (err, result) {
             if (err) {
                 console.log(err);
                 res.json({ success: false, error: "Se ha producido un error guardando", error })
             }
             else {
-                PersonaSchema.updateOne({_id:_idPerson},{tipo: 2},function(err,success){
-                    if(err){
+                PersonaSchema.updateOne({ _id: _idPerson }, { tipo: 2 }, function (err, success) {
+                    if (err) {
                         res.json({ success: false, error: "Se ha producido un error guardando", error })
                     }
-                    else{
+                    else {
                         res.json({ success: true })
                     }
                 })
@@ -265,7 +268,7 @@ module.exports = class DAO {
         const schema = new CompositeSchema();
         schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreRama;
-        schema.tipo=2;
+        schema.tipo = 2;
         schema.save();
         CompositeSchema.update({ _id: req.body.selectedZona.identificacion }, { $addToSet: { children: schema._id } }, function (err, result) {
             if (err) {
@@ -283,7 +286,7 @@ module.exports = class DAO {
         const schema = new CompositeSchema();
         schema.idMovimiento = req.body.id_movimiento;
         schema.nombre = req.body.nombreZona;
-        schema.tipo=1
+        schema.tipo = 1
         schema.save(function (err, success) {
             if (err) {
                 console.log(err);
@@ -295,43 +298,43 @@ module.exports = class DAO {
         })
     }
 
-    async allZonas(req,res){
+    async allZonas(req, res) {
         this.openConnection();
-        CompositeSchema.find({tipo:1}, function(err,data){
-            if(err){
+        CompositeSchema.find({ tipo: 1 }, function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({ success: false, error: " Algo salio del orto" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async allRamas(req,res){
+    async allRamas(req, res) {
         this.openConnection();
-        CompositeSchema.find({tipo:2}, function(err,data){
-            if(err){
+        CompositeSchema.find({ tipo: 2 }, function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:"Error recuperando la informacion"})
+                res.json({ success: false, error: "Error recuperando la informacion" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
-    
 
-    async allRamasZona(req,res){
+
+    async allRamasZona(req, res) {
         this.openConnection();
-        CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
-            if(err){
+        CompositeSchema.findOne({ _id: req.body._id }).populate("children").exec(function (err, data) {
+            if (err) {
                 // console.log(err)
-                res.json({success:false, error:" Error recuperando la informacion"})
+                res.json({ success: false, error: " Error recuperando la informacion" })
             }
-            else{
+            else {
                 res.send(data.children);
                 res.end();
             }
@@ -339,41 +342,41 @@ module.exports = class DAO {
     }
 
 
-    async allGrupos(req,res){
+    async allGrupos(req, res) {
         this.openConnection();
-        CompositeSchema.find({tipo:3}, function(err,data){
-            if(err){
+        CompositeSchema.find({ tipo: 3 }, function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:"Error recuperando la informacion"})
+                res.json({ success: false, error: "Error recuperando la informacion" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async allGruposRama(req,res){
+    async allGruposRama(req, res) {
         this.openConnection();
-        CompositeSchema.findOne({_id: req.body._id}).populate("children").exec(function(err,data){
-            if(err){
+        CompositeSchema.findOne({ _id: req.body._id }).populate("children").exec(function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:" Error recuperando la informacion"})
+                res.json({ success: false, error: " Error recuperando la informacion" })
             }
-            else{
+            else {
                 res.send(data.children);
                 res.end();
             }
         })
     }
 
-    async allPersonas(req,res){
+    async allPersonas(req, res) {
         this.openConnection();
-        PersonaSchema.find({}, function(err,data){
-            if(err){
-                res.json({success:false, error:"Error recuperando la informacion"})
+        PersonaSchema.find({}, function (err, data) {
+            if (err) {
+                res.json({ success: false, error: "Error recuperando la informacion" })
             }
-            else{
+            else {
                 //console.log(data)
                 res.send(data);
                 res.end();
@@ -381,65 +384,65 @@ module.exports = class DAO {
         })
     }
 
-    async allMiembrosGrupo(req,res){
+    async allMiembrosGrupo(req, res) {
         this.openConnection();
-        CompositeSchema.findOne({_id:req.body._id}).populate("miembros").exec(function(err,data){
-            if(err){
+        CompositeSchema.findOne({ _id: req.body._id }).populate("miembros").exec(function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:"Error recuperando la informacion"})
+                res.json({ success: false, error: "Error recuperando la informacion" })
             }
-            else{
+            else {
                 res.send(data.miembros);
                 res.end();
             }
         })
     }
 
-    async allMiembrosPorMiembro(req,res){
+    async allMiembrosPorMiembro(req, res) {
         this.openConnection();
-        CompositeSchema.find({miembros:{_id:req.body._id}}, function(err,data){
-            if(err){
+        CompositeSchema.find({ miembros: { _id: req.body._id } }, function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({ success: false, error: " Algo salio del orto" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async allJefesPorMiembro(req,res){
+    async allJefesPorMiembro(req, res) {
         this.openConnection();
-        CompositeSchema.find({jefes:{_id:req.body._id}}, function(err,data){
-            if(err){
+        CompositeSchema.find({ jefes: { _id: req.body._id } }, function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({ success: false, error: " Algo salio del orto" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async allMonitoresPorMiembro(req,res){
+    async allMonitoresPorMiembro(req, res) {
         this.openConnection();
-        CompositeSchema.find({monitores:{_id:req.body._id}}, function(err,data){
-            if(err){
+        CompositeSchema.find({ monitores: { _id: req.body._id } }, function (err, data) {
+            if (err) {
                 console.log(err)
-                res.json({success:false, error:" Algo salio del orto"})
+                res.json({ success: false, error: " Algo salio del orto" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async cambiarNombreGrupo(req,res){
+    async cambiarNombreGrupo(req, res) {
         this.openConnection();
-        CompositeSchema.updateOne({_id:req.body.grupo},{nombre:req.body.nombre},(error,info)=>{
+        CompositeSchema.updateOne({ _id: req.body.grupo }, { nombre: req.body.nombre }, (error, info) => {
             if (error) {
                 res.json({
                     success: false,
@@ -456,13 +459,13 @@ module.exports = class DAO {
 
     }
 
-    async postPersona(req,res){
+    async postPersona(req, res) {
         this.openConnection()
-        PersonaSchema.findOne({identificacion:req.body.identificacion}, function(err,data){
-            if(err){
-                res.json({success:false, error:" Error guardando la informacion"})
+        PersonaSchema.findOne({ identificacion: req.body.identificacion }, function (err, data) {
+            if (err) {
+                res.json({ success: false, error: " Error guardando la informacion" })
             }
-            else if(data == null){
+            else if (data == null) {
                 const personaSchema = new PersonaSchema();
                 const direccion = {
                     pais: req.body.pais.value,
@@ -470,186 +473,207 @@ module.exports = class DAO {
                     canton: req.body.provincia.value,
                     distrito: req.body.distrito.value
                 }
-                personaSchema.idMovimiento= req.body.movimiento;
-                personaSchema.nombre=req.body.nombre;
-                personaSchema.contrasena=req.body.contrasena;
-                personaSchema.identificacion=req.body.identificacion;
-                personaSchema.apellido1=req.body.apellido1;
-                personaSchema.apellido2=req.body.apellido2;
-                personaSchema.posibleMonitor=false;
-                personaSchema.telefono=req.body.celular;
-                personaSchema.correo=req.body.correo;
-                personaSchema.direccion=direccion;
-                personaSchema.tipo=-1;
-                personaSchema.save(function(){
-                    res.send({success:true})
+                personaSchema.idMovimiento = req.body.movimiento;
+                personaSchema.nombre = req.body.nombre;
+                personaSchema.contrasena = req.body.contrasena;
+                personaSchema.identificacion = req.body.identificacion;
+                personaSchema.apellido1 = req.body.apellido1;
+                personaSchema.apellido2 = req.body.apellido2;
+                personaSchema.posibleMonitor = false;
+                personaSchema.telefono = req.body.celular;
+                personaSchema.correo = req.body.correo;
+                personaSchema.direccion = direccion;
+                personaSchema.tipo = -1;
+                personaSchema.save(function () {
+                    res.send({ success: true })
                     res.end()
                 });
             }
-            else{
-                res.json({success:false, error:" Ya esa identificacion esta registrada!"})
+            else {
+                res.json({ success: false, error: " Ya esa identificacion esta registrada!" })
             }
         })
-            
+
     }
 
-    async obtenerMovimientos(req,res){
+    async obtenerMovimientos(req, res) {
         this.openConnection()
-        MovimientoSchema.find({}, function(err,data){
-            if(err){
-                res.json({success:false, error:" Error recuperando movimientos"})
+        MovimientoSchema.find({}, function (err, data) {
+            if (err) {
+                res.json({ success: false, error: " Error recuperando movimientos" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async cambiarEstadoMonitor(req,res){
+    async cambiarEstadoMonitor(req, res) {
         // console.log(req.body.identificacion)
-        PersonaSchema.updateOne({identificacion:req.body.identificacion},{posibleMonitor:true},function(err,success){
-            if(err)return handleError(err);
-            else{
-                return res.json({success:true})
+        PersonaSchema.updateOne({ identificacion: req.body.identificacion }, { posibleMonitor: true }, function (err, success) {
+            if (err) return handleError(err);
+            else {
+                return res.json({ success: true })
             }
         })
     }
 
 
-    async cambiarMiembroGrupo(req,res){// hay que ver como 
+    async cambiarMiembroGrupo(req, res) {// hay que ver como 
         // console.log(req.body)
-        CompositeSchema.updateOne({_id:req.body.grupoTo},{$addToSet:{miembros:req.body._idPerson}},function(err,success){
-            if(err)return handleError(err);
-            else{
-                CompositeSchema.updateOne({_id:req.body.grupoFrom},{$pull:{miembros:req.body._idPerson}},function(err,success){
-                    if(err){
+        CompositeSchema.updateOne({ _id: req.body.grupoTo }, { $addToSet: { miembros: req.body._idPerson } }, function (err, success) {
+            if (err) return handleError(err);
+            else {
+                CompositeSchema.updateOne({ _id: req.body.grupoFrom }, { $pull: { miembros: req.body._idPerson } }, function (err, success) {
+                    if (err) {
                         console.log(err);
                         return res.json({
                             success: false,
                             error: err
                         })
                     }
-                    else{
-                        res.json({success:true})
+                    else {
+                        res.json({ success: true })
                     }
-        
+
                 })
             }
         })
     }
 
-    async subirAgradecimiento(req,res){
+    async subirAgradecimiento(req, res) {
         this.openConnection();
-        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.agradecimiento':
-            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
-            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
-        } else {res.json({success: true, info: info })}})
-    }
-
-    async subirPetitoria(req,res){
-        this.openConnection();
-        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.petitoria':
-            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
-            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
-        } else {res.json({success: true, info: info })}})
-    }
-
-    async subirOfrecimiento(req,res){
-        this.openConnection();
-        MovimientoSchema.updateOne({_id:req.body.id_movimiento}, {$addToSet:{'aportes.ofrecimiento':
-            {detalle:req.body.detalle, nombre:req.body.nombre_persona, fecha:req.body.fecha}}}, 
-            function(error, info) {if (error) {res.json({success: false, error: 'No se pudo crear el aporte',error});
-        } else {res.json({success: true, info: info })}})
-    }
-
-    async obtenerAportes(req,res){
-        this.openConnection()
-        MovimientoSchema.findOne({_id:req.body.id_movimiento}).populate("aportes").exec(function(err,data){
-            if(err){
-                res.json({success:false, error:" Error en la funcion obtenerAportes"})
+        MovimientoSchema.updateOne({ _id: req.body.id_movimiento }, {
+            $addToSet: {
+                'aportes.agradecimiento':
+                    { detalle: req.body.detalle, nombre: req.body.nombre_persona, fecha: req.body.fecha }
             }
-            else{
+        },
+            function (error, info) {
+                if (error) {
+                    res.json({ success: false, error: 'No se pudo crear el aporte', error });
+                } else { res.json({ success: true, info: info }) }
+            })
+    }
+
+    async subirPetitoria(req, res) {
+        this.openConnection();
+        MovimientoSchema.updateOne({ _id: req.body.id_movimiento }, {
+            $addToSet: {
+                'aportes.petitoria':
+                    { detalle: req.body.detalle, nombre: req.body.nombre_persona, fecha: req.body.fecha }
+            }
+        },
+            function (error, info) {
+                if (error) {
+                    res.json({ success: false, error: 'No se pudo crear el aporte', error });
+                } else { res.json({ success: true, info: info }) }
+            })
+    }
+
+    async subirOfrecimiento(req, res) {
+        this.openConnection();
+        MovimientoSchema.updateOne({ _id: req.body.id_movimiento }, {
+            $addToSet: {
+                'aportes.ofrecimiento':
+                    { detalle: req.body.detalle, nombre: req.body.nombre_persona, fecha: req.body.fecha }
+            }
+        },
+            function (error, info) {
+                if (error) {
+                    res.json({ success: false, error: 'No se pudo crear el aporte', error });
+                } else { res.json({ success: true, info: info }) }
+            })
+    }
+
+    async obtenerAportes(req, res) {
+        this.openConnection()
+        MovimientoSchema.findOne({ _id: req.body.id_movimiento }).populate("aportes").exec(function (err, data) {
+            if (err) {
+                res.json({ success: false, error: " Error en la funcion obtenerAportes" })
+            }
+            else {
                 res.send(data.aportes);
                 res.end();
             }
         })
     }
 
-    async composicionRama(req,res){
+    async composicionRama(req, res) {
         this.openConnection();
-        CompositeSchema.find({$or:[{tipo:2,miembros:req.body.idUsuario},{tipo:2,jefes:req.body.idUsuario}]}).populate("jefes").populate("miembros").exec(function(err,data){
-            if(err){return res.json({success:false, error:"Error en la funcion composicionRama"})}
-            else{
+        CompositeSchema.find({ $or: [{ tipo: 2, miembros: req.body.idUsuario }, { tipo: 2, jefes: req.body.idUsuario }] }).populate("jefes").populate("miembros").exec(function (err, data) {
+            if (err) { return res.json({ success: false, error: "Error en la funcion composicionRama" }) }
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async composicionZona(req,res){
+    async composicionZona(req, res) {
         this.openConnection();
-        CompositeSchema.find({$or:[{tipo:1,miembros:req.body.idUsuario},{tipo:1,jefes:req.body.idUsuario}]}).populate("jefes").populate("miembros").exec(function(err,data){
-            if(err){
-                return res.json({success:false,error:"Error en la funcion composicion de Zonas"})
+        CompositeSchema.find({ $or: [{ tipo: 1, miembros: req.body.idUsuario }, { tipo: 1, jefes: req.body.idUsuario }] }).populate("jefes").populate("miembros").exec(function (err, data) {
+            if (err) {
+                return res.json({ success: false, error: "Error en la funcion composicion de Zonas" })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async composicionGrupo(req,res){
+    async composicionGrupo(req, res) {
         this.openConnection();
         // console.log(req.body)
-        if(req.body.tipoUsuario=="JEFE"){
-            CompositeSchema.find({tipo:3,monitores:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
-                if(err){
-                    return res.json({success:false,error:err})
+        if (req.body.tipoUsuario == "JEFE") {
+            CompositeSchema.find({ tipo: 3, monitores: req.body.idUsuario }).populate("miembros").populate("jefes").populate("monitores").exec(function (err, data) {//query de monitores de grupo
+                if (err) {
+                    return res.json({ success: false, error: err })
                 }
                 res.send(data);
                 res.end();
-                
+
             })
         }
-        if(req.body.tipoUsuario=="ASESOR"){
-            CompositeSchema.find({tipo:3}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
-                if(err){
-                    return res.json({success:false,error:err})
+        if (req.body.tipoUsuario == "ASESOR") {
+            CompositeSchema.find({ tipo: 3 }).populate("miembros").populate("jefes").populate("monitores").exec(function (err, data) {//query de monitores de grupo
+                if (err) {
+                    return res.json({ success: false, error: err })
                 }
                 res.send(data);
                 res.end();
-                
+
             })
         }
-        if(req.body.tipoUsuario=="MIEMBRO"){
-            CompositeSchema.find({tipo:3,miembros:req.body.idUsuario}).populate("miembros").populate("jefes").populate("monitores").exec(function(err,data){//query de monitores de grupo
-                if(err){
-                    return res.json({success:false,error:err})
+        if (req.body.tipoUsuario == "MIEMBRO") {
+            CompositeSchema.find({ tipo: 3, miembros: req.body.idUsuario }).populate("miembros").populate("jefes").populate("monitores").exec(function (err, data) {//query de monitores de grupo
+                if (err) {
+                    return res.json({ success: false, error: err })
                 }
                 res.send(data);
-                res.end();               
+                res.end();
             })
-        }   
+        }
     }
 
-    async nodeData(req,res){
+    async nodeData(req, res) {
         this.openConnection();
-        CompositeSchema.findOne({_id:req.body.idNodo}).populate("miembros").exec((err,data)=>{
-            if(err){
-                return res.json({success:false,error:err})
+        CompositeSchema.findOne({ _id: req.body.idNodo }).populate("miembros").exec((err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err })
             }
-            else{
+            else {
                 res.send(data);
                 res.end();
             }
         })
     }
 
-    async limpiarBandeja(req,res){
+    async limpiarBandeja(req, res) {
         this.openConnection();
-        MovimientoSchema.updateOne({_id:req.body.id_movimiento},{'aportes.ofrecimiento':[], 'aportes.agradecimiento':[], 'aportes.petitoria':[]},(error,info)=>{
+        MovimientoSchema.updateOne({ _id: req.body.id_movimiento }, { 'aportes.ofrecimiento': [], 'aportes.agradecimiento': [], 'aportes.petitoria': [] }, (error, info) => {
             if (error) {
                 res.json({
                     success: false,
@@ -666,13 +690,62 @@ module.exports = class DAO {
 
     }
 
-    async infoPersona(req,res){
+    async getLugares(req, res) {
         this.openConnection();
-        PersonaSchema.findOne({_id:req.body._id}, function(err,data){
-            if(err){
-                return res.json({success:false,error:err})
+        PersonaSchema.findOne({ _id: req.body._id }).populate("zonas").populate("ramas").exec(function (err, data) {
+            if (err) {
+                return res.json({ success: false, error: err })
             }
-            else{
+            res.send(data);
+            res.end();
+        })
+    }
+
+    async cargarPersonas(req, res) {
+        const personas = []
+        //**************************Siempre se llama a todas las personas porque pertenecen como miembros en los grupos********************* */
+        this.openConnection();
+        if (req.body.nivel.etiqueta == "0") {
+            const result = await PersonaSchema.find({ idMovimiento: req.body.nivel._id }, function (err, data) {
+            })
+            return result
+        } else if (req.body.nivel.etiqueta == "1") {
+            const result = await PersonaSchema.find({ zonas: { _id: req.body.nivel._id } }, function (err, data) {
+            })
+            return result
+        } else {
+            const result = await PersonaSchema.find({ ramas: { _id: req.body.nivel._id } }, function (err, data) {
+            })
+            return result
+        }
+    }
+
+    async NotificarNoticia(req, observers, res) {
+        this.openConnection();
+        let today = new Date()
+        PersonaSchema.updateOne({ _id: observers }, { $addToSet: { noticia: { autor: req.body.autorNombre, fecha: today, noticia: req.body.noticia, isPendiente: true } } }, function (err, success) {
+            if (err) return handleError(err);
+            // else{
+            //     return res.json({success:true})
+            // }
+        })
+    }
+
+
+    async CrearNoticia(req, res) {
+        this.openConnection();
+        //Continuará
+    }
+
+
+
+    async infoPersona(req, res) {
+        this.openConnection();
+        PersonaSchema.findOne({ _id: req.body._id }, function (err, data) {
+            if (err) {
+                return res.json({ success: false, error: err })
+            }
+            else {
                 res.send(data);
                 res.end();
             }
@@ -700,23 +773,25 @@ module.exports = class DAO {
     //     })
     // }
 
-    async updateEstadoNoticia(req,res){
-        console.log(req.body);
+
+    //esta funcion se encarga de modificar el pendiente de mostrar la noticia 
+    async updateEstadoNoticia(req, res) {
+        //console.log(req.body);
         this.openConnection();
-        PersonaSchema.findOneAndUpdate({_id:req.body.idUsuario},
-            {$set:{"noticias.$[el].isPendiente":false}},
-            {
-                arrayFilters:[{"el._id":req.body.idNoticia}], 
-                new:true}, 
-                function(err,data){   
-            if(err){
-                console.log(err)
-                return res.json({success:false,error:err})
-            }
-            else{
-                res.send(data);
-                res.end();
-            }
-        })
+        PersonaSchema.updateOne({ _id: req.body.idUsuario, "noticia._id": req.body.idNoticia },
+            { $set: { "noticia.$.isPendiente": false } },
+            function (err, data) {
+                if (err) {
+                    console.log(err)
+                    return res.json({ success: false, error: err })
+                }
+                else {
+                    //console.log(data)
+                    return res.json({
+                        success: true,
+                        info: data
+                    })
+                }
+            })
     }
 }

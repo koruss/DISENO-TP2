@@ -10,6 +10,27 @@ const PersonSchema= new Schema(
             default: null,
             ref:"Movimiento",
       },
+      zonas: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          default: null,
+          ref:"Composite",
+        }
+      ],
+      ramas: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          default: null,
+          ref:"Composite",
+        }
+      ],
+      grupos: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          default: null,
+          ref:"Composite",
+        }
+      ],
       identificacion: String,
       contrasena: String,
       nombre: String,
@@ -18,6 +39,14 @@ const PersonSchema= new Schema(
       telefono: String,
       correo: String,
       posibleMonitor: Boolean,
+      noticia: [
+        {
+          autor: String,
+          fecha: Date,
+          noticia: String,
+          isPendiente: Boolean
+        }
+      ],
       direccion: {
           pais: String,
           provincia: String,
