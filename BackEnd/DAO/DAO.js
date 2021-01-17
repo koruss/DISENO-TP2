@@ -531,13 +531,34 @@ module.exports = class DAO {
                         })
                     }
                     else{
-                        res.json({success:true})
+                        PersonaSchema.updateOne({_id:req.body._idPerson},{$pull:{grupos:req.body.grupoFrom}},function(err,success){
+                            if(err){
+                                console.log(err);
+                                return res.json({
+                                    success: false,
+                                    error: err
+                                })
+                            }else{
+                                PersonaSchema.updateOne({_id:req.body._idPerson},{$addToSet:{grupos:req.body.grupoTo}},function(err,success){
+                                    if(err){
+                                        console.log(err);
+                                        return res.json({
+                                            success: false,
+                                            error: err
+                                        })
+                                    }else{
+                                        return res.json({success: true})
+                                    }
+                                })
+                            }
+                        })
                     }
         
                 })
             }
         })
     }
+    
 
     async subirAgradecimiento(req,res){
         this.openConnection();

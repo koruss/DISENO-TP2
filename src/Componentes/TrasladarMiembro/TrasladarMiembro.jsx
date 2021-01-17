@@ -79,6 +79,7 @@ class TrasladarMiembro extends Component {
         var self = this;
         let arreglo = [];
         axios.post('/getSesion',{}).then((res) =>{
+            console.log(res.data)
             const id_movimiento = res.data.id_movimiento;
             axios.post("/allZonas", {}).then(res => {
                 const respuesta = res.data;
@@ -127,7 +128,8 @@ class TrasladarMiembro extends Component {
                     arreglo.push({
                         value:grupo.nombre,
                         label:grupo.nombre,
-                        _id:grupo._id
+                        _id:grupo._id,
+                        jefes:grupo.jefes
                     })
             })   
             this.setState({
@@ -145,17 +147,19 @@ class TrasladarMiembro extends Component {
         axios.post("/allMiembrosGrupos", {_id:selectedGrupoFrom._id}).then(res => {
             const respuesta=res.data;
             respuesta.forEach(persona=>{
-                arreglo.push({
-                    value:persona.nombre,
-                    label:persona.nombre,
-                    _id:persona._id
-
-                })
-            })   
+                // if(persona.tipo==1){
+                    arreglo.push({
+                        value:persona.nombre,
+                        label:persona.nombre,
+                        _id:persona._id
+                    })
+                // } 
+            })
+                      
             this.setState({
                 nombres:arreglo
             })
-
+            
         })
     }
 
