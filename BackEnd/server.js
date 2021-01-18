@@ -15,21 +15,21 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 
-// const buildPath = path.join(__dirname, '..', 'build');
-// // add middlewares
-// app.use(express.static(path.join(buildPath)));
+const buildPath = path.join(__dirname, '..', 'build');
+// add middlewares
+app.use(express.static(path.join(buildPath)));
 
-// app.use((req, res, next) => {
-//   res.sendFile(path.join(buildPath));
-// });
+app.use((req, res, next) => {
+  res.sendFile(path.join(buildPath));
+});
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(buildPath, 'index.html')), function(err) {
-//   if (err) {
-//        res.status(500).send(err) 
-//        }
-//   };
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html')), function(err) {
+  if (err) {
+       res.status(500).send(err) 
+       }
+  };
+});
 
 
 
