@@ -51,7 +51,7 @@ export class VerificadorProxy implements Verificador  {
         })
         return auth;
     }
-
+ 
     public getIdMovimiento(): string{
         return this.id_movimiento;
     }

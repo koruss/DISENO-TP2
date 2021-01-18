@@ -154,46 +154,6 @@ module.exports = class DAO {
     }
 
 
-    //*********************************    NO BORRAR    *************************************** */
-    // async actualizarMiembros(dataLugar, _idPerson, res){
-    //     CompositeSchema.updateOne({_id:dataLugar},{$addToSet:{miembros:_idPerson}},function(err,success){
-    //         if(err) {
-    //             res.json({success: false, error: 'No se pudo actualizar el dato',error});
-    //         }
-    //         else {
-    //             res.json({ success: true })
-    //         }
-    //     })
-    // }
-
-    // async actualizarTipoPersonaMiembro(req,res){
-    //     PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo: 1},function(err,success){
-    //         if(err)return handleError(err);
-    //         else{
-    //             return res.json({success:true})
-    //         }
-    //     })
-    // }
-
-    // async actualizarTipoPersonaMonitorJefe(_idPerson,res){
-    //     PersonaSchema.updateOne({identificacion:_idPerson},{tipo: 2},function(err,success){
-    //         if(err)return handleError(err);
-    //         else{
-    //             return res.json({success:true})
-    //         }
-    //     })
-    // }
-
-    // async actualizarTipoPersonaAsesor(req,res){
-    //     PersonaSchema.updateOne({identificacion:req.body.identificacion},{tipo:3},function(err,success){
-    //         if(err)return handleError(err);
-    //         else{
-    //             return res.json({success:true})
-    //         }
-    //     })
-    // }
-    //*********************************    NO BORRAR    *************************************** */
-
     //Funcion que inserta un jefe en un grupo y le establece un tipo
     async updateJefeGrupo(data, schema, ramaSchema, res) {
         this.openConnection();
@@ -779,26 +739,6 @@ module.exports = class DAO {
         })
     }
 
-
-    // async updateEstadoNoticia(req,res){
-    //     console.log(req.body);
-    //     this.openConnection();
-    //     PersonaSchema.findOneAndUpdate({_id:req.body.idUsuario},
-    //         {$set:{"noticias.$[el].isPendiente":false}},
-    //         {
-    //             arrayFilters:[{"el._id":req.body.idNoticia}], 
-    //             new:true}, 
-    //             function(err,data){   
-    //         if(err){
-    //             console.log(err)
-    //             return res.json({success:false,error:err})
-    //         }
-    //         else{
-    //             res.send(data);
-    //             res.end();
-    //         }
-    //     })
-    // }
 
 
     //esta funcion se encarga de modificar el pendiente de mostrar la noticia 
